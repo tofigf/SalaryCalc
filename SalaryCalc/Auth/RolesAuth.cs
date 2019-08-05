@@ -10,9 +10,23 @@ namespace SalaryCalc.Auth
 {
     public class RolesAuth : ActionFilterAttribute
     {
+       private readonly DataContext db = new DataContext();
 
+      
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            User user = filterContext.HttpContext.Session["LoggedUser"] as User;
+
+            List<UserRoleDto> userRoleDtos = db.UserRoles.Where(w => w.PostionId == user.PostionId).Select(s => new UserRoleDto
+                {
+                    Name = s.Role.Name,
+                    RoleId = s.RoleId,
+                    Action = s.Role.Action,
+                    Controller = s.Role.Controller,
+                    Area = s.Role.Area
+                }).ToList();
+            
+          
             if (filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true)
               || filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true))
             {
@@ -31,10 +45,11 @@ namespace SalaryCalc.Auth
                 IsDenied = true;
                 //User login edende  Session["LoggedUser"] id -sini veririk
                 // User user = db.Users.Find(2);
-                User user = filterContext.HttpContext.Session["LoggedUser"] as User;
+              
                 if (user != null)
                 {
-                    foreach (var userrule in db.RolesPr(user.PostionId))
+                  
+                    foreach (var userrule in userRoleDtos)
                     {
                         if (userrule.Controller.Trim().ToLower() == controller.ToLower() && userrule.Action.Trim().ToLower() == action.ToLower() && userrule.Area.ToLower() == area.ToLower())
                         {
@@ -52,10 +67,10 @@ namespace SalaryCalc.Auth
                 IsDenied = true;
                 //User login edende  Session["LoggedUser"] id -sini veririk
                 //User user = db.Users.Find(2);
-                User user = filterContext.HttpContext.Session["LoggedUser"] as User;
+                //User user = filterContext.HttpContext.Session["LoggedUser"] as User;
                 if (user != null)
                 {
-                    foreach (var userrule in db.RolesPr(user.PostionId))
+                    foreach (var userrule in userRoleDtos)
                     {
                         if (userrule.Controller.Trim().ToLower() == controller.ToLower() && userrule.Action.Trim().ToLower() == action.ToLower())
                         {
