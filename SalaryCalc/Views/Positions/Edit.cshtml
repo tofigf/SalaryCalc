@@ -1,0 +1,26 @@
+﻿@using SalaryCalc.Models
+@model Postion
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="container">
+        <h1 class="text-center mt-5">Vəzifələr</h1>
+        <div class="row">
+
+            <div class="col-md-6">
+                <form id="myForm" method="post" action="@Url.Action("edit","positions")">
+                    @Html.AntiForgeryToken()
+                    <div class="form-row">
+                        <input type="hidden" name="Id" value="@Model.Id" id="Id" />
+                        <label for="Name">Adı</label>
+                        <input type="text" class="form-control" name="Name" value="@Model.Name" id="Name" placeholder="Adı">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-4">Sign in</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
