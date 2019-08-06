@@ -65,7 +65,6 @@ namespace SalaryCalc.Auth
 
 
                 IsDenied = true;
-                //User login edende  Session["LoggedUser"] id -sini veririk
                 //User user = db.Users.Find(2);
                 //User user = filterContext.HttpContext.Session["LoggedUser"] as User;
                 if (user != null)

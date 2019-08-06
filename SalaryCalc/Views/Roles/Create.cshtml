@@ -1,0 +1,77 @@
+﻿@using SalaryCalc.Models
+@model List<Role>
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h1 class="text-center mt-5">Rollar</h1>
+    <ul class="nav nav-tabs" role="tablist">
+        @foreach (var item in ViewBag.Postion)
+        {
+           
+            <li class="nav-item">
+                <a class="nav-link tabclick  @("active" == null ? "active":"")" href="#@item.Name" data-id="@item.Id" role="tab" data-toggle="tab" aria-selected="true">@item.Name</a>
+            </li>
+
+        }
+
+
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="  @("active" == null ? "active":"")" >
+
+            <div class="container">
+                <h1 class="text-center mt-5">Satış</h1>
+
+                <form id="myForm" method="post"  data-url="@Url.Action("create", "roles")">
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden" name="PostionId" class="positionId" />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-striped" id="customtable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Adı</th>
+                                        <th scope="col">First</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.Name</td>
+                                            <td>
+                                                <input type="checkbox" id="check-@item.Id" data-id="@item.Id" class="hidden custom-checkbox checkedArray">
+                                                <label for="check-@item.Id"></label>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <button type="submit"  class="btn btn-primary mt-4">Əlavə et</button>
+
+                </form>
+
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" @("active" == null ? "active" : "") id="Moderator">
+
+        </div>
+    </div>
+
+
+
+</div>
+

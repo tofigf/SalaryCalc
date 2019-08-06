@@ -1,4 +1,6 @@
-﻿using SalaryCalc.Dal;
+﻿using SalaryCalc.Auth;
+using SalaryCalc.Dal;
+using SalaryCalc.Filters;
 using SalaryCalc.Models;
 using System;
 using System.Collections.Generic;
@@ -9,6 +11,8 @@ using System.Web.Mvc;
 
 namespace SalaryCalc.Controllers
 {
+    [FilterContext]
+    [RolesAuth]
     public class PositionsController : Controller
     {
         private readonly DataContext db = new DataContext();

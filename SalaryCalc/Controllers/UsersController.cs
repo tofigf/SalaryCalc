@@ -1,4 +1,6 @@
-﻿using SalaryCalc.Dal;
+﻿using SalaryCalc.Auth;
+using SalaryCalc.Dal;
+using SalaryCalc.Filters;
 using SalaryCalc.Models;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,8 @@ using System.Web.Mvc;
 
 namespace SalaryCalc.Controllers
 {
+    [FilterContext]
+    [RolesAuth]
     public class UsersController : Controller
     {
         private readonly DataContext db = new DataContext();
@@ -82,7 +86,7 @@ namespace SalaryCalc.Controllers
             db.SaveChanges();
             return RedirectToAction("index");
         }
-        //Post [baseUrl]Users/Delete
+        //Get [baseUrl]Users/Delete
         public ActionResult Delete(int? id)
         {
             if (id == null)

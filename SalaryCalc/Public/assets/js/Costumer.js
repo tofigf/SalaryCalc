@@ -1,25 +1,35 @@
-﻿//$(document).ready(function () {
-//    $(".editposition").click(function () {
+﻿$(document).ready(function () {
+//
 
-//        $('#myForm').attr('action', 'Positions/EditPosition');
-//        var id = $(this).data("id");
-//        $.ajax({
-//            url: "/positions/edit/" + id,
-//            type: "GET",
-//            dataType: "json",
-//            success: function (response) {
-              
-//                if (response.status === 200) {
+    $(document).on("click", ".tabclick", function (e) {
+        e.preventDefault();
+        var id = $(this).data("id");
+        $(".positionId").val(id);
+});
+    $('#myForm').submit(function (e) {
+        e.preventDefault();
+     var url = $(this).data('url');
 
-//                    //$("#Id").val(response.Id);
-//                    //$("#Name").val(response.Name);
-//                }
-             
-//            },
-//            error: function (errormessage) {
-//                alert(errormessage.responseText);
-//            }
-//        });
-//    });
+        var RoleIdsDto = {
+            Ids: [],
+            PostionId: $(".positionId").val()
+        };
+        console.log(RoleIdsDto);
+        $("#customtable .checkedArray:checked").each(function (e) {
+            RoleIdsDto.Ids.push($(this).data("id"));
+        });
+    $.ajax({
+        url: url,
+        type: 'Post',
+        data: { RoleIdsDto: RoleIdsDto },
+       
+        dataType: "json",
+        success: function (response) {
+            if (response.status === 200 && response.isRedirect) {
+                window.location.href = response.redirectUrl;
+            }
+        }
+    });
+});
 
-//});
+});

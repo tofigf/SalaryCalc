@@ -15,7 +15,7 @@ namespace SalaryCalc.Filters
             HttpContext ctx = HttpContext.Current;
             if (ctx.Session["UserId"] == null)
             {
-                filterContext.Result = new RedirectResult("~/home/index");
+                filterContext.Result = new RedirectResult("~/login/index");
             }
         }
     }

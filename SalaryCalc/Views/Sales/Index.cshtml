@@ -1,8 +1,55 @@
-﻿
+﻿@using SalaryCalc.Models
+@model List<Sale>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<div class="container">
+    <h1 class="text-center mt-5">Satış</h1>
+    <a class="btn btn-success text-lg-right" href="@Url.Action("create","sales")">Yarat</a>
+    <div class="row">
+
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">İşçinin Adı</th>
+                        <th scope="col">Məhsul</th>
+                        <th scope="col">Qiymət</th>
+                        <th scope="col">Vip</th>
+                        <th scope="col">Endirim</th>
+                        <th scope="col">Tənzimləmə</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @{int i = 1;}
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@i</th>
+                            <td>@item.User.UserName</td>
+                            <td>@item.Name</td>
+                            <td>@item.Price</td>
+                            <td>@(item.Vip == true ? "Vip":"Vip deyil")</td>
+                            <td>@(item.DisCount == true ? "Endirim var":"Endirim yoxdu")</td>
+                            <td>
+                                <a href="@Url.Action("edit","sales",new { id = item.Id })" class="editposition">Duzelis</a>
+                                <a onclick="return confirm('Əminsinizmi?')" href="@Url.Action("delete","sales",new { id = item.Id })">Sil</a>
+                            </td>
+
+                        </tr>
+
+                        i++;
+                    }
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
 

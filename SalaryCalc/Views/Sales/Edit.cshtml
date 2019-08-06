@@ -1,0 +1,76 @@
+﻿@using SalaryCalc.Models
+@model Sale
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h1 class="text-center mt-5">Satış</h1>
+
+    <form id="myForm" method="post" action="@Url.Action("edit","sales")">
+        @Html.AntiForgeryToken()
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-row">
+                    <label for="Name"> Adı</label>
+                    <input type="text" value="@Model.Name" required class="form-control" name="Name" id="Name" placeholder="Adı">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-row">
+                    <label for="Price">Qiyməti</label>
+                    <input type="text" value="@Model.Price" required class="form-control" name="Price" id="Price" placeholder="Qiyməti">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-row">
+                    <label for="Position">Işçilər</label>
+                    <select class="form-control" required name="UserId">
+                        <option value="">Secin</option>
+                        @foreach (var item in ViewBag.User)
+                        {
+                            <option value="@item.Id" @(item.Id == Model.UserId ? "selected" : "")>@item.UserName</option>
+                        }
+
+                    </select>
+                </div>
+            </div>
+
+        </div>
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <label for="Vip">Vip</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <input type="checkbox" name="Vip" value="true" @(Model.Vip== true ? "checked" : "")  id="Vip" aria-label="Checkbox for following text input">
+                            <input type="hidden" value="false" name="Vip" />
+                        </div>
+                    </div>
+                    <input type="text" class="form-control" disabled placeholder="Vip" aria-label="Text input with checkbox">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="DisCount">Endirim</label>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <input type="checkbox" name="DisCount" value="true"  @(Model.DisCount== true ? "checked" : "") id="DisCount" aria-label="Checkbox for following text input">
+                            <input type="hidden" value="false" name="DisCount" />
+                        </div>
+                    </div>
+                    <input type="text" class="form-control" disabled placeholder="Endirim" aria-label="Text input with checkbox">
+                </div>
+            </div>
+
+        </div>
+        <button type="submit" class="btn btn-primary mt-4">Əlavə et</button>
+
+    </form>
+
+
+</div>
+
+
