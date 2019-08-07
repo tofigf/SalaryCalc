@@ -24,12 +24,16 @@ namespace SalaryCalc.Models
         //public string ConfirmPassword { get; set; }
 
         public byte IsAdmin { get; set; }
+        [ForeignKey("Postion")]
         public Nullable<int> PostionId { get; set; }
-        public int? CalcFormId { get; set; }
+
+        //[ForeignKey("CalcForum")]
+        //public Nullable<int> CalcForumId { get; set; }
 
         public virtual Postion Postion { get; set; }
-        public virtual  CalcForum CalcForum { get; set; }
+        //public virtual  CalcForum CalcForum { get; set; }
 
-        public ICollection<Sale> Sales { get; set; }
+        public virtual ICollection<Sale> Sales { get; set; }
+        public virtual ICollection<CalculatedSalaryByUser> CalculatedSalaryByUsers { get; set; }
     }
 }

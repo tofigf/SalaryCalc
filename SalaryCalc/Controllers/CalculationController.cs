@@ -13,15 +13,15 @@ using System.Web.Mvc;
 
 namespace SalaryCalc.Controllers
 {
-  //  [FilterContext]
-  //  [RolesAuth]
-    public class CalculationController : Controller
+    [FilterContext]
+    [RolesAuth]
+    public class CalculationController : BaseController
     {
         private readonly DataContext db = new DataContext();
         // GET: Calculation
         public ActionResult Index()
         {
-            return View();
+            return View(model:db.CalcForums.ToList());
         }
         //Get [baseUrl]Calculation/CalcMethod
         [HttpGet]
@@ -35,44 +35,44 @@ namespace SalaryCalc.Controllers
         {
            
             if (!ModelState.IsValid)
-                return Content("requierd");
-            foreach (var match in Regex.Matches(forum.Formula, @"([*+/\-)(])|([0-9]+)"))
-            {
-                
-            }
+                return Content("required");
 
             forum.Date = DateTime.Now;
             db.CalcForums.Add(forum);
             db.SaveChanges();
-            //{CurrentEmployee.TOTALSALESBYMONTH} * 30) / 100]
           
-            return Content("error");
+            return RedirectToAction("index");
         }
-
-        [AllowAnonymous]
+        //Get [baseUrl]Calculation/CalculateSalary
+        [HttpGet]
+        public ActionResult CalculateSalary()
+        {
+            return View();
+        }
+        //[AllowAnonymous]
         public JsonResult CalculateSalary(int? UserId)
         {
-         
-            if(UserId == null)
+            //buttonlarin idleri gelecek bura find edeceyik.
+            if (UserId == null)
             {
                 UserId = 3;
             }
             User user = db.Users.FirstOrDefault(f => f.Id == UserId);
             if (user != null)
             {
+
                 string bymonth = db.ButtonsStatics.Find(2).Key;
                 string byyear = db.ButtonsStatics.Find(3).Key;
 
 
-          
-                string formula = user.CalcForum.Formula;
+                string formula = user.CalculatedSalaryByUsers.CalcForum.Formula;
                 string ByMonthValue = ByMonth(user).ToString();
                 string ByYearValue = ByYear(user).ToString();
 
                 if (formula.Contains(bymonth) || formula.Contains(byyear))
                 {
-                 
-                   formula = formula.Replace(bymonth, ByMonthValue).Replace(byyear, ByYearValue);
+
+                    formula = formula.Replace(bymonth, ByMonthValue).Replace(byyear, ByYearValue);
                 }
 
                 try
@@ -80,7 +80,7 @@ namespace SalaryCalc.Controllers
                     NCalc.Expression e = new NCalc.Expression(formula);
                     if (!e.HasErrors())
                         return Json(e.Evaluate().ToString(), JsonRequestBehavior.AllowGet);
-         
+
                 }
                 catch (EvaluationException e)
                 {
@@ -88,12 +88,12 @@ namespace SalaryCalc.Controllers
                 }
 
             }
-       
 
-            return Json("no" , JsonRequestBehavior.AllowGet);
-        }
 
-        public double ByMonth(User user)
+            return Json("no", JsonRequestBehavior.AllowGet);
+            }
+
+            public double ByMonth(User user)
         {
             var month = DateTime.Now.Month;
             var year = DateTime.Now.Year;

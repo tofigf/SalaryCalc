@@ -1,6 +1,12 @@
 ﻿$(document).ready(function () {
 
-
+    $(".calcbutton").click(function () {
+        var text = $(this).data('text');
+        $("#Formula").val(function () {
+            return this.value + text;
+        });
+    });
+    //Role table
     $('.role-checkboxx').click(function () {
         if ($(this).hasClass("checked")) {
             $(this).removeClass('checked');
@@ -13,7 +19,7 @@
 
         }
     }); 
-
+    
     $(".positionId").val($(".tabclick").data("id"));
     $(document).on("click", ".tabclick", function (e) {
         e.preventDefault();

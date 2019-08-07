@@ -4,20 +4,63 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<form action="@Url.Action("calcmethod","calculation")" method="post">
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label for="inputEmail4">Adı</label>
-            <input type="text" class="form-control" name="Name" id="inputEmail4" placeholder="Adı">
-        </div>
-        <div class="form-group col-md-6">
-            <label for="inputPassword4">Hesablama Metodu</label>
-            <input type="text" class="form-control" name="Formula" id="inputPassword4" placeholder="Hesablama Metodu">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8 mb-4">
+        <div class="container-fluid">
+            <div class="header-body">
+                <!-- Card stats -->
+                <div class="row">
+                    <div class="col-xl-12 order-xl-1">
+                        <div class="card bg-secondary shadow">
+                            <div class="card-header bg-white border-0">
+                                <div class="row align-items-center">
+                                    <div class="col-md-2">
+
+                                        <a href="javascript:void(0)"
+                                           class="btn btn-sm btn-success calcbutton" data-text="{ayliqgelir}">
+                                            <i class="ni ni-fat-add"></i>
+                                            >Aylıq Hesablamaq
+                                        </a>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                        <a href="javascript:void(0)"
+                                           class="btn btn-sm btn-success calcbutton" data-text="{illikgelir}">
+                                            <i class="ni ni-fat-add"></i>İllik Hesablamaq
+                                        </a>
+                                    </div>
+                                    <div class="col-4">
+                                        <h3 class="mb-0">Yarat</h3>
+                                    </div>
+                                    <div class="col-4 text-right">
+                                        <a href="@Url.Action("index","calculation")" class="btn btn-sm btn-primary toback"><i class="ni ni-bold-left"></i>Geri Qayıt</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <small id="emailHelp" class="form-text text-muted">({ayliqgelir} * 30) / 100 bu şəkildə yazılacaq.</small>
+
+                            <form action="@Url.Action("calcmethod","calculation")" method="post">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="inputEmail4">Adı</label>
+                                        <input type="text" class="form-control" name="Name" id="inputEmail4" placeholder="Adı">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="Formula">Hesablama Metodu</label>
+                                        <input type="text" class="form-control" name="Formula" id="Formula" placeholder="Hesablama Metodu">
+                                        <small id="emailHelp" class="form-text text-muted">(({illikgelir} * 2) / 100 bu şəkildə yazılacaq.</small>
+                                    </div>
+                                </div>
+
+
+                                <div class="row mt-2">
+                                    <div class="col-md-2 offset-10 float-right">
+                                        <button class="btn btn-success" type="submit">Yadda Saxla</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-
-    <button type="submit" class="btn btn-primary">Sign in</button>
-</form>
-

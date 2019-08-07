@@ -177,9 +177,22 @@
     <Compile Include="Migrations\201908071429077_UserFormId.Designer.cs">
       <DependentUpon>201908071429077_UserFormId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908071901214_User_positionId.cs" />
+    <Compile Include="Migrations\201908071901214_User_positionId.Designer.cs">
+      <DependentUpon>201908071901214_User_positionId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908071904542_Sale_Date_Column.cs" />
+    <Compile Include="Migrations\201908071904542_Sale_Date_Column.Designer.cs">
+      <DependentUpon>201908071904542_Sale_Date_Column.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908072102398_CalculatedSalaryByUser.cs" />
+    <Compile Include="Migrations\201908072102398_CalculatedSalaryByUser.Designer.cs">
+      <DependentUpon>201908072102398_CalculatedSalaryByUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ButtonsStatic.cs" />
     <Compile Include="Models\CalcForum.cs" />
+    <Compile Include="Models\CalculatedSalaryByUser.cs" />
     <Compile Include="Models\Postion.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Sale.cs" />
@@ -2149,6 +2162,7 @@
     <Content Include="Views\Roles\Index.cshtml" />
     <Content Include="Views\Calculation\Index.cshtml" />
     <Content Include="Views\Calculation\CalcMethod.cshtml" />
+    <Content Include="Views\Calculation\CalculateSalary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201908051303471_InitialCreate.resx">
@@ -2174,6 +2188,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908071429077_UserFormId.resx">
       <DependentUpon>201908071429077_UserFormId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908071901214_User_positionId.resx">
+      <DependentUpon>201908071901214_User_positionId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908071904542_Sale_Date_Column.resx">
+      <DependentUpon>201908071904542_Sale_Date_Column.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908072102398_CalculatedSalaryByUser.resx">
+      <DependentUpon>201908072102398_CalculatedSalaryByUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

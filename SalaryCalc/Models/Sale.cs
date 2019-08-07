@@ -17,6 +17,7 @@ namespace SalaryCalc.Models
         public bool Vip { get; set; }
         public bool DisCount { get; set; }
         public int UserId { get; set; }
+        public DateTime Date { get; set; }
 
         public virtual User User { get; set; }
     }
