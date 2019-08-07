@@ -24,5 +24,7 @@ namespace SalaryCalc.Dal
         public virtual DbSet<UserRole> UserRoles { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Sale> Sales { get; set; }
+        public virtual DbSet<CalcForum> CalcForums  { get; set; }
+        public virtual DbSet<ButtonsStatic> ButtonsStatics { get; set; }
     }
 }

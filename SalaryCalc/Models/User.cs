@@ -22,9 +22,14 @@ namespace SalaryCalc.Models
         //[NotMapped]
         //[Compare("Password")]
         //public string ConfirmPassword { get; set; }
+
+        public byte IsAdmin { get; set; }
         public Nullable<int> PostionId { get; set; }
+        public int? CalcFormId { get; set; }
 
         public virtual Postion Postion { get; set; }
+        public virtual  CalcForum CalcForum { get; set; }
+
         public ICollection<Sale> Sales { get; set; }
     }
 }

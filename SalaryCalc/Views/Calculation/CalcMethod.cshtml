@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "CalcMethod";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form action="@Url.Action("calcmethod","calculation")" method="post">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="inputEmail4">Adı</label>
+            <input type="text" class="form-control" name="Name" id="inputEmail4" placeholder="Adı">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputPassword4">Hesablama Metodu</label>
+            <input type="text" class="form-control" name="Formula" id="inputPassword4" placeholder="Hesablama Metodu">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Sign in</button>
+</form>
+

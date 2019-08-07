@@ -11,10 +11,9 @@
         <div class="row">
 
             <div class="col-md-4">
-                <form id="myForm" method="post" action="@Url.Action("create","positions")">
+                <form  method="post" action="@Url.Action("create","positions")">
                     @Html.AntiForgeryToken()
                     <div class="form-row">
-                        <input type="hidden" name="Id" id="Id" />
                         <label for="Name">Adı</label>
                         <input type="text" class="form-control" name="Name" id="Name" placeholder="Adı">
                     </div>

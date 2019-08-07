@@ -52,6 +52,9 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NCalc, Version=1.3.8.0, Culture=neutral, PublicKeyToken=973cde3f1cafed03, processorArchitecture=MSIL">
+      <HintPath>..\packages\ncalc.1.3.8\lib\NCalc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -141,6 +144,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\RoleEnum.cs" />
     <Compile Include="Migrations\201908051303471_InitialCreate.cs" />
     <Compile Include="Migrations\201908051303471_InitialCreate.Designer.cs">
       <DependentUpon>201908051303471_InitialCreate.cs</DependentUpon>
@@ -149,7 +153,33 @@
     <Compile Include="Migrations\201908060611172_RemoveProperty.Designer.cs">
       <DependentUpon>201908060611172_RemoveProperty.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908070715103_CalcForm.cs" />
+    <Compile Include="Migrations\201908070715103_CalcForm.Designer.cs">
+      <DependentUpon>201908070715103_CalcForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908070717307_CalcForms.cs" />
+    <Compile Include="Migrations\201908070717307_CalcForms.Designer.cs">
+      <DependentUpon>201908070717307_CalcForms.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908070758187_Calcforum_Name.cs" />
+    <Compile Include="Migrations\201908070758187_Calcforum_Name.Designer.cs">
+      <DependentUpon>201908070758187_Calcforum_Name.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908070823543_User_IsAdmin.cs" />
+    <Compile Include="Migrations\201908070823543_User_IsAdmin.Designer.cs">
+      <DependentUpon>201908070823543_User_IsAdmin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908071412574_ButtonsStatic.cs" />
+    <Compile Include="Migrations\201908071412574_ButtonsStatic.Designer.cs">
+      <DependentUpon>201908071412574_ButtonsStatic.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908071429077_UserFormId.cs" />
+    <Compile Include="Migrations\201908071429077_UserFormId.Designer.cs">
+      <DependentUpon>201908071429077_UserFormId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\ButtonsStatic.cs" />
+    <Compile Include="Models\CalcForum.cs" />
     <Compile Include="Models\Postion.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Sale.cs" />
@@ -2117,8 +2147,8 @@
     <Content Include="Views\Sales\Create.cshtml" />
     <Content Include="Views\Sales\Edit.cshtml" />
     <Content Include="Views\Roles\Index.cshtml" />
-    <Content Include="Views\Roles\Create.cshtml" />
     <Content Include="Views\Calculation\Index.cshtml" />
+    <Content Include="Views\Calculation\CalcMethod.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201908051303471_InitialCreate.resx">
@@ -2126,6 +2156,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908060611172_RemoveProperty.resx">
       <DependentUpon>201908060611172_RemoveProperty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908070715103_CalcForm.resx">
+      <DependentUpon>201908070715103_CalcForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908070717307_CalcForms.resx">
+      <DependentUpon>201908070717307_CalcForms.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908070758187_Calcforum_Name.resx">
+      <DependentUpon>201908070758187_Calcforum_Name.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908070823543_User_IsAdmin.resx">
+      <DependentUpon>201908070823543_User_IsAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908071412574_ButtonsStatic.resx">
+      <DependentUpon>201908071412574_ButtonsStatic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908071429077_UserFormId.resx">
+      <DependentUpon>201908071429077_UserFormId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

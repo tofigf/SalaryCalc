@@ -148,7 +148,15 @@
                             </a>
                         </li>
                     }
-                    </ul>
+                    @if (UserRoles.Any(a => a.Role.Controller == "Calculation" && a.Role.Action == "Index"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("index", "calculation")">
+                                <i class="ni ni-single-02 text-yellow"></i>Maaş Hesablama
+                            </a>
+                        </li>
+                    }
+                </ul>
                 <!-- Divider -->
                 <hr class="my-3">
                 <!-- Heading -->

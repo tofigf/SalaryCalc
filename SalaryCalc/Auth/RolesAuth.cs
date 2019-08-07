@@ -15,6 +15,7 @@ namespace SalaryCalc.Auth
       
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+
             User user = filterContext.HttpContext.Session["LoggedUser"] as User;
 
             List<UserRoleDto> userRoleDtos = db.UserRoles.Where(w => w.PostionId == user.PostionId).Select(s => new UserRoleDto
