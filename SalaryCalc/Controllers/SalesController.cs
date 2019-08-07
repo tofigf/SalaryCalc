@@ -1,4 +1,5 @@
-﻿using SalaryCalc.Dal;
+﻿using SalaryCalc.Auth;
+using SalaryCalc.Dal;
 using SalaryCalc.Filters;
 using SalaryCalc.Models;
 using System;
@@ -11,7 +12,8 @@ using System.Web.Mvc;
 namespace SalaryCalc.Controllers
 {
     [FilterContext]
-    public class SalesController : Controller
+    [RolesAuth]
+    public class SalesController : BaseController
     {
         private readonly DataContext db = new DataContext();
         // GET: Sales

@@ -128,6 +128,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Auth\RolesAuth.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CalculationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PositionsController.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Models\Sale.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserRole.cs" />
+    <Compile Include="Models\VwModel\VwRoles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Dtos\UserRoleDto.cs" />
   </ItemGroup>
@@ -2116,6 +2118,7 @@
     <Content Include="Views\Sales\Edit.cshtml" />
     <Content Include="Views\Roles\Index.cshtml" />
     <Content Include="Views\Roles\Create.cshtml" />
+    <Content Include="Views\Calculation\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201908051303471_InitialCreate.resx">

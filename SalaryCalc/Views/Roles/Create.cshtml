@@ -1,77 +1,172 @@
-﻿@using SalaryCalc.Models
-@model List<Role>
+﻿@using SalaryCalc.Models.VwModel
+@model VwRoles
 
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
+      int a = 1;
+    int b = 1;
 }
 
 <div class="container">
     <h1 class="text-center mt-5">Rollar</h1>
-    <ul class="nav nav-tabs" role="tablist">
-        @foreach (var item in ViewBag.Postion)
-        {
-           
-            <li class="nav-item">
-                <a class="nav-link tabclick  @("active" == null ? "active":"")" href="#@item.Name" data-id="@item.Id" role="tab" data-toggle="tab" aria-selected="true">@item.Name</a>
-            </li>
+    @*<ul class="nav nav-tabs" role="tablist">
+            @foreach (var item in ViewBag.Postion)
+            {
 
-        }
+                <li class="nav-item">
+                    <a class="nav-link tabclick  @("active" == null ? "active":"")" href="#@item.Name" data-id="@item.Id" role="tab" data-toggle="tab" aria-selected="true">@item.Name</a>
+                </li>
+            }
 
 
-    </ul>
+        </ul>*@
 
     <!-- Tab panes -->
-    <div class="tab-content">
-        <div role="tabpanel" class="  @("active" == null ? "active":"")" >
+    @*<div class="tab-content">
+            <div role="tabpanel" class="  @("active" == null ? "active":"")" >
 
-            <div class="container">
-                <h1 class="text-center mt-5">Satış</h1>
+                <div class="container">
 
-                <form id="myForm" method="post"  data-url="@Url.Action("create", "roles")">
-                    @Html.AntiForgeryToken()
+                    <form id="myForm" method="post"  data-url="@Url.Action("create", "roles")">
+                        @Html.AntiForgeryToken()
 
-                    <input type="hidden" name="PostionId" class="positionId" />
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table class="table table-striped" id="customtable">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Adı</th>
-                                        <th scope="col">First</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                   
-                                    @foreach (var item in Model)
-                                    {
+                        <input type="hidden" name="PostionId" class="positionId" />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-striped" id="customtable">
+                                    <thead>
                                         <tr>
-                                            <td>@item.Name</td>
-                                            <td>
-                                                <input type="checkbox" id="check-@item.Id" data-id="@item.Id" class="hidden custom-checkbox checkedArray">
-                                                <label for="check-@item.Id"></label>
-                                            </td>
+                                            <th scope="col">Adı</th>
+                                            <th scope="col">First</th>
                                         </tr>
-                                    }
+                                    </thead>
+                                    <tbody>
 
-                                </tbody>
-                            </table>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@item.Name</td>
+                                                <td>
+                                                    <input type="checkbox" id="check-@item.Id" data-id="@item.Id" class="hidden custom-checkbox checkedArray">
+                                                    <label for="check-@item.Id"></label>
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+
                         </div>
 
-                    </div>
+                        <button type="submit"  class="btn btn-primary mt-4">Əlavə et</button>
 
-                    <button type="submit"  class="btn btn-primary mt-4">Əlavə et</button>
+                    </form>
 
-                </form>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" @("active" == null ? "active" : "") id="Moderator">
 
             </div>
-        </div>
-        <div role="tabpanel" class="tab-pane fade" @("active" == null ? "active" : "") id="Moderator">
-
-        </div>
-    </div>
+        </div>*@
 
 
 
 </div>
 
+
+
+
+<section role="main" class="content-body">
+    <header class="page-header">
+        <h2>İcazələr</h2>
+
+        <div class="right-wrapper text-right pr-4">
+            <ol class="breadcrumbs">
+                <li>
+                    <a href="index.html">
+                        <i class="fas fa-home"></i>
+                    </a>
+                </li>
+                <li><span>Ana Səhifə</span></li>
+                <li><span>İcazələr</span></li>
+            </ol>
+
+
+        </div>
+    </header>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="tabs tabs-tertiary">
+                <ul class="nav nav-tabs">
+                    @foreach (var m in Model.Postions)
+                    {
+                        <li class="nav-item @(a == 1 ? "active" : "")">
+                            <a class="nav-link" href="#tabnumber-@m.Id" data-toggle="tab">@m.Name</a>
+                        </li>
+                        a++;
+                    }
+
+                </ul>
+                <div class="tab-content">
+                    @foreach (var m in Model.Postions)
+                    {
+                        <div id="tabnumber-@m.Id" class="tab-pane @(b == 1 ? "active" : "")">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-bordered table-striped mb-0" id="datatable-default">
+                                        <thead>
+                                            <tr>
+
+                                                <th>@m.Name - Bütün əməliyyatlar üzrə icazələr</th>
+                                                <th></th>
+
+
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <form method="post" action="@Url.Action("Create","Roles", new { Area="" , id=m.Id })">
+                                                @foreach (var role in Model.Roles)
+                                                {
+                                                    <tr>
+                                                        <td>@role.Name</td>
+                                                        @if (Model.UserRoles.Where(t => t.PostionId == m.Id).Any(w => w.RoleId == role.Id))
+                                                        {
+                                                            <td>
+                                                                <input type="checkbox" class="role-checkboxx checked" checked value="@role.Id" style="display: block!important;" />
+                                                                <input type="hidden" class="role-inputt" name="Roles[]" value="@role.Id" />
+                                                            </td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>
+                                                                <input type="checkbox" class="role-checkboxx" value="@role.Id" style="display: block!important;" />
+                                                                <input type="hidden" class="role-inputt" value="@role.Id" />
+                                                            </td>
+                                                        }
+
+                                                    </tr>
+                                                }
+                                                <tr>
+                                                    <td></td>
+                                                    <td><button class="btn btn-success ml-auto">Yadda Saxla</button></td>
+                                                </tr>
+                                            </form>
+                                        </tbody>
+
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        b++;
+                    }
+
+                </div>
+            </div>
+        </div>
+
+    </div>

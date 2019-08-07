@@ -13,7 +13,7 @@ namespace SalaryCalc.Controllers
 {
     [FilterContext]
     [RolesAuth]
-    public class PositionsController : Controller
+    public class PositionsController : BaseController
     {
         private readonly DataContext db = new DataContext();
         // GET: Positions

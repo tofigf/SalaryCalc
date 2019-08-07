@@ -1,6 +1,20 @@
 ﻿$(document).ready(function () {
-//
 
+
+    $('.role-checkboxx').click(function () {
+        if ($(this).hasClass("checked")) {
+            $(this).removeClass('checked');
+            $(this).next(".role-inputt").removeAttr('name');
+        }
+        else {
+
+            $(this).addClass('checked');
+            $(this).next(".role-inputt").attr('name', 'Roles[]');
+
+        }
+    }); 
+
+    $(".positionId").val($(".tabclick").data("id"));
     $(document).on("click", ".tabclick", function (e) {
         e.preventDefault();
         var id = $(this).data("id");

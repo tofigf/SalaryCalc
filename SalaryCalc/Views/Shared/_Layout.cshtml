@@ -1,4 +1,8 @@
-﻿
+﻿@using SalaryCalc.Models;
+@{
+       User user = Session["LoggedUser"] as User;
+    List<UserRole> UserRoles = (ViewContext.Controller as SalaryCalc.Controllers.BaseController).roles;
+ }
 <!DOCTYPE html>
 <html lang="en">
 
@@ -110,65 +114,46 @@
                     </div>
                 </form>
                 <!-- Navigation -->
+                
                 <ul class="navbar-nav">
-                    <li class="nav-item  class=" active" ">
-                        <a class=" nav-link active " href="@Url.Action("index","positions")">
-                            <i class="ni ni-tv-2 text-primary"></i> Vəzifə
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " href="@Url.Action("index","users")">
-                            <i class="ni ni-planet text-blue"></i> Istifadəçi
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " href="@Url.Action("index","sales")">
-                            <i class="ni ni-pin-3 text-orange"></i> Satş
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " href="~/Public/examples/profile.html">
-                            <i class="ni ni-single-02 text-yellow"></i> User profile
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link " href="~/Public/examples/tables.html">
-                            <i class="ni ni-bullet-list-67 text-red"></i> Tables
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="~/Public/examples/login.html">
-                            <i class="ni ni-key-25 text-info"></i> Login
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="~/Public/examples/register.html">
-                            <i class="ni ni-circle-08 text-pink"></i> Register
-                        </a>
-                    </li>
-                </ul>
+                    @if (UserRoles.Any(a => a.Role.Controller == "Positions" && a.Role.Action == "Index"))
+                    {
+                        <li class="nav-item">
+                            <a class=" nav-link active " href="@Url.Action("index","positions")">
+                                <i class="ni ni-tv-2 text-primary"></i> Vəzifə
+                            </a>
+                        </li>
+                    }
+                    @if (UserRoles.Any(a => a.Role.Controller == "Users" && a.Role.Action == "Index"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link " href="@Url.Action("index", "users")">
+                                <i class="ni ni-planet text-blue"></i> Istifadəçi
+                            </a>
+                        </li>
+                    }
+                    @if (UserRoles.Any(a => a.Role.Controller == "Sales" && a.Role.Action == "Index"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link " href="@Url.Action("index", "sales")">
+                                <i class="ni ni-pin-3 text-orange"></i> Satş
+                            </a>
+                        </li>
+                    }
+                    @if (UserRoles.Any(a => a.Role.Controller == "Roles" && a.Role.Action == "Index"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("index", "roles")">
+                                <i class="ni ni-single-02 text-yellow"></i>Rollar
+                            </a>
+                        </li>
+                    }
+                    </ul>
                 <!-- Divider -->
                 <hr class="my-3">
                 <!-- Heading -->
-                <h6 class="navbar-heading text-muted">Documentation</h6>
-                <!-- Navigation -->
-                <ul class="navbar-nav mb-md-3">
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://demos.creative-tim.com/argon-dashboard/docs/getting-started/overview.html">
-                            <i class="ni ni-spaceship"></i> Getting started
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://demos.creative-tim.com/argon-dashboard/docs/foundation/colors.html">
-                            <i class="ni ni-palette"></i> Foundation
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://demos.creative-tim.com/argon-dashboard/docs/components/alerts.html">
-                            <i class="ni ni-ui-04"></i> Components
-                        </a>
-                    </li>
-                </ul>
+               
+                
             </div>
         </div>
     </nav>

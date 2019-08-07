@@ -14,7 +14,7 @@ namespace SalaryCalc.Controllers
 {
     [FilterContext]
     [RolesAuth]
-    public class UsersController : Controller
+    public class UsersController : BaseController
     {
         private readonly DataContext db = new DataContext();
         // GET: Users
