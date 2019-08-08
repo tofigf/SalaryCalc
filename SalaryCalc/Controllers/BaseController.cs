@@ -14,7 +14,6 @@ namespace SalaryCalc.Controllers
     public abstract class BaseController : Controller
     {
         private readonly DataContext db = new DataContext();
-       
         public  User user { get; set; }
 
        public  List<UserRole> roles { get; set; }

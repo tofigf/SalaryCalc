@@ -27,11 +27,11 @@ namespace SalaryCalc.Models
         [ForeignKey("Postion")]
         public Nullable<int> PostionId { get; set; }
 
-        //[ForeignKey("CalcForum")]
-        //public Nullable<int> CalcForumId { get; set; }
+        [ForeignKey("CalcForum")]
+        public Nullable<int> CalcForumId { get; set; }
 
         public virtual Postion Postion { get; set; }
-        //public virtual  CalcForum CalcForum { get; set; }
+        public virtual CalcForum CalcForum { get; set; }
 
         public virtual ICollection<Sale> Sales { get; set; }
         public virtual ICollection<CalculatedSalaryByUser> CalculatedSalaryByUsers { get; set; }

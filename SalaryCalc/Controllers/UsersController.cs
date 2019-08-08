@@ -20,12 +20,14 @@ namespace SalaryCalc.Controllers
         // GET: Users
         public ActionResult Index()
         {
+            
             return View(model: db.Users.ToList());
         }
         //Get [baseUrl]Users/Create
         [HttpGet]
         public ActionResult Create()
         {
+            ViewBag.CalcForum = db.CalcForums.ToList();
             return View(model:db.Postions.Where(w=>w.Status == true).ToList());
         }
         //Post [baseUrl]Users/Create
@@ -53,9 +55,9 @@ namespace SalaryCalc.Controllers
                 return HttpNotFound();
 
             User user = db.Users.Find(id);
+            ViewBag.CalcForum = db.CalcForums.ToList();
             ViewBag.Postion = db.Postions.Where(w => w.Status == true).ToList();
             return View(user);
-
         }
         //Post [baseUrl]Users/Edit
         [HttpPost]

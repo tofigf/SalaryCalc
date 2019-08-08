@@ -12,11 +12,9 @@ namespace SalaryCalc.Models
         public double Salary { get; set; }
         [ForeignKey("User")]
         public int UserId { get; set; }
-        [ForeignKey("CalcForum")]
-        public int CalcForumId { get; set; }
         public DateTime Date { get; set; }
 
         public virtual User User { get; set; }
-        public virtual CalcForum CalcForum { get; set; }
+     
     }
 }

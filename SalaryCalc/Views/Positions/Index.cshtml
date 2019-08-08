@@ -6,50 +6,82 @@
 }
 
 
-    <div class="container">
-        <h1 class="text-center mt-5">Vəzifələr</h1>
-        <div class="row">
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8 mb-4">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row">
+                    <div class="col-4">
+                        <div class="card shadow">
+                            <div class="card-header border-0">
+                                <div class="row align-items-center">
+                                    <div class="col-8">
+                                        <h3 class="mb-0">Vəzifə Yarat</h3>
+                                    </div>
+                                    <div class="col-4 text-right">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <form method="post" action="@Url.Action("create","positions")">
+                                    @Html.AntiForgeryToken()
+                                    <div class="form-row">
+                                        <label for="Name">Adı</label>
+                                        <input type="text" class="form-control" name="Name" id="Name" placeholder="Adı">
+                                    </div>
 
-            <div class="col-md-4">
-                <form  method="post" action="@Url.Action("create","positions")">
-                    @Html.AntiForgeryToken()
-                    <div class="form-row">
-                        <label for="Name">Adı</label>
-                        <input type="text" class="form-control" name="Name" id="Name" placeholder="Adı">
+                                    <button type="submit" class="btn btn-primary mt-4 mb-4">Əlavə et</button>
+                                </form>
+                            </div>
+
+                        </div>
                     </div>
+                    <div class="col-8">
+                        <div class="card shadow">
+                            <div class="card-header border-0">
+                                <div class="row align-items-center">
+                                    <div class="col-8">
+                                        <h3 class="mb-0">Vəzifələr</h3>
+                                    </div>
+                                    <div class="col-4 text-right">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table align-items-center table-flush">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Adı</th>
+                                                <th scope="col">Tənzimləmə</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{int i = 1;}
+                                            @foreach (var item in Model)
+                                            {
+                                            <tr>
+                                                <th scope="row">@i</th>
+                                                <td>@item.Name</td>
+                                            
+                                                <td class="text-right">
+                                                    <a href="@Url.Action("edit","positions",new { id = item.Id })" class="btn btn-sm btn-primary">Dəyiş</a>
+                                                    <a onclick="return confirm('Əminsinizmi?')" href="@Url.Action("delete","positions",new { id = item.Id })" class="btn btn-sm btn-danger ml-2">Sil</a>
+                                                </td>
 
-                    <button type="submit" class="btn btn-primary mt-4">Sign in</button>
-                </form>
-            </div>
-            <div class="col-md-8">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Adı</th>
-                            <th scope="col">Tənzimləmə</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{int i = 1;}
-                        @foreach (var item in Model)
-                        {
-                        <tr>
-                            <th scope="row">@i</th>
-                            <td>@item.Name</td>
-                            <td><a href="@Url.Action("edit","positions",new { id = item.Id })" class="editposition">Duzelis</a>
-                                <a onclick="return confirm('Əminsinizmi?')" href="@Url.Action("delete","positions",new { id = item.Id })">Sil</a>
-                            </td>
+                                            </tr>
+                                                i++;
+                                            }
 
-                        </tr>
-                        i ++;
-                                }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
 
-
-                        </tbody>
-                    </table>
-              
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-   
+        </div>
+        

@@ -18,6 +18,7 @@ namespace SalaryCalc.Controllers
     public class CalculationController : BaseController
     {
         private readonly DataContext db = new DataContext();
+
         // GET: Calculation
         public ActionResult Index()
         {
@@ -43,69 +44,98 @@ namespace SalaryCalc.Controllers
           
             return RedirectToAction("index");
         }
+        //Get [baseUrl]Calculation/CalculatedSalary
+        [HttpGet]
+        public ActionResult CalculatedSalary()
+        {
+            return View();
+        }
         //Get [baseUrl]Calculation/CalculateSalary
         [HttpGet]
         public ActionResult CalculateSalary()
         {
+            ViewBag.User = db.Users.ToList();
+            ViewBag.CalcForum = db.CalcForums.ToList();
             return View();
         }
-        //[AllowAnonymous]
-        public JsonResult CalculateSalary(int? UserId)
+        [HttpPost]
+        public ActionResult CalculateSalary(DateTime Date, int[] usersId)
         {
-            //buttonlarin idleri gelecek bura find edeceyik.
-            if (UserId == null)
-            {
-                UserId = 3;
-            }
-            User user = db.Users.FirstOrDefault(f => f.Id == UserId);
-            if (user != null)
-            {
-
-                string bymonth = db.ButtonsStatics.Find(2).Key;
-                string byyear = db.ButtonsStatics.Find(3).Key;
-
-
-                string formula = user.CalculatedSalaryByUsers.CalcForum.Formula;
-                string ByMonthValue = ByMonth(user).ToString();
-                string ByYearValue = ByYear(user).ToString();
-
-                if (formula.Contains(bymonth) || formula.Contains(byyear))
+        
+                foreach (var id in usersId)
                 {
-
-                    formula = formula.Replace(bymonth, ByMonthValue).Replace(byyear, ByYearValue);
-                }
-
-                try
+               if( db.CalculatedSalaryByUsers.Where(w => w.UserId == id).Any(a=>a.Date.Month == Date.Month || a.Date.Year == Date.Year))
                 {
-                    NCalc.Expression e = new NCalc.Expression(formula);
-                    if (!e.HasErrors())
-                        return Json(e.Evaluate().ToString(), JsonRequestBehavior.AllowGet);
-
+                    return Content("bu ay *** user maaş hesablanıb");
                 }
-                catch (EvaluationException e)
-                {
-                    return Json("no", JsonRequestBehavior.AllowGet);
-                }
+                    if (user == null)
+                        return Content("empty");
+                    if (user != null)
+                    {
+                        //static keys
+                        string bymonth = db.ButtonsStatics.Find(2).Key;
+                        string byyear = db.ButtonsStatics.Find(3).Key;
 
+                        string formula = user.CalcForum.Formula;
+                        if (ByMonth(id, Date) == null || ByYear(id, Date) == null)
+                            return Content("bu isniin hec bir satis yoxdu");
+                        string ByMonthValue = ByMonth(id, Date).ToString();
+                        string ByYearValue = ByYear(id, Date).ToString();
+
+                        if (formula.Contains(bymonth) || formula.Contains(byyear))
+                        {
+
+                            formula = formula.Replace(bymonth, ByMonthValue).Replace(byyear, ByYearValue);
+                        }
+
+                        try
+                        {
+                            NCalc.Expression e = new NCalc.Expression(formula);
+                            if (e.HasErrors())
+                            {
+                                return Content("expression error");
+                            }
+                            CalculatedSalaryByUser calculated = new CalculatedSalaryByUser
+                            {
+
+                                UserId = id,
+                                Salary = (double)e.Evaluate(),
+                                Date = DateTime.Now
+                            };
+
+                            db.CalculatedSalaryByUsers.Add(calculated);
+                            db.SaveChanges();
+
+                            return RedirectToAction("calculatedsalary");
+                        }
+                        catch (EvaluationException e)
+                        {
+                            return Content("catch");
+                        }
+
+                    
+                }
             }
 
+            return Content("500");
+        }
 
-            return Json("no", JsonRequestBehavior.AllowGet);
-            }
-
-            public double ByMonth(User user)
+        public double? ByMonth(int? id,DateTime? date)
         {
-            var month = DateTime.Now.Month;
-            var year = DateTime.Now.Year;
-            double total = db.Sales.Where(w => w.UserId == user.Id).Sum(s=>s.Price);
+      
+            if (db.Sales.Any(a => a.UserId != id && a.Date.Month != date.Value.Month))
+                return null;
+            double? total = db.Sales.Where(w => w.UserId == id && w.Date.Month == date.Value.Month).Sum(s=>s.Price);
+            
             return total;
         }
 
-        public double ByYear(User user)
+            public double? ByYear(int? id, DateTime? date)
         {
-            var month = DateTime.Now.Month;
-            var year = DateTime.Now.Year;
-            double total = db.Sales.Where(w => w.UserId == user.Id).Sum(s => s.Price);
+            if (db.Sales.Any(a => a.UserId != id && a.Date.Year != date.Value.Year))
+                return null;
+            double? total = db.Sales.Where(w => w.UserId == id && w.Date.Year == date.Value.Year).Sum(s => s.Price);
+                      
             return total;
         }
     }

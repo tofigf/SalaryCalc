@@ -27,10 +27,17 @@
     <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
         <div class="container-fluid">
             <!-- Toggler -->
-         
-                <!-- Navigation -->
-                
+            <!-- Navigation -->
+
             <ul class="navbar-nav">
+                @if (UserRoles.Any(a => a.Role.Controller == "Home" && a.Role.Action == "Index"))
+                {
+                    <li class="nav-item">
+                        <a class=" nav-link active " href="@Url.Action("index","home")">
+                            <i class="ni ni-tv-2 text-primary"></i> Ana Səhifə
+                        </a>
+                    </li>
+                }
                 @if (UserRoles.Any(a => a.Role.Controller == "Positions" && a.Role.Action == "Index"))
                 {
                     <li class="nav-item">
@@ -75,17 +82,17 @@
                 {
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("calculatesalary", "calculation")">
-                            <i class="ni ni-planet text-blue"></i> Maaş Hesablama 
+                            <i class="ni ni-planet text-blue"></i> Maaş Hesablama
                         </a>
                     </li>
                 }
             </ul>
-                <!-- Divider -->
-                <hr class="my-3">
-                <!-- Heading -->
-               
-                
-            </div>
+            <!-- Divider -->
+            <hr class="my-3">
+            <!-- Heading -->
+
+
+        </div>
         </div>
     </nav>
     <div class="main-content">
@@ -150,7 +157,7 @@
         </nav>
         <!-- End Navbar -->
         <!-- Header -->
-    
+
         @RenderBody()
     </div>
     <!--   Core   -->
@@ -160,9 +167,11 @@
     <script src="~/Public/assets/js/plugins/chart.js/dist/Chart.min.js"></script>
     <script src="~/Public/assets/js/plugins/chart.js/dist/Chart.extension.js"></script>
     <!--   Argon JS   -->
-    <script src="~/Public/assets/js/argon-dashboard.min.js?v=1.1.0"></script>
+    @*<script src="~/Public/assets/js/argon-dashboard.min.js?v=1.1.0"></script>*@
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+    <script src="~/Public/assets/js/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
     <script src="~/Public/assets/js/Costumer.js"></script>
-  
+
 </body>
 
 </html>

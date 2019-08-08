@@ -4,5 +4,86 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>CalculateSalary</h2>
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8 mb-4">
+    <div class="container-fluid">
+        <div class="header-body">
+            <!-- Card stats -->
+            <div class="row">
+                <div class="col-xl-12 order-xl-1">
+                    <div class="card bg-secondary shadow">
+                        <div class="card-header bg-white border-0">
+                            <div class="row align-items-center">
+
+                                <div class="col-8">
+                                    <h3 class="mb-0">Maaş Hesabla</h3>
+                                    <small id="emailHelp" class="form-text text-muted">Maaş işçinin aylıq və ya illik  etdiyi satışlarının faiz nisbəti ilə hesablanır.</small>
+
+                                </div>
+                              
+                            </div>
+                        </div>
+                        <form action="@Url.Action("calculatesalary","calculation")" method="post">
+
+                            <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <label class="form-control-label" for="input-email">Tarix</label>
+                                    <div class="input-group date">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                                        </div>
+
+                                        <input class="form-control datepicker" data-validation="required" data-validation-error-msg="Qeyd edin" autocomplete="off" data-provide="datepicker" name="Date" placeholder="Tarix" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4"></div>
+                            </div>
+                          
+                                <div class="table-responsive mt-5">
+                                    <table class="table align-items-center table-flush">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">
+                                                    <div class="form-group form-check">
+                                                        <input type="checkbox" class="form-check-input" id="checkAll">
+                                                        <label for="checkAll">Hamsını seç</label>
+                                                    </div>
+                                                </th>
+                                                <th>İşçilər</th>
+                                                <th>Hesablama Metodu</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in ViewBag.User)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                            <input type="checkbox" value="@item.Id" name="usersId[]" id="check-@item.Id" data-id="@item.Id">
+                                                            <label for="check-@item.Id"></label>
+                                                    </td>
+                                                    <td> @item.UserName</td>
+                                                    <td> @item.CalcForum.Name</td>
+                                                </tr>
+                                            }
+
+
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                      
+                            <div class="row mt-2 mb-2">
+                                <div class="col-md-2 offset-10 float-right">
+                                    <button class="btn btn-success" type="submit">Yadda Saxla</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 

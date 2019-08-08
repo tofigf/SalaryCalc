@@ -51,7 +51,7 @@
                                                         @if (Model.UserRoles.Where(t => t.PostionId == m.Id).Any(w => w.RoleId == role.Id))
                                                         {
                                                             <td>
-                                                                <input type="checkbox" class="role-checkboxx checked" checked value="@role.Id" style="display: block!important;" />
+                                                                <input type="checkbox" class="role-checkboxx checked"  checked value="@role.Id" style="display: block!important;" />
                                                                 <input type="hidden" class="role-inputt" name="Roles[]" value="@role.Id" />
                                                             </td>
                                                         }

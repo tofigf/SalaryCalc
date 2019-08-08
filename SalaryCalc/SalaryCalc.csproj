@@ -189,6 +189,14 @@
     <Compile Include="Migrations\201908072102398_CalculatedSalaryByUser.Designer.cs">
       <DependentUpon>201908072102398_CalculatedSalaryByUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908080544499_CalculatedSalaryByUser1.cs" />
+    <Compile Include="Migrations\201908080544499_CalculatedSalaryByUser1.Designer.cs">
+      <DependentUpon>201908080544499_CalculatedSalaryByUser1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908081047236_UserCalcForum.cs" />
+    <Compile Include="Migrations\201908081047236_UserCalcForum.Designer.cs">
+      <DependentUpon>201908081047236_UserCalcForum.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ButtonsStatic.cs" />
     <Compile Include="Models\CalcForum.cs" />
@@ -2163,6 +2171,7 @@
     <Content Include="Views\Calculation\Index.cshtml" />
     <Content Include="Views\Calculation\CalcMethod.cshtml" />
     <Content Include="Views\Calculation\CalculateSalary.cshtml" />
+    <Content Include="Views\Calculation\CalculatedSalary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201908051303471_InitialCreate.resx">
@@ -2197,6 +2206,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908072102398_CalculatedSalaryByUser.resx">
       <DependentUpon>201908072102398_CalculatedSalaryByUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908080544499_CalculatedSalaryByUser1.resx">
+      <DependentUpon>201908080544499_CalculatedSalaryByUser1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908081047236_UserCalcForum.resx">
+      <DependentUpon>201908081047236_UserCalcForum.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

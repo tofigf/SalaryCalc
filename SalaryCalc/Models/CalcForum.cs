@@ -17,7 +17,7 @@ namespace SalaryCalc.Models
         [Required,StringLength(200)]
         public string Name { get; set; }
 
-        public virtual ICollection<CalculatedSalaryByUser> CalculatedSalaryByUsers { get; set; }
+        public virtual ICollection<User> Users { get; set; }
 
     }
 }

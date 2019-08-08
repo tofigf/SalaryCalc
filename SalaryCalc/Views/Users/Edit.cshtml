@@ -8,70 +8,107 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container">
-    <h1 class="text-center mt-5">Vəzifələr</h1>
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8 mb-4">
+    <div class="container-fluid">
+        <div class="header-body">
+            <!-- Card stats -->
+            <div class="row">
+                <div class="col-xl-12 order-xl-1">
+                    <div class="card bg-secondary shadow">
+                        <div class="card-header bg-white border-0">
+                            <div class="row align-items-center">
+
+                                <div class="col-8">
+                                    <h3 class="mb-0">Yarat</h3>
+                                </div>
+                                <div class="col-2 text-right">
+                                    <a href="@Url.Action("index","users")" class="btn btn-sm btn-primary toback"><i class="ni ni-bold-left"></i>Geri Qayıt</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form  method="post" action="@Url.Action("edit","users")">
+                            @Html.AntiForgeryToken()
+                            <div class="form-row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="Name">İstifadəçi Adı</label>
+                                        <input type="text" required class="form-control" value="@Model.UserName" name="UserName" id="Name" placeholder="İstifadəçi Adı">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="FullName">Adı Soyadı</label>
+                                        <input type="text" required class="form-control" value="@Model.FullName" name="FullName" id="FullName" placeholder="Adı Soyadı">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="Email">Email</label>
+                                        <input type="text" required class="form-control" value="@Model.Email" name="Email" id="Email" placeholder="Email">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="OldPassword">Köhnə Şifrə</label>
+                                        <input type="password" required class="form-control" name="OldPassword" id="OldPassword" placeholder="Köhnə Şifrə">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="Password">Şifrə</label>
+                                        <input type="password" class="form-control" name="Password" id="Password" placeholder="Şifrə">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="ConfirmPassword">Şifrə Təkrarı</label>
+                                        <input type="password" class="form-control" name="ConfirmPassword" id="ConfirmPassword" placeholder="Şifrə Təkrarı">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="Position">Maaş Hesablama formulu</label>
+                                        <select class="form-control" required name="CalcForumId">
+                                            <option value="">Secin</option>
+                                            @foreach (var item in ViewBag.CalcForum)
+                                            {
+                                                <option value="@item.Id" @(item.Id == Model.CalcForumId ? "selected" : "")>@item.Name</option>
+                                            }
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="Position">Vəzifə</label>
+                                        <select class="form-control" required name="PostionId">
+                                            <option value="">Secin</option>
+                                            @foreach (var item in ViewBag.Postion)
+                                            {
+                                                <option value="@item.Id" @(item.Id == Model.PostionId ? "selected" : "")>@item.Name</option>
+
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
 
 
-    <form id="myForm" method="post" action="@Url.Action("edit","users")">
-        @Html.AntiForgeryToken()
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-row">
-                    <label for="Name">İstifadəçi Adı</label>
-                    <input type="text" required class="form-control" value="@Model.UserName" name="UserName" id="Name" placeholder="İstifadəçi Adı">
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-row">
-                    <label for="FullName">Adı Soyadı</label>
-                    <input type="text" required class="form-control" value="@Model.FullName" name="FullName" id="FullName" placeholder="Adı Soyadı">
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-row">
-                    <label for="Email">Email</label>
-                    <input type="text" required class="form-control" value="@Model.Email" name="Email" id="Email" placeholder="Email">
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-row">
-                    <label for="OldPassword">Köhnə Şifrə</label>
-                    <input type="password" required class="form-control" name="OldPassword" id="OldPassword" placeholder="Köhnə Şifrə">
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-row">
-                    <label for="Password">Şifrə</label>
-                    <input type="password"  class="form-control" name="Password" id="Password" placeholder="Şifrə">
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-row">
-                    <label for="ConfirmPassword">Şifrə Təkrarı</label>
-                    <input type="password"  class="form-control" name="ConfirmPassword" id="ConfirmPassword" placeholder="Şifrə Təkrarı">
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-row">
-                    <label for="Position">Vəzifə</label>
-                    <select class="form-control" required name="PostionId">
-                        <option value="">Secin</option>
-                        @foreach (var item in ViewBag.Postion)
-                        {
-                            <option value="@item.Id" @(item.Id == Model.PostionId ? "selected" : "")>@item.Name</option>
-
-                        }
-                    </select>
-                </div>
-            </div>
+                            </div>
+                            <div class="row mt-2 mb-3">
+                                <div class="col-md-2 offset-10 float-right">
+                                    <button class="btn btn-success" type="submit">Yadda Saxla</button>
+                                </div>
+                            </div>
 
 
+                        </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary mt-4">Sign in</button>
-
-    </form>
-
-
-</div>
+                    </div>
 
 

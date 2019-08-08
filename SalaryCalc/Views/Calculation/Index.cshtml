@@ -25,7 +25,7 @@
                             <div class="table-responsive">
                                 <table class="table align-items-center table-flush">
                                     <thead class="thead-light">
-                                    <thead>
+                                   
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">Adı</th>
@@ -42,8 +42,8 @@
                                             <td>@item.Name</td>
                                             <td>@item.Formula</td>
                                             <td class="text-right">
-                                                <a href="@Url.Action("edit","calculation" , new { id = item.Id})" class="btn btn-sm btn-primary">Edit</a>
-                                                <a onclick="return confirm('Əminsinizmi?');" href="@Url.Action("Delete","calculation" , new {id = item.Id})" class="btn btn-sm btn-danger ml-2">Delete</a>
+                                                <a href="@Url.Action("edit","calculation" , new { id = item.Id})" class="btn btn-sm btn-primary">Dəyiş</a>
+                                                <a onclick="return confirm('Əminsinizmi?');" href="@Url.Action("Delete","calculation" , new {id = item.Id})" class="btn btn-sm btn-danger ml-2">Sil</a>
 
                                             </td>
                                         </tr>

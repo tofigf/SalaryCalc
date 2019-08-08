@@ -1,5 +1,9 @@
 ﻿$(document).ready(function () {
 
+    //checkbox checked button enabled
+    $("#checkAll").click(function () {
+        $('input:checkbox').not(this).prop('checked', this.checked);
+    });
     $(".calcbutton").click(function () {
         var text = $(this).data('text');
         $("#Formula").val(function () {
@@ -51,5 +55,20 @@
         }
     });
 });
+    //date
+    $('.datepicker').datepicker({
+        format: "mm-yyyy",
+        viewMode: "months",
+        minViewMode: "months"
+    });
+    $('.datepicker').datepicker().on('changeDate', function (e) {
+  
+        var currMonth = new Date(e.date).getMonth() + 1;
+        var currYear = String(e.date).split(" ")[3];
+        console.log(currMonth, currYear); 
+        
+        console.log(e.getDate() + '/' + e.getMonth() + e.getFullYear());
+    });
+   
 
 });

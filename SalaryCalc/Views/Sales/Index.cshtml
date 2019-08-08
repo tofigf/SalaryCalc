@@ -5,51 +5,66 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container">
-    <h1 class="text-center mt-5">Satış</h1>
-    <a class="btn btn-success text-lg-right" href="@Url.Action("create","sales")">Yarat</a>
-    <div class="row">
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8 mb-4">
+        <div class="container-fluid">
+            <div class="header-body">
+                <div class="row">
+                    <div class="col">
+                        <div class="card shadow">
+                            <div class="card-header border-0">
+                                <div class="row align-items-center">
+                                    <div class="col-8">
+                                        <h3 class="mb-0">İstifadəçi</h3>
+                                    </div>
+                                    <div class="col-4 text-right">
+                                        <a href="@Url.Action("create","sales")" class="btn btn-sm btn-success"><i class="ni ni-fat-add"></i>Satış Yarat</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table align-items-center table-flush">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">İşçinin Adı</th>
+                                            <th scope="col">Məhsul</th>
+                                            <th scope="col">Qiymət</th>
+                                            <th scope="col">Vip</th>
+                                            <th scope="col">Endirim</th>
+                                            <th scope="col">Tənzimləmə</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-        <div class="col-md-12">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">İşçinin Adı</th>
-                        <th scope="col">Məhsul</th>
-                        <th scope="col">Qiymət</th>
-                        <th scope="col">Vip</th>
-                        <th scope="col">Endirim</th>
-                        <th scope="col">Tənzimləmə</th>
-                    </tr>
-                </thead>
-                <tbody>
+                                        @{int i = 1;}
 
-                    @{int i = 1;}
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <th scope="row">@i</th>
+                                                <td>@item.User.UserName</td>
+                                                <td>@item.Name</td>
+                                                <td>@item.Price</td>
+                                                <td>@(item.Vip == true ? "Vip" : "Vip deyil")</td>
+                                                <td>@(item.DisCount == true ? "Endirim var" : "Endirim yoxdu")</td>
+                                                <td>
+                                                    <a href="@Url.Action("edit","sales",new { id = item.Id })" class="btn btn-sm btn-primary">Dəyiş</a>
+                                                    <a onclick="return confirm('Əminsinizmi?')" href="@Url.Action("delete","sales",new { id = item.Id })" class="btn btn-sm btn-danger ml-2">Sil</a>
+                                                </td>
 
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <th scope="row">@i</th>
-                            <td>@item.User.UserName</td>
-                            <td>@item.Name</td>
-                            <td>@item.Price</td>
-                            <td>@(item.Vip == true ? "Vip":"Vip deyil")</td>
-                            <td>@(item.DisCount == true ? "Endirim var":"Endirim yoxdu")</td>
-                            <td>
-                                <a href="@Url.Action("edit","sales",new { id = item.Id })" class="editposition">Duzelis</a>
-                                <a onclick="return confirm('Əminsinizmi?')" href="@Url.Action("delete","sales",new { id = item.Id })">Sil</a>
-                            </td>
+                                            </tr>
 
-                        </tr>
+                                            i++;
+                                        }
 
-                        i++;
-                    }
+                                    </tbody>
+                                </table>
 
-                </tbody>
-            </table>
-
-        </div>
-    </div>
-</div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                        </div>
+                    </div>
 
