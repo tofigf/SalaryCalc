@@ -1,0 +1,18 @@
+﻿@using SalaryCalc.Models
+@model List<User>
+
+    <ul>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <input type="checkbox" value="@item.Id" name="usersId[]" id="check-@item.Id" data-id="@item.Id">
+                    <label for="check-@item.Id"></label>
+                </td>
+                <td> @item.UserName</td>
+                <td> @item.CalcForum.Name</td>
+            </tr>
+        }
+
+
+    </ul>

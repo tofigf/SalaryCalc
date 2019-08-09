@@ -2172,6 +2172,7 @@
     <Content Include="Views\Calculation\CalcMethod.cshtml" />
     <Content Include="Views\Calculation\CalculateSalary.cshtml" />
     <Content Include="Views\Calculation\CalculatedSalary.cshtml" />
+    <Content Include="Views\Shared\_UsersForCalcPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201908051303471_InitialCreate.resx">

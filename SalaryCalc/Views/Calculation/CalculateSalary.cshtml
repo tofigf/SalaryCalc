@@ -19,11 +19,15 @@
                                     <small id="emailHelp" class="form-text text-muted">Maaş işçinin aylıq və ya illik  etdiyi satışlarının faiz nisbəti ilə hesablanır.</small>
 
                                 </div>
-                              
+
                             </div>
                         </div>
                         <form action="@Url.Action("calculatesalary","calculation")" method="post">
-
+                            <div class="row mt-2 mb-2">
+                                <div class="col-md-2 offset-10 float-right">
+                                    <button class="btn btn-success" type="submit">Yadda Saxla</button>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-md-4"></div>
                                 <div class="col-md-4">
@@ -39,48 +43,34 @@
 
                                 <div class="col-md-4"></div>
                             </div>
-                          
-                                <div class="table-responsive mt-5">
-                                    <table class="table align-items-center table-flush">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                <th scope="col">
-                                                    <div class="form-group form-check">
-                                                        <input type="checkbox" class="form-check-input" id="checkAll">
-                                                        <label for="checkAll">Hamsını seç</label>
-                                                    </div>
-                                                </th>
-                                                <th>İşçilər</th>
-                                                <th>Hesablama Metodu</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var item in ViewBag.User)
-                                            {
-                                                <tr>
-                                                    <td>
-                                                            <input type="checkbox" value="@item.Id" name="usersId[]" id="check-@item.Id" data-id="@item.Id">
-                                                            <label for="check-@item.Id"></label>
-                                                    </td>
-                                                    <td> @item.UserName</td>
-                                                    <td> @item.CalcForum.Name</td>
-                                                </tr>
-                                            }
 
+                            <div class="table-responsive mt-5">
+                                <table class="table align-items-center table-flush">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">
+                                                <div class="form-group form-check">
+                                                    <input type="checkbox" class="form-check-input" id="checkAll">
+                                                    <label for="checkAll">Hamsını seç</label>
+                                                </div>
+                                            </th>
+                                            <th>İşçilər</th>
+                                            <th>Hesablama Metodu</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="divPartialView">
+                                        @*PartialView*@
 
+                                    </tbody>
+                                </table>
 
-                                        </tbody>
-                                    </table>
-
-                                </div>
-                      
-                            <div class="row mt-2 mb-2">
-                                <div class="col-md-2 offset-10 float-right">
-                                    <button class="btn btn-success" type="submit">Yadda Saxla</button>
-                                </div>
                             </div>
+
+
+
                         </form>
                     </div>
+               
                 </div>
             </div>
         </div>

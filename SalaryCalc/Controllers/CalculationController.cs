@@ -20,13 +20,13 @@ namespace SalaryCalc.Controllers
         private readonly DataContext db = new DataContext();
 
         // GET: Calculation
-        public ActionResult Index()
+        public ViewResult Index()
         {
             return View(model:db.CalcForums.ToList());
         }
         //Get [baseUrl]Calculation/CalcMethod
         [HttpGet]
-        public ActionResult CalcMethod()
+        public ViewResult CalcMethod()
         {
             return View();
         }
@@ -46,97 +46,129 @@ namespace SalaryCalc.Controllers
         }
         //Get [baseUrl]Calculation/CalculatedSalary
         [HttpGet]
-        public ActionResult CalculatedSalary()
+        public ViewResult CalculatedSalary()
         {
             return View();
         }
         //Get [baseUrl]Calculation/CalculateSalary
         [HttpGet]
-        public ActionResult CalculateSalary()
+        public ViewResult CalculateSalary()
         {
-            ViewBag.User = db.Users.ToList();
-            ViewBag.CalcForum = db.CalcForums.ToList();
+            
             return View();
         }
+        //Post [baseUrl]Calculation/CalculateSalary
         [HttpPost]
         public ActionResult CalculateSalary(DateTime Date, int[] usersId)
         {
-        
+            if (usersId != null)
+            {
                 foreach (var id in usersId)
                 {
-               if( db.CalculatedSalaryByUsers.Where(w => w.UserId == id).Any(a=>a.Date.Month == Date.Month || a.Date.Year == Date.Year))
-                {
-                    return Content("bu ay *** user maaş hesablanıb");
-                }
-                    if (user == null)
-                        return Content("empty");
-                    if (user != null)
+                    if (CheckCalculatedUsers(Date.Month, Date.Year, id))
+                        return Content("bu user artiq maasi hesblanmisdi");
+                    User findedUser = db.Users.Find(id);
+                    if (findedUser == null)
+                        return Content("user empty");
+
+                    //static keys
+                    string bymonth = db.ButtonsStatics.FirstOrDefault(f => f.Key == "{ayliqgelir}").Key;
+                    string byyear = db.ButtonsStatics.FirstOrDefault(f => f.Key == "{illikgelir}").Key;
+
+                    string formula = findedUser.CalcForum.Formula;
+                    if (ByMonth(id, Date.Month) == null)
+                        return Content("bu iscinin secilmis ay uzre hec bir satisi yoxdu");
+                    if(ByYear(id, Date.Year) == null)
+                        return Content("bu iscinin secilmis illik uzre hec bir satisi yoxdu");
+                    string ByMonthValue = ByMonth(id, Date.Month).ToString();
+                    string ByYearValue = ByYear(id, Date.Year).ToString();
+
+                    if (formula.Contains(bymonth) || formula.Contains(byyear))
                     {
-                        //static keys
-                        string bymonth = db.ButtonsStatics.Find(2).Key;
-                        string byyear = db.ButtonsStatics.Find(3).Key;
-
-                        string formula = user.CalcForum.Formula;
-                        if (ByMonth(id, Date) == null || ByYear(id, Date) == null)
-                            return Content("bu isniin hec bir satis yoxdu");
-                        string ByMonthValue = ByMonth(id, Date).ToString();
-                        string ByYearValue = ByYear(id, Date).ToString();
-
-                        if (formula.Contains(bymonth) || formula.Contains(byyear))
+                        formula = formula.Replace(bymonth, ByMonthValue).Replace(byyear, ByYearValue);
+                    }
+                    //Expression
+                    try
+                    {
+                        NCalc.Expression e = new NCalc.Expression(formula);
+                        if (e.HasErrors())
+                        {
+                            return Content("expression error");
+                        }
+                        CalculatedSalaryByUser calculated = new CalculatedSalaryByUser
                         {
 
-                            formula = formula.Replace(bymonth, ByMonthValue).Replace(byyear, ByYearValue);
-                        }
+                            UserId = id,
+                            Salary = (double)e.Evaluate(),
+                            Date = Date
+                        };
 
-                        try
-                        {
-                            NCalc.Expression e = new NCalc.Expression(formula);
-                            if (e.HasErrors())
-                            {
-                                return Content("expression error");
-                            }
-                            CalculatedSalaryByUser calculated = new CalculatedSalaryByUser
-                            {
+                        db.CalculatedSalaryByUsers.Add(calculated);
+                        db.SaveChanges();
 
-                                UserId = id,
-                                Salary = (double)e.Evaluate(),
-                                Date = DateTime.Now
-                            };
 
-                            db.CalculatedSalaryByUsers.Add(calculated);
-                            db.SaveChanges();
+                    }
+                    catch (EvaluationException e)
+                    {
+                        return Content("catch");
+                    }
 
-                            return RedirectToAction("calculatedsalary");
-                        }
-                        catch (EvaluationException e)
-                        {
-                            return Content("catch");
-                        }
-
-                    
                 }
-            }
 
+                return RedirectToAction("calculatedsalary");
+            }
             return Content("500");
+
         }
 
-        public double? ByMonth(int? id,DateTime? date)
+        //Partial view
+        [HttpGet]
+        public PartialViewResult UsersForCalc(int? currMonth,int? currYear)
+        {
+
+            List<CalculatedSalaryByUser> calculedSalaryUsers = db.CalculatedSalaryByUsers.
+                Where(w => w.Date.Month == currMonth && w.Date.Year == currYear).ToList();
+            List<User> model2 = new List<User>();
+            List<User> model = db.Users.ToList();
+            foreach(var user in model)
+            {
+                if(calculedSalaryUsers.FirstOrDefault(f=>f.UserId == user.Id) == null)
+                {
+                    model2.Add(user);
+                }
+            }
+          
+            return PartialView("_UsersForCalcPartial", model2);
+        }
+
+        public double? ByMonth(int? id, int? currMonth)
         {
       
-            if (db.Sales.Any(a => a.UserId != id && a.Date.Month != date.Value.Month))
+            if (db.Sales.FirstOrDefault(a => a.UserId == id) == null)
                 return null;
-            double? total = db.Sales.Where(w => w.UserId == id && w.Date.Month == date.Value.Month).Sum(s=>s.Price);
+            if (db.Sales.FirstOrDefault(a => a.UserId == id && a.Date.Month == currMonth) == null)
+                return null;
+            double? total = db.Sales.Where(w => w.UserId == id && w.Date.Month == currMonth).Sum(s=>s.Price);
             
             return total;
         }
-
-            public double? ByYear(int? id, DateTime? date)
+        public double? ByYear(int? id, int? currYear)
         {
-            if (db.Sales.Any(a => a.UserId != id && a.Date.Year != date.Value.Year))
+            if (db.Sales.FirstOrDefault(a => a.UserId == id) == null)
                 return null;
-            double? total = db.Sales.Where(w => w.UserId == id && w.Date.Year == date.Value.Year).Sum(s => s.Price);
+            if (db.Sales.FirstOrDefault(a => a.UserId == id && a.Date.Year == currYear) == null)
+                return null;
+            double? total = db.Sales.Where(w => w.UserId == id && w.Date.Year == currYear).Sum(s => s.Price);
                       
             return total;
+        }
+        public bool CheckCalculatedUsers(int? currMonth, int? currYear ,int? userId)
+        {
+            if (db.CalculatedSalaryByUsers.FirstOrDefault(w => w.UserId == userId && w.Date.Month == currMonth && w.Date.Year == currYear) != null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

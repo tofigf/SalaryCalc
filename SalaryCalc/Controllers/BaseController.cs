@@ -24,9 +24,13 @@ namespace SalaryCalc.Controllers
             {
                 roles = db.UserRoles.Where(w => w.PostionId == db.Postions.FirstOrDefault().Id).ToList();
             }
+            else
+            {
+                roles = db.UserRoles.Where(w => w.PostionId == user.PostionId).ToList();
 
-             roles = db.UserRoles.Where(w => w.PostionId == user.PostionId).ToList();
-             
+            }
+
+
 
             base.Initialize(requestContext);
         }
