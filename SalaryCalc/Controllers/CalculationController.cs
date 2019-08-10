@@ -1,10 +1,13 @@
 ﻿using NCalc;
 using SalaryCalc.Auth;
 using SalaryCalc.Dal;
+using SalaryCalc.Dtos;
 using SalaryCalc.Filters;
 using SalaryCalc.Models;
+using SalaryCalc.Models.VwModel;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
@@ -59,8 +62,10 @@ namespace SalaryCalc.Controllers
         }
         //Post [baseUrl]Calculation/CalculateSalary
         [HttpPost]
-        public ActionResult CalculateSalary(DateTime Date, int[] usersId)
+        public ActionResult CalculateSalary(DateTime Date, int[] usersId,int? a)
         {
+           List<User> users = (List<User>)TempData["AllUsers"];
+
             if (usersId != null)
             {
                 foreach (var id in usersId)
@@ -123,22 +128,26 @@ namespace SalaryCalc.Controllers
 
         //Partial view
         [HttpGet]
-        public PartialViewResult UsersForCalc(int? currMonth,int? currYear)
+        public PartialViewResult UsersForCalc(int? currMonth,int? currYear, int page = 1 )
         {
-
-            List<CalculatedSalaryByUser> calculedSalaryUsers = db.CalculatedSalaryByUsers.
-                Where(w => w.Date.Month == currMonth && w.Date.Year == currYear).ToList();
-            List<User> model2 = new List<User>();
-            List<User> model = db.Users.ToList();
-            foreach(var user in model)
-            {
-                if(calculedSalaryUsers.FirstOrDefault(f=>f.UserId == user.Id) == null)
-                {
-                    model2.Add(user);
-                }
-            }
+            int skip = ((int)page - 1) * 3;
           
-            return PartialView("_UsersForCalcPartial", model2);
+            List<User> model = db.Users.Where(w=>w.CalculatedSalaryByUsers
+            .Where(x => x.Date.Month == currMonth && x.Date.Year == currYear)
+            .FirstOrDefault(a=>a.UserId == w.Id) == null).ToList();
+
+            //Pagination list
+            List<User> PaginateModel = db.Users.Where(w => w.CalculatedSalaryByUsers
+      .Where(x => x.Date.Month == currMonth && x.Date.Year == currYear)
+      .FirstOrDefault(a => a.UserId == w.Id) == null).OrderBy(a => a.Id)
+              .Skip(skip).Take(3).ToList().ToList();
+            ViewBag.TotalPage = Math.Ceiling(model.Count() / 3.0);
+            ViewBag.Page = page;
+            ViewBag.CurrMonth = currMonth;
+            ViewBag.CurrYear = currYear;
+            TempData["AllUsers"] = model;
+
+            return PartialView("_UsersForCalcPartial", PaginateModel);
         }
 
         public double? ByMonth(int? id, int? currMonth)

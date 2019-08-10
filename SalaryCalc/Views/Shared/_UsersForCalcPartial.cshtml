@@ -1,18 +1,62 @@
 ﻿@using SalaryCalc.Models
-@model List<User>
+@model  List<User>
 
-    <ul>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    <input type="checkbox" value="@item.Id" name="usersId[]" id="check-@item.Id" data-id="@item.Id">
-                    <label for="check-@item.Id"></label>
-                </td>
-                <td> @item.UserName</td>
-                <td> @item.CalcForum.Name</td>
-            </tr>
-        }
+@{ 
+    int currMonth = (int)ViewBag.CurrMonth;
+    int currYear = (int)ViewBag.CurrYear;
+}
+<ul>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <input type="checkbox" value="@item.Id" name="usersId[]" id="check-@item.Id" data-id="@item.Id">
+                <label for="check-@item.Id"></label>
+            </td>
+            <td> @item.UserName</td>
+            <td> @item.CalcForum.Name</td>
+           
+            @if(item.Sales.FirstOrDefault(w=>w.Date.Month == currMonth) == null){
+
+            }
+        <td>@(item.Sales.FirstOrDefault(w =>w.Date.Year == currYear && w.Date.Month == currMonth) == null? "Bu işçinin satışı yoxdu" : "") </td>
+        </tr>
+    }
 
 
-    </ul>
+</ul>
+@if (Model.Count() > 0)
+{
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+
+            @if (ViewBag.Page - 1 != 0)
+            {
+                <li class="page-item pagclick" data-page="@(ViewBag.Page-1)">
+                    <a class="page-link" href="javascript:void(0)">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            }
+
+            @for (int i = 1; i <= ViewBag.TotalPage; i++)
+            {
+
+                <li class="page-item pagclick @(i==ViewBag.Page?"active":"")" data-page="@i">
+                    <a class="page-link" href="javascript:void(0)">@i</a>
+                </li>
+
+            }
+
+            @if (ViewBag.Page + 1 <= ViewBag.TotalPage)
+            {
+                <li class="page-item pagclick" data-page="@(ViewBag.Page+1)">
+                    <a class="page-link" href="javascript:void(0)">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+}
+

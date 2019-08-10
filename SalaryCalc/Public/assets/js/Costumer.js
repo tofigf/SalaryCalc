@@ -4,6 +4,7 @@
     $("#checkAll").click(function () {
         $('input:checkbox').not(this).prop('checked', this.checked);
     });
+    //calculate
     $(".calcbutton").click(function () {
         var text = $(this).data('text');
         $("#Formula").val(function () {
@@ -40,11 +41,13 @@
     function SetData(data) {
         $("#divPartialView").html(data); 
     }
+    var currMonth = 0;
+    var currYear = 0;
     //datepicker event
     $('.datepicker').datepicker().on('changeDate', function (e) {
 
-        var currMonth = new Date(e.date).getMonth() + 1;
-        var currYear = +String(e.date).split(" ")[3];
+         currMonth = new Date(e.date).getMonth() + 1;
+         currYear = +String(e.date).split(" ")[3];
         //=============================================//
         $.ajax({
             url: "/Calculation/UsersForCalc/?currMonth=" + currMonth +"&currYear="+ currYear,
@@ -57,36 +60,27 @@
         });
         
     });
+    //Pagenate a click
+    $(document).on("click", ".pagclick", function (e) {
+
+        var page = $(this).data('page');
+        $.ajax({
+            url: "/Calculation/UsersForCalc/?currMonth=" + currMonth + "&currYear=" + currYear + "&page=" + page,
+            cache: false,
+            type: "get",
+            dataType: "html",
+            success: function (data) {
+                SetData(data);
+          
+            }
+        });
+
+    });
     $(".positionId").val($(".tabclick").data("id"));
     $(document).on("click", ".tabclick", function (e) {
         e.preventDefault();
         var id = $(this).data("id");
         $(".positionId").val(id);
     });
-//    $('#myForm').submit(function (e) {
-//        e.preventDefault();
-//     var url = $(this).data('url');
-
-//        var RoleIdsDto = {
-//            Ids: [],
-//            PostionId: $(".positionId").val()
-//        };
-//        console.log(RoleIdsDto);
-//        $("#customtable .checkedArray:checked").each(function (e) {
-//            RoleIdsDto.Ids.push($(this).data("id"));
-//        });
-//    $.ajax({
-//        url: url,
-//        type: 'Post',
-//        data: { RoleIdsDto: RoleIdsDto },
-
-//        dataType: "json",
-//        success: function (response) {
-//            if (response.status === 200 && response.isRedirect) {
-//                window.location.href = response.redirectUrl;
-//            }
-//        }
-//    });
-//});
    
 });
