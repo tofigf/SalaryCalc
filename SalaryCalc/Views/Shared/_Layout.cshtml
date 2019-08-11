@@ -2,6 +2,7 @@
 @{
        User user = Session["LoggedUser"] as User;
     List<UserRole> UserRoles = (ViewContext.Controller as SalaryCalc.Controllers.BaseController).roles;
+    string controller = ViewContext.RouteData.Values["controller"].ToString().ToLower();
  }
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +11,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>
-   
+
     </title>
     <!-- Favicon -->
     <link href="~/Public/assets/img/brand/favicon.png" rel="icon" type="image/png">
@@ -20,154 +21,93 @@
     <link href="~/Public/assets/js/plugins/nucleo/css/nucleo.css" rel="stylesheet" />
     <link href="~/Public/assets/js/plugins/fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
     <!-- CSS Files -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/theme-default.min.css"
+          rel="stylesheet" type="text/css" />
     <link href="~/Public/assets/css/argon-dashboard.css?v=1.1.0" rel="stylesheet" />
+
 </head>
 
-<body class="">
+<body>
     <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
         <div class="container-fluid">
-            <!-- Toggler -->
-            <!-- Navigation -->
 
-            <ul class="navbar-nav">
-                @if (UserRoles.Any(a => a.Role.Controller == "Home" && a.Role.Action == "Index"))
-                {
-                    <li class="nav-item">
-                        <a class=" nav-link active " href="@Url.Action("index","home")">
-                            <i class="ni ni-tv-2 text-primary"></i> Ana Səhifə
-                        </a>
-                    </li>
-                }
-                @if (UserRoles.Any(a => a.Role.Controller == "Positions" && a.Role.Action == "Index"))
-                {
-                    <li class="nav-item">
-                        <a class=" nav-link active " href="@Url.Action("index","positions")">
-                            <i class="ni ni-tv-2 text-primary"></i> Vəzifələr
-                        </a>
-                    </li>
-                }
-                @if (UserRoles.Any(a => a.Role.Controller == "Users" && a.Role.Action == "Index"))
-                {
-                    <li class="nav-item">
-                        <a class="nav-link " href="@Url.Action("index", "users")">
-                            <i class="ni ni-planet text-blue"></i> Istifadəçilər
-                        </a>
-                    </li>
-                }
-                @if (UserRoles.Any(a => a.Role.Controller == "Sales" && a.Role.Action == "Index"))
-                {
-                    <li class="nav-item">
-                        <a class="nav-link " href="@Url.Action("index", "sales")">
-                            <i class="ni ni-pin-3 text-orange"></i> Satışlar
-                        </a>
-                    </li>
-                }
-                @if (UserRoles.Any(a => a.Role.Controller == "Roles" && a.Role.Action == "Index"))
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("index", "roles")">
-                            <i class="ni ni-single-02 text-yellow"></i>Rollar
-                        </a>
-                    </li>
-                }
-                @if (UserRoles.Any(a => a.Role.Controller == "Calculation" && a.Role.Action == "Index"))
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("index", "calculation")">
-                            <i class="ni ni-single-02 text-yellow"></i>Hesablama Düsturları
-                        </a>
-                    </li>
-                }
-                @if (UserRoles.Any(a => a.Role.Controller == "Calculation" && a.Role.Action == "CalculateSalary"))
-                {
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("calculatesalary", "calculation")">
-                            <i class="ni ni-planet text-blue"></i> Maaş Hesablama
-                        </a>
-                    </li>
-                }
-            </ul>
-            <!-- Divider -->
-            <hr class="my-3">
-            <!-- Heading -->
-
-
-        </div>
-        </div>
-    </nav>
-    <div class="main-content">
-        <!-- Navbar -->
-        <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
-            <div class="container-fluid">
-                <!-- Brand -->
-                <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="~/Public/index.html">Dashboard</a>
-                <!-- Form -->
-                <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
-                    <div class="form-group mb-0">
-                        <div class="input-group input-group-alternative">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-search"></i></span>
-                            </div>
-                            <input class="form-control" placeholder="Search" type="text">
-                        </div>
-                    </div>
-                </form>
-                <!-- User -->
-                <ul class="navbar-nav align-items-center d-none d-md-flex">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <div class="media align-items-center">
-                                <span class="avatar avatar-sm rounded-circle">
-                                    <img alt="Image placeholder" src="~/Public/assets/img/theme/team-4-800x800.jpg">
-                                </span>
-                                <div class="media-body ml-2 d-none d-lg-block">
-                                    <span class="mb-0 text-sm  font-weight-bold">Jessica Jones</span>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
-                            <div class=" dropdown-header noti-title">
-                                <h6 class="text-overflow m-0">Welcome!</h6>
-                            </div>
-                            <a href="~/Public/examples/profile.html" class="dropdown-item">
-                                <i class="ni ni-single-02"></i>
-                                <span>My profile</span>
+            <a class="navbar-brand pt-0 text-primary" href="javascipt:void(0)">
+                Dinamik əmək <br /> haqqı hesablama  <br />sistemi
+            </a>
+            <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+                <ul class="navbar-nav">
+                    @if (UserRoles.Any(a => a.Role.Controller == "Home" && a.Role.Action == "Index"))
+                    {
+                        <li class="nav-item">
+                            <a class=" nav-link  @(controller =="Home" ? "active" : "") " href="@Url.Action("index","home")">
+                                <i class="ni ni-tv-2 text-primary"></i> Ana Səhifə
                             </a>
-                            <a href="~/Public/examples/profile.html" class="dropdown-item">
-                                <i class="ni ni-settings-gear-65"></i>
-                                <span>Settings</span>
+                        </li>
+                    }
+                    @if (UserRoles.Any(a => a.Role.Controller == "Positions" && a.Role.Action == "Index"))
+                    {
+                        <li class="nav-item">
+                            <a class=" nav-link @(controller =="positions" ? "active" : "")" href="@Url.Action("index","positions")">
+                                <i class="ni ni-bullet-list-67 text-red"></i> Vəzifələr
                             </a>
-                            <a href="~/Public/examples/profile.html" class="dropdown-item">
-                                <i class="ni ni-calendar-grid-58"></i>
-                                <span>Activity</span>
+                        </li>
+                    }
+                    @if (UserRoles.Any(a => a.Role.Controller == "Users" && a.Role.Action == "Index"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link @(controller =="users" ? "active" : "")" href="@Url.Action("index", "users")">
+                                <i class="ni ni-planet text-blue"></i> Istifadəçilər
                             </a>
-                            <a href="~/Public/examples/profile.html" class="dropdown-item">
-                                <i class="ni ni-support-16"></i>
-                                <span>Support</span>
+                        </li>
+                    }
+                    @if (UserRoles.Any(a => a.Role.Controller == "Sales" && a.Role.Action == "Index"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link @(controller =="sales" ? "active" : "")" href="@Url.Action("index", "sales")">
+                                <i class="ni ni-pin-3 text-orange"></i> Satışlar
                             </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#!" class="dropdown-item">
-                                <i class="ni ni-user-run"></i>
-                                <span>Logout</span>
+                        </li>
+                    }
+                    @if (UserRoles.Any(a => a.Role.Controller == "Roles" && a.Role.Action == "Index"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link @(controller =="roles" ? "active" : "")" href="@Url.Action("index", "roles")">
+                                <i class="ni ni-single-02 text-yellow"></i>Rollar
                             </a>
-                        </div>
-                    </li>
+                        </li>
+                    }
+                    @if (UserRoles.Any(a => a.Role.Controller == "Calculation" && a.Role.Action == "Index"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link   @(ViewBag.Title  =="Hesablama Düsturu" ? "active" : "")" href="@Url.Action("index", "calculation")">
+                                <i class="ni ni-caps-small text-success"></i>Hesablama Düsturları
+                            </a>
+                        </li>
+                    }
+                    @if (UserRoles.Any(a => a.Role.Controller == "Calculation" && a.Role.Action == "CalculateSalary"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewBag.Title  =="Maaş Hesablama" ? "active" : "")" href="@Url.Action("calculatesalary", "calculation")">
+                                <i class="ni ni-chart-bar-32 text-blue"></i> Maaş Hesablama
+                            </a>
+                        </li>
+                    }
                 </ul>
             </div>
-        </nav>
-        <!-- End Navbar -->
-        <!-- Header -->
+                
+            </div>
+</nav>
+    <div class="main-content">
+  
 
         @RenderBody()
     </div>
-    <!--   Core   -->
+    
     <script src="~/Public/assets/js/plugins/jquery/dist/jquery.min.js"></script>
     <script src="~/Public/assets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <!--   Optional JS   -->
     <script src="~/Public/assets/js/plugins/chart.js/dist/Chart.min.js"></script>
     <script src="~/Public/assets/js/plugins/chart.js/dist/Chart.extension.js"></script>
-    <!--   Argon JS   -->
-    @*<script src="~/Public/assets/js/argon-dashboard.min.js?v=1.1.0"></script>*@
+    <script src="~/Public/assets/js/argon-dashboard.min.js?v=1.1.0"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
     <script src="~/Public/assets/js/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
     <script src="~/Public/assets/js/Costumer.js"></script>

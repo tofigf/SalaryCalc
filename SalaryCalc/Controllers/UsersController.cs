@@ -70,20 +70,13 @@ namespace SalaryCalc.Controllers
 
             if (!ModelState.IsValid)
                 return Content("required");
-
-            if (user.Password == null)
-            {
-              
-                us.Password = Crypto.HashPassword(OldPassword);
-            }
-            else
-            {
-                us.Password = Crypto.HashPassword(user.Password);
-            }
+        
             us.UserName = user.UserName;
             us.FullName = user.FullName;
             us.PostionId = user.PostionId;
             us.Email = user.Email;
+            us.CalcForumId = user.CalcForumId;
+            us.Password = Crypto.HashPassword(user.Password);
 
             db.SaveChanges();
             return RedirectToAction("index");
@@ -103,5 +96,41 @@ namespace SalaryCalc.Controllers
 
             return RedirectToAction("index");
         }
+       [AllowAnonymous]
+        [HttpPost]
+        public JsonResult CheckUsersPassword(string OldPassword)
+        {
+            int Id = (int)Session["UserId"];
+
+            User loginned = db.Users.Find(Id);
+
+            if (loginned == null)
+            {
+                return Json(new
+                {
+                    valid = false,
+                    message = ""
+                }, JsonRequestBehavior.AllowGet);
+
+            }
+                if (!Crypto.VerifyHashedPassword(loginned.Password, OldPassword))
+                    {
+                    return Json(new
+                    {
+                        valid = false,
+                        message = "Şifrə yanlışdı"
+                    }, JsonRequestBehavior.AllowGet);
+
+                }
+               
+                    return Json(new
+                    {
+                        valid = true
+                    }, JsonRequestBehavior.AllowGet);
+                
+
+           
+        }
+
     }
 }

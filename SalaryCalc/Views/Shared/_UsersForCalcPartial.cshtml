@@ -1,32 +1,64 @@
 ﻿@using SalaryCalc.Models
 @model  List<User>
 
-@{ 
+@{
     int currMonth = (int)ViewBag.CurrMonth;
     int currYear = (int)ViewBag.CurrYear;
 }
-<ul>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                <input type="checkbox" value="@item.Id" name="usersId[]" id="check-@item.Id" data-id="@item.Id">
-                <label for="check-@item.Id"></label>
-            </td>
-            <td> @item.UserName</td>
-            <td> @item.CalcForum.Name</td>
-           
-            @if(item.Sales.FirstOrDefault(w=>w.Date.Month == currMonth) == null){
 
-            }
-        <td>@(item.Sales.FirstOrDefault(w =>w.Date.Year == currYear && w.Date.Month == currMonth) == null? "Bu işçinin satışı yoxdu" : "") </td>
-        </tr>
-    }
-
-
-</ul>
 @if (Model.Count() > 0)
 {
+    if (ViewBag.TotalPage > 1)
+    {
+    <a class="btn btn-default" href="javascript:void(0)" id="all">Hamısını Seçin (bütün səhifələr)</a>
+        <input type="hidden" name="all" id="allpages" />
+    }
+    <table class="table align-items-center table-flush">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">
+                    <div class="custom-control custom-checkbox mb-3">
+                        <input class="custom-control-input" id="checkAll" type="checkbox">
+                        <label class="custom-control-label" for="checkAll">Hamsını Seçmək(bu səhifədə)</label>
+                    </div>
+
+                </th>
+                <th>İşçilər</th>
+                <th>Hesablama Metodu</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <ul>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="custom-control custom-checkbox mb-3">
+                                <input class="custom-control-input" id="check-@item.Id" type="checkbox" name="usersId[]" value="@item.Id" data-id="@item.Id">
+                                <label class="custom-control-label" for="check-@item.Id">Seçin</label>
+                            </div>
+
+                        </td>
+                        <td>
+
+                            @item.UserName
+                        </td>
+                        <td> @item.CalcForum.Name</td>
+
+                        @if (item.Sales.FirstOrDefault(w => w.Date.Month == currMonth) == null)
+                        {
+
+                        }
+                        <td>@(item.Sales.FirstOrDefault(w => w.Date.Year == currYear && w.Date.Month == currMonth) == null ? "Bu işçinin satışı yoxdu" : "") </td>
+                    </tr>
+                }
+
+
+            </ul>
+
+        </tbody>
+    </table>
     <nav aria-label="Page navigation example">
         <ul class="pagination">
 
@@ -59,4 +91,24 @@
         </ul>
     </nav>
 }
+@*else if (Model.Where(w => w.CalculatedSalaryByUsers.Where(x => x.Date.Month == currMonth && x.Date.Year == currYear).FirstOrDefault(a => a.UserId == w.Id) != null) != null)
+    {
+        <div class="text-center">
+            <h2> Bu ay ərzində heç bir işçinin satışı olmayıb </h2>
+        </div>
+    }*@
+else
+{
+    <div class="text-center">
+        <h2> Bu ay üzrə bütün maaşlar hesablanıb</h2>
+    </div>
+}
+
+
+
+
+
+
+
+
 

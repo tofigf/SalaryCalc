@@ -1,6 +1,8 @@
-﻿
+﻿@using SalaryCalc.Models
+@model CalcForum
+
 @{
-    ViewBag.Title = "CalcMethod";
+    ViewBag.Title = "EditCalcMethod";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -37,26 +39,27 @@
                                     <small id="emailHelp" class="form-text text-muted ml-3">({ayliqgelir} * 30) / 100 bu şəkildə yazılacaq.</small>
                                 </div>
                             </div>
-                         
+
                             <div class="card-body">
                                 <div class="pl-lg-4">
-                                   
-                                    <form action="@Url.Action("calcmethod","calculation")" method="post">
 
+                                    <form action="@Url.Action("calcmethod","calculation")" method="post">
+                                        <input type="hidden" name="Id" value="@Model.Id"" />
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="inputEmail4">Adı</label>
                                                 <input type="text" class="form-control" name="Name" id="inputEmail4" placeholder="Adı"
-                                                        data-validation="required" data-validation-error-msg="Qeyd edin">
+                                                       value="@Model.Name"
+                                                       data-validation="required" data-validation-error-msg="Qeyd edin">
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label for="Formula">Hesablama Metodu</label>
                                                 <input type="text" class="form-control" name="Formula" id="Formula" placeholder="Hesablama Metodu"
-                                                        data-validation="required" data-validation-error-msg="Qeyd edin">
+                                                       value="@Model.Formula"
+                                                       data-validation="required" data-validation-error-msg="Qeyd edin">
                                                 <small id="emailHelp" class="form-text text-muted">(({illikgelir} * 2) / 100 bu şəkildə yazılacaq.</small>
                                             </div>
                                         </div>
-
 
                                         <div class="row mt-2">
                                             <div class="col-md-2 offset-10 float-right">
@@ -65,10 +68,11 @@
                                         </div>
                                     </form>
                                 </div>
-                                </div>
-                                </div>
                             </div>
                         </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+

@@ -2,7 +2,7 @@
 @model List<CalcForum>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Hesablama Düsturu";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -42,7 +42,7 @@
                                             <td>@item.Name</td>
                                             <td>@item.Formula</td>
                                             <td class="text-right">
-                                                <a href="@Url.Action("edit","calculation" , new { id = item.Id})" class="btn btn-sm btn-primary">Dəyiş</a>
+                                                <a href="@Url.Action("editcalcmethod","calculation" , new { id = item.Id})" class="btn btn-sm btn-primary">Dəyiş</a>
                                                 <a onclick="return confirm('Əminsinizmi?');" href="@Url.Action("Delete","calculation" , new {id = item.Id})" class="btn btn-sm btn-danger ml-2">Sil</a>
 
                                             </td>

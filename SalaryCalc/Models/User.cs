@@ -17,11 +17,11 @@ namespace SalaryCalc.Models
         public string FullName { get; set; }
         [Required,MaxLength(150)]
         public string Email { get; set; }
+        [Required, MaxLength(150)]
+        public string Phone { get; set; }
         [Required,MaxLength(150)]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
-        //[NotMapped]
-        //[Compare("Password")]
-        //public string ConfirmPassword { get; set; }
 
         public byte IsAdmin { get; set; }
         [ForeignKey("Postion")]

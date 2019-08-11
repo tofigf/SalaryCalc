@@ -24,9 +24,10 @@
                             <div class="col-md-12">
                                 <form method="post" action="@Url.Action("create","positions")">
                                     @Html.AntiForgeryToken()
-                                    <div class="form-row">
-                                        <label for="Name">Adı</label>
-                                        <input type="text" class="form-control" name="Name" id="Name" placeholder="Adı">
+                                    <div class="form-group">
+                                        <label class="control-label" for="Name">Adı</label>
+                                        <input type="text" autocomplete="off"  data-validation="required" data-validation-error-msg="Qeyd edin"
+                                                        class="form-control" name="Name" id="Name" placeholder="Adı">
                                     </div>
 
                                     <button type="submit" class="btn btn-primary mt-4 mb-4">Əlavə et</button>
@@ -66,7 +67,7 @@
                                             
                                                 <td class="text-right">
                                                     <a href="@Url.Action("edit","positions",new { id = item.Id })" class="btn btn-sm btn-primary">Dəyiş</a>
-                                                    <a onclick="return confirm('Əminsinizmi?')" href="@Url.Action("delete","positions",new { id = item.Id })" class="btn btn-sm btn-danger ml-2">Sil</a>
+                                                    @*<a onclick="return confirm('Əminsinizmi?')" href="@Url.Action("delete","positions",new { id = item.Id })" class="btn btn-sm btn-danger ml-2">Sil</a>*@
                                                 </td>
 
                                             </tr>

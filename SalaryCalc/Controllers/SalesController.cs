@@ -55,10 +55,13 @@ namespace SalaryCalc.Controllers
         [HttpPost]
         public ActionResult Edit(Sale sale)
         {
-            db.Entry(sale).State = EntityState.Modified;
+            if(sale != null){
+                db.Entry(sale).State = EntityState.Modified;
 
-            db.SaveChanges();
+                db.SaveChanges();
 
+                return RedirectToAction("index");
+            }
             return RedirectToAction("index");
         }
         //Get [baseUrl]Sales/Delete

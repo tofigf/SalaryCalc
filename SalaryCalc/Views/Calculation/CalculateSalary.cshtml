@@ -1,10 +1,10 @@
 ﻿
 @{
-    ViewBag.Title = "CalculateSalary";
+    ViewBag.Title = "Maaş Hesablama";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8 mb-4">
+<div class="header bg-gradient-primary pb-8  pt-md-4 mb-4">
     <div class="container-fluid">
         <div class="header-body">
             <!-- Card stats -->
@@ -23,51 +23,33 @@
                             </div>
                         </div>
                         <form action="@Url.Action("calculatesalary","calculation")" method="post">
-                            <div class="row mt-2 mb-2">
+                            <div class="row mt-2 mb-2 mt-5">
                                 <div class="col-md-2 offset-10 float-right">
                                     <button class="btn btn-success" type="submit">Yadda Saxla</button>
                                 </div>
                             </div>
                             <div class="row">
+                               
                                 <div class="col-md-4"></div>
                                 <div class="col-md-4">
-                                    <label class="form-control-label" for="input-email">Tarix</label>
+                                    <label class="form-control-label" for="input-email">Tarix Seçin</label>
                                     <div class="input-group date">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                                         </div>
 
-                                        <input class="form-control datepicker" data-validation="required" data-validation-error-msg="Qeyd edin" autocomplete="off" data-provide="datepicker" name="Date" placeholder="Tarix" type="text">
+                                        <input class="form-control datepicker"  autocomplete="off" data-provide="datepicker" name="Date" placeholder="Tarix" type="text">
                                     </div>
                                 </div>
 
                                 <div class="col-md-4"></div>
                             </div>
 
-                            <div class="table-responsive mt-5">
-                                <table class="table align-items-center table-flush">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th scope="col">
-                                                <div class="form-group form-check">
-                                                    <input type="checkbox" class="form-check-input" id="checkAll">
-                                                    <label for="checkAll">Hamsını seç</label>
-                                                </div>
-                                            </th>
-                                            <th>İşçilər</th>
-                                            <th>Hesablama Metodu</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="divPartialView">
-                                        @*PartialView*@
-
-                                    </tbody>
-                                </table>
+                            <div class="table-responsive mt-5" id="divPartialView">
+                                @*PartialView*@
+                          
 
                             </div>
-
-
 
                         </form>
                     </div>

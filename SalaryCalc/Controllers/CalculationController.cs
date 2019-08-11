@@ -47,6 +47,34 @@ namespace SalaryCalc.Controllers
           
             return RedirectToAction("index");
         }
+        //Get [baseUrl]Calculation/EditCalcMethod
+        [HttpGet]
+        public ActionResult EditCalcMethod(int? id)
+        {
+            if (id == null)
+                return HttpNotFound();
+
+            
+            CalcForum forum = db.CalcForums.Find(id);
+            if(forum != null)
+            return View(model: forum);
+
+            return RedirectToAction("index");
+        }
+        //Post [baseUrl]Calculation/EditCalcMethod
+        [HttpPost]
+        public ActionResult EditCalcMethod(CalcForum forum)
+        {
+            if(forum != null)
+            {
+                db.Entry(forum).State = EntityState.Modified;
+                db.Entry(forum).Property(x => x.Date).IsModified = false;
+                db.SaveChanges();
+                return RedirectToAction("index");
+            }
+            return RedirectToAction("index");
+        }
+
         //Get [baseUrl]Calculation/CalculatedSalary
         [HttpGet]
         public ViewResult CalculatedSalary()
@@ -62,66 +90,125 @@ namespace SalaryCalc.Controllers
         }
         //Post [baseUrl]Calculation/CalculateSalary
         [HttpPost]
-        public ActionResult CalculateSalary(DateTime Date, int[] usersId,int? a)
+        public ActionResult CalculateSalary(DateTime Date, int[] usersId, bool all = false)
         {
            List<User> users = (List<User>)TempData["AllUsers"];
-
-            if (usersId != null)
+            if (all == false)
             {
-                foreach (var id in usersId)
+                if (usersId != null)
                 {
-                    if (CheckCalculatedUsers(Date.Month, Date.Year, id))
-                        return Content("bu user artiq maasi hesblanmisdi");
-                    User findedUser = db.Users.Find(id);
-                    if (findedUser == null)
-                        return Content("user empty");
-
-                    //static keys
-                    string bymonth = db.ButtonsStatics.FirstOrDefault(f => f.Key == "{ayliqgelir}").Key;
-                    string byyear = db.ButtonsStatics.FirstOrDefault(f => f.Key == "{illikgelir}").Key;
-
-                    string formula = findedUser.CalcForum.Formula;
-                    if (ByMonth(id, Date.Month) == null)
-                        return Content("bu iscinin secilmis ay uzre hec bir satisi yoxdu");
-                    if(ByYear(id, Date.Year) == null)
-                        return Content("bu iscinin secilmis illik uzre hec bir satisi yoxdu");
-                    string ByMonthValue = ByMonth(id, Date.Month).ToString();
-                    string ByYearValue = ByYear(id, Date.Year).ToString();
-
-                    if (formula.Contains(bymonth) || formula.Contains(byyear))
+                    foreach (var id in usersId)
                     {
-                        formula = formula.Replace(bymonth, ByMonthValue).Replace(byyear, ByYearValue);
-                    }
-                    //Expression
-                    try
-                    {
-                        NCalc.Expression e = new NCalc.Expression(formula);
-                        if (e.HasErrors())
+                        if (CheckCalculatedUsers(Date.Month, Date.Year, id))
+                            return Content("bu user artiq maasi hesblanmisdi");
+                        User findedUser = db.Users.Find(id);
+                        if (findedUser == null)
+                            return Content("user empty");
+
+                        //static keys
+                        string bymonth = db.ButtonsStatics.FirstOrDefault(f => f.Key == "{ayliqgelir}").Key;
+                        string byyear = db.ButtonsStatics.FirstOrDefault(f => f.Key == "{illikgelir}").Key;
+
+                        string formula = findedUser.CalcForum.Formula;
+                        if (ByMonth(id, Date.Month) == null)
+                            return Content("bu iscinin secilmis ay uzre hec bir satisi yoxdu");
+                        if (ByYear(id, Date.Year) == null)
+                            return Content("bu iscinin secilmis illik uzre hec bir satisi yoxdu");
+                        string ByMonthValue = ByMonth(id, Date.Month).ToString();
+                        string ByYearValue = ByYear(id, Date.Year).ToString();
+
+                        if (formula.Contains(bymonth) || formula.Contains(byyear))
                         {
-                            return Content("expression error");
+                            formula = formula.Replace(bymonth, ByMonthValue).Replace(byyear, ByYearValue);
                         }
-                        CalculatedSalaryByUser calculated = new CalculatedSalaryByUser
+                        //Expression
+                        try
                         {
+                            NCalc.Expression e = new NCalc.Expression(formula);
+                            if (e.HasErrors())
+                            {
+                                return Content("expression error");
+                            }
+                            CalculatedSalaryByUser calculated = new CalculatedSalaryByUser
+                            {
 
-                            UserId = id,
-                            Salary = (double)e.Evaluate(),
-                            Date = Date
-                        };
+                                UserId = id,
+                                Salary = (double)e.Evaluate(),
+                                Date = Date
+                            };
 
-                        db.CalculatedSalaryByUsers.Add(calculated);
-                        db.SaveChanges();
+                            db.CalculatedSalaryByUsers.Add(calculated);
+                            db.SaveChanges();
 
+
+                        }
+                        catch (EvaluationException e)
+                        {
+                            return Content("catch");
+                        }
 
                     }
-                    catch (EvaluationException e)
-                    {
-                        return Content("catch");
-                    }
 
+                    return RedirectToAction("calculatedsalary");
                 }
-
-                return RedirectToAction("calculatedsalary");
             }
+            else if(all == true)
+            {
+                if (users != null)
+                {
+                    foreach (var userr in users)
+                    {
+                        if (CheckCalculatedUsers(Date.Month, Date.Year, userr.Id))
+                            return Content("bu user artiq maasi hesblanmisdi");
+                      
+                        //static keys
+                        string bymonth = db.ButtonsStatics.FirstOrDefault(f => f.Key == "{ayliqgelir}").Key;
+                        string byyear = db.ButtonsStatics.FirstOrDefault(f => f.Key == "{illikgelir}").Key;
+
+                        string formula = userr.CalcForum.Formula;
+                        if (ByMonth(userr.Id, Date.Month) == null)
+                            return Content("bu iscinin secilmis ay uzre hec bir satisi yoxdu");
+                        if (ByYear(userr.Id, Date.Year) == null)
+                            return Content("bu iscinin secilmis illik uzre hec bir satisi yoxdu");
+                        string ByMonthValue = ByMonth(userr.Id, Date.Month).ToString();
+                        string ByYearValue = ByYear(userr.Id, Date.Year).ToString();
+
+                        if (formula.Contains(bymonth) || formula.Contains(byyear))
+                        {
+                            formula = formula.Replace(bymonth, ByMonthValue).Replace(byyear, ByYearValue);
+                        }
+                        //Expression
+                        try
+                        {
+                            NCalc.Expression e = new NCalc.Expression(formula);
+                            if (e.HasErrors())
+                            {
+                                return Content("expression error");
+                            }
+                            CalculatedSalaryByUser calculated = new CalculatedSalaryByUser
+                            {
+
+                                UserId = userr.Id,
+                                Salary = (double)e.Evaluate(),
+                                Date = Date
+                            };
+
+                            db.CalculatedSalaryByUsers.Add(calculated);
+                            db.SaveChanges();
+
+
+                        }
+                        catch (EvaluationException e)
+                        {
+                            return Content("catch");
+                        }
+
+                    }
+
+                    return RedirectToAction("calculatedsalary");
+                }
+            }
+      
             return Content("500");
 
         }
@@ -138,9 +225,9 @@ namespace SalaryCalc.Controllers
 
             //Pagination list
             List<User> PaginateModel = db.Users.Where(w => w.CalculatedSalaryByUsers
-      .Where(x => x.Date.Month == currMonth && x.Date.Year == currYear)
-      .FirstOrDefault(a => a.UserId == w.Id) == null).OrderBy(a => a.Id)
-              .Skip(skip).Take(3).ToList().ToList();
+            .Where(x => x.Date.Month == currMonth && x.Date.Year == currYear)
+            .FirstOrDefault(a => a.UserId == w.Id) == null).OrderBy(a => a.Id)
+            .Skip(skip).Take(3).ToList().ToList();
             ViewBag.TotalPage = Math.Ceiling(model.Count() / 3.0);
             ViewBag.Page = page;
             ViewBag.CurrMonth = currMonth;
@@ -179,5 +266,6 @@ namespace SalaryCalc.Controllers
             }
             return false;
         }
+       
     }
 }

@@ -26,10 +26,11 @@
                         <div class="col-md-4">
                             <form id="myForm" method="post" action="@Url.Action("edit","positions")">
                                 @Html.AntiForgeryToken()
-                                <div class="form-row">
+                                <div class="form-group">
                                     <input type="hidden" name="Id" value="@Model.Id" id="Id" />
-                                    <label for="Name">Adı</label>
-                                    <input type="text" class="form-control" name="Name" value="@Model.Name" id="Name" placeholder="Adı">
+                                    <label class="control-label" for="Name">Adı</label>
+                                    <input type="text" autocomplete="off" class="form-control" name="Name" value="@Model.Name" id="Name" placeholder="Adı"
+                                           data-validation="required" data-validation-error-msg="Qeyd edin">
                                 </div>
 
                                 <button type="submit" class="btn btn-primary mt-4">Sign in</button>

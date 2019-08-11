@@ -15,7 +15,7 @@
                         <div class="card-header bg-white border-0">
                             <div class="row align-items-center">
 
-                                <div class="col-8">
+                                <div class="col-10">
                                     <h3 class="mb-0">Yarat</h3>
                                 </div>
                                 <div class="col-2 text-right">
@@ -23,72 +23,75 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="card-body">
+                            <div class="pl-lg-4">
+                                <form id="myForm" method="post" action="@Url.Action("edit","sales")">
+                                    @Html.AntiForgeryToken()
+                                    <div class="form-row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="Name"> Adı</label>
+                                                <input type="text" value="@Model.Name" required class="form-control" name="Name" id="Name" placeholder="Adı"
+                                                          data-validation="required" data-validation-error-msg="Qeyd edin">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="Price">Qiyməti</label>
+                                                <input type="text" value="@Model.Price" required class="form-control" name="Price" id="Price" placeholder="Qiyməti"
+                                                          data-validation="required" data-validation-error-msg="Qeyd edin">
+                                            </div>
+                                        </div>
 
-                        <form id="myForm" method="post" action="@Url.Action("edit","sales")">
-                            @Html.AntiForgeryToken()
-                            <div class="form-row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="Name"> Adı</label>
-                                        <input type="text" value="@Model.Name" required class="form-control" name="Name" id="Name" placeholder="Adı">
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="Price">Qiyməti</label>
-                                        <input type="text" value="@Model.Price" required class="form-control" name="Price" id="Price" placeholder="Qiyməti">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="Position">Işçilər</label>
-                                        <select class="form-control" required name="UserId">
-                                            <option value="">Secin</option>
-                                            @foreach (var item in ViewBag.User)
-                                            {
-                                                <option value="@item.Id" @(item.Id == Model.UserId ? "selected" : "")>@item.UserName</option>
-                                            }
+                                    
+                                    <div class="row mt-5">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="Position">Işçilər</label>
+                                                <select class="form-control" required name="UserId">
+                                                    <option value="">Secin</option>
+                                                    @foreach (var item in ViewBag.User)
+                                                    {
+                                                        <option value="@item.Id" @(item.Id == Model.UserId ? "selected" : "")>@item.UserName</option>
+                                                    }
 
-                                        </select>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="row mt-5">
-                                <div class="col-md-4">
-                                    <label for="Vip">Vip</label>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <input type="checkbox" name="Vip" value="true" @(Model.Vip == true ? "checked" : "") id="Vip" aria-label="Checkbox for following text input">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="Date">Tarix</label>
+                                                <input type="text"  class="form-control datepickerday" name="Date" value="@Model.Date.ToString("dd.MM.yyyy")" id="Date" data-provide="datepicker" placeholder="Tarix"
+                                                          data-validation="required" data-validation-error-msg="Qeyd edin">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="custom-control custom-checkbox mt-4">
+                                                <input class="custom-control-input" name="Vip" value="true"  id="Vip" type="checkbox" @(Model.Vip == true ? "checked" : "")>
                                                 <input type="hidden" value="false" name="Vip" />
+                                                <label class="custom-control-label" for="Vip">VIP</label>
                                             </div>
                                         </div>
-                                        <input type="text" class="form-control" disabled placeholder="Vip" aria-label="Text input with checkbox">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="DisCount">Endirim</label>
-                                    <div class="input-group mb-3">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <input type="checkbox" name="DisCount" value="true" @(Model.DisCount == true ? "checked" : "") id="DisCount" aria-label="Checkbox for following text input">
+                                        <div class="col-md-2">
+                                      
+                                            <div class="custom-control custom-checkbox mt-4">
+                                                <input class="custom-control-input" name="DisCount" value="true"  id="DisCount" type="checkbox" @(Model.DisCount == true ? "checked" : "")>
                                                 <input type="hidden" value="false" name="DisCount" />
+                                                <label class="custom-control-label" for="DisCount">Endirim</label>
                                             </div>
                                         </div>
-                                        <input type="text" class="form-control" disabled placeholder="Endirim" aria-label="Text input with checkbox">
+
                                     </div>
+                                    <button type="submit" class="btn btn-primary mt-4">Əlavə et</button>
+
+                                </form>
                                 </div>
-
                             </div>
-                            <button type="submit" class="btn btn-primary mt-4">Əlavə et</button>
-
-                        </form>
+                            </div>
+                        </div>
 
                     </div>
-                </div>
-
-            </div>
 
         </div>
     </div>

@@ -1,7 +1,14 @@
 ﻿$(document).ready(function () {
-
+    //validate inputs
+    $.validate({
+        modules: ' date, security, file'
+        //errorMessageClass:'text-danger',
+            //addValidClassOnAll : true
+        // showHelpOnFocus: false,
+        //addSuggestions: false
+    });
     //checkbox checked button enabled
-    $("#checkAll").click(function () {
+    $(document).on("click", "#checkAll", function (e) {
         $('input:checkbox').not(this).prop('checked', this.checked);
     });
     //calculate
@@ -62,7 +69,7 @@
     });
     //Pagenate a click
     $(document).on("click", ".pagclick", function (e) {
-
+        e.preventDefault();
         var page = $(this).data('page');
         $.ajax({
             url: "/Calculation/UsersForCalc/?currMonth=" + currMonth + "&currYear=" + currYear + "&page=" + page,
@@ -82,5 +89,26 @@
         var id = $(this).data("id");
         $(".positionId").val(id);
     });
-   
+    //take all pages data  on click(pagination)
+    $(document).on("click", "#all" , function (e) {
+        e.preventDefault();
+        if (!$('#allpages').val().length) {
+
+            $("#allpages").val("true");
+            $('.btn-default').removeClass('btn-default');
+            $(this).addClass('btn-primary');
+            $(this).text("Hamısı Seçildi (bütün səhifələr)");
+    } 
+    else {
+            $("#allpages").val("");
+            $('.btn-primary').removeClass('btn-primary');
+            $(this).addClass('btn-default');
+            $(this).text("Hamısını Seçin (bütün səhifələr)");
+
+        }
+     
+       
+      
+       
+    });
 });

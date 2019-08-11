@@ -2196,7 +2196,7 @@ textarea.form-control {
   border-radius: .2rem;
 }
 
-.was-validated .form-control:valid,
+/*.was-validated .form-control:valid,
 .form-control.is-valid,
 .was-validated .custom-select:valid,
 .custom-select.is-valid {
@@ -2282,7 +2282,7 @@ textarea.form-control {
 .was-validated .custom-file-input:valid:focus~.custom-file-label,
 .custom-file-input.is-valid:focus~.custom-file-label {
   box-shadow: 0 0 0 0 rgba(45, 206, 137, 0.25);
-}
+}*/
 
 .invalid-feedback {
   display: none;
@@ -15974,7 +15974,7 @@ textarea[resize="horizontal"] {
   background-color: #fcfdff;
 }
 
-.form-control-alternative {
+/*.form-control-alternative {
   box-shadow: 0 1px 3px rgba(50, 50, 93, 0.15), 0 1px 0 rgba(0, 0, 0, 0.02);
   border: 0;
   transition: box-shadow .15s ease;
@@ -15982,13 +15982,13 @@ textarea[resize="horizontal"] {
 
 .form-control-alternative:focus {
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
-}
+}*/
 
 .form-control-lg {
   font-size: 1rem;
 }
 
-.has-success,
+/*.has-success,
 .has-danger {
   position: relative;
 }
@@ -16008,9 +16008,9 @@ textarea[resize="horizontal"] {
   border-radius: 50%;
   font-size: 9px;
   opacity: 1;
-}
+}*/
 
-.has-success:after {
+/*.has-success:after {
   content: "\ea26";
   color: daken(#2dce89, 18%);
   background-color: #69deac;
@@ -16026,7 +16026,7 @@ textarea[resize="horizontal"] {
 
 .has-success .form-control::placeholder {
   color: #2dce89;
-}
+}*/
 
 .has-danger:after {
   content: "\ea53";

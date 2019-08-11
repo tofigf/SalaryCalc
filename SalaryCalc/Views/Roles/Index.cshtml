@@ -26,8 +26,8 @@
                                 <ul class="nav nav-tabs">
                                     @foreach (var m in Model.Postions)
                                     {
-                                        <li class="nav-item @(a == 1 ? "active" : "")">
-                                            <a class="nav-link" href="#tabnumber-@m.Id" data-toggle="tab">@m.Name</a>
+                                        <li class="nav-item" >
+                                            <a class="nav-link @(a == 1 ? "active" : "")" href="#tabnumber-@m.Id" data-toggle="tab">@m.Name</a>
                                         </li>
                                         a++;
                                     }
@@ -36,43 +36,40 @@
                                 <div class="tab-content">
                                     @foreach (var m in Model.Postions)
                                     {
-                                        <div id="tabnumber-@m.Id" class="tab-pane @(b == 1 ? "active" : "")">
+                                        <div id="tabnumber-@m.Id" class="tab-pane @(b == 1 ? "active" : "") ">
 
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <table class="table table-bordered table-striped mb-0" id="datatable-default">
                                                         <thead>
                                                             <tr>
-
                                                                 <th>@m.Name - Bütün əməliyyatlar üzrə icazələr</th>
                                                                 <th></th>
-
-
-
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <form method="post" action="@Url.Action("Create","Roles", new { Area="" , id=m.Id })">
+                                                            <form method="post" action="@Url.Action("Create","Roles", new {id=m.Id })">
                                                                 @foreach (var role in Model.Roles)
                                                                 {
-                                                                    <tr>
-                                                                        <td>@role.Name</td>
-                                                                        @if (Model.UserRoles.Where(t => t.PostionId == m.Id).Any(w => w.RoleId == role.Id))
-                                                                        {
-                                                                            <td>
-                                                                                <input type="checkbox" class="role-checkboxx checked" checked value="@role.Id" style="display: block!important;" />
-                                                                                <input type="hidden" class="role-inputt" name="Roles[]" value="@role.Id" />
-                                                                            </td>
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <td>
-                                                                                <input type="checkbox" class="role-checkboxx" value="@role.Id" style="display: block!important;" />
-                                                                                <input type="hidden" class="role-inputt" value="@role.Id" />
-                                                                            </td>
-                                                                        }
+                                                                <tr>
+                                                                    <td>@role.Name</td>
 
-                                                                    </tr>
+                                                                    @if (Model.UserRoles.Where(t => t.PostionId == m.Id).Any(w => w.RoleId == role.Id))
+                                                                    {
+                                                                        <td>
+                                                                            <input type="checkbox" class="role-checkboxx checked" checked value="@role.Id" style="display: block!important;" />
+                                                                            <input type="hidden" class="role-inputt" name="Roles[]" value="@role.Id" />
+                                                                        </td>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td>
+                                                                            <input type="checkbox" class="role-checkboxx" value="@role.Id" style="display: block!important;" />
+                                                                            <input type="hidden" class="role-inputt" value="@role.Id" />
+                                                                        </td>
+                                                                    }
+
+                                                                </tr>
                                                                 }
                                                                 <tr>
                                                                     <td></td>
@@ -81,11 +78,11 @@
                                                             </form>
                                                         </tbody>
 
-
                                                     </table>
                                                 </div>
                                             </div>
                                         </div>
+
                                         b++;
                                     }
 
