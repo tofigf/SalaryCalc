@@ -1,0 +1,83 @@
+﻿@using SalaryCalc.Dtos
+@model List<SalesGroupFileDto>
+
+@{
+    ViewBag.Title = "GetImport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8 mb-4">
+    <div class="container-fluid">
+        @if (Session["uploadError"] != null)
+        {
+            <div class="alert alert-danger text-center">
+                @Session["uploadError"]
+            </div>
+
+            Session["uploadError"] = null;
+        }
+        @if (Session["uploadSucces"] != null)
+        {
+            <div class="alert alert-success text-center">
+                @Session["uploadSucces"]
+            </div>
+
+            Session["uploadSucces"] = null;
+        }
+        <div class="header-body">
+            <div class="row">
+                <div class="col">
+                    <div class="card shadow">
+                        <div class="card-header border-0">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h3>Import Edilmiş Satışlar</h3>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <a href="@Url.Action("import","sales")" class="btn btn-sm btn-success"><i class="ni ni-fat-add"></i>Satış Yarat</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="display table align-items-center table-flush" id="datatable" style="width:100%">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Məhsulun Adı</th>
+                                        <th scope="col">Məhsulun Qiyməti</th>
+                                        <th scope="col">Məhsulun Sayı</th>
+                                        <th scope="col">İşçinin Adı</th>
+                                        <th scope="col">İşçinin Email</th>
+                                        <th scope="col">İşçinin Telefon</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @{int i = 1;}
+
+                                    @foreach (var item in Model)
+                                    {
+                                    <tr>
+                                        <th scope="row">@i</th>
+                                        <td>@item.ProductName</td>
+                                        <td>@item.TotalPrice</td>
+                                        <td>@item.TotalCount</td>
+                                        <td>@item.UserName</td>
+                                        <td>@item.UserEmail</td>
+                                        <td>@item.UserPhone</td>
+                                    </tr>
+
+                                        i++;
+                                    }
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+

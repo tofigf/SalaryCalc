@@ -16,8 +16,11 @@ namespace SalaryCalc.Models
         public string Name { get; set; }
         public bool Vip { get; set; }
         public bool DisCount { get; set; }
+        public int Count { get; set; }
         public int UserId { get; set; }
         public DateTime Date { get; set; }
+        [MaxLength(250)]
+        public string FileUrl { get; set; }
 
         public virtual User User { get; set; }
     }

@@ -2,10 +2,42 @@
     //validate inputs
     $.validate({
         modules: ' date, security, file'
-        //errorMessageClass:'text-danger',
-            //addValidClassOnAll : true
-        // showHelpOnFocus: false,
-        //addSuggestions: false
+        
+    });
+    //Datatable
+    $('#datatable').DataTable({
+        "responsive": true,
+        "paging": true,
+        "ordering": true,
+        "lenghmenu": [20],
+        "pageLength": 10,
+        dom: '<"dt-buttons"Bf><"clear">lirtp',
+
+        buttons: [
+            'copy', 'excel', 'pdf', 'print'
+        ],
+
+        language: {
+            'paginate': {
+                'previous': '<span class="prev-icon"></span>',
+                'next': '<span class="next-icon"></span>'
+            }
+        },
+        oLanguage: {
+            "oPaginate": {
+                "sFirst": "", // This is the link to the first page
+                "sPrevious": " Əvvəlki ", // This is the link to the previous page
+                "sNext": " Növbəti ", // This is the link to the next page
+                "sLast": "" // This is the link to the last page
+            },
+            "sLengthMenu": "Hər səhifədə _MENU_  nəticə",
+            "sZeroRecords": "Heçbir nəticə yoxdur",
+            "sInfo": " _START_ dan _END_ of _TOTAL_ qədər nəticə",
+            "sSearch": "Axtar:",
+            "sInfoFiltered": "(filtered from _MAX_ total records)"
+
+        }
+
     });
     //checkbox checked button enabled
     $(document).on("click", "#checkAll", function (e) {
@@ -111,4 +143,5 @@
       
        
     });
+  
 });

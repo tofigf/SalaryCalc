@@ -24,6 +24,9 @@
     <link href="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/theme-default.min.css"
           rel="stylesheet" type="text/css" />
     <link href="~/Public/assets/css/argon-dashboard.css?v=1.1.0" rel="stylesheet" />
+    <link href="~/Public/assets/css/datatable/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Public/assets/css/datatable/css/buttons.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Public/assets/css/custom.css" rel="stylesheet" />
 
 </head>
 
@@ -94,15 +97,28 @@
                     }
                 </ul>
             </div>
-                
-            </div>
-</nav>
-    <div class="main-content">
-  
 
+        </div>
+    </nav>
+    <div class="main-content">
+        <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+            <div class="container-fluid">
+                <!-- Brand -->
+                <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="./index.html"></a>
+                <!-- Form -->
+
+                <a href="@Url.Action("logout","login")" style="color:white">
+                    <i class="ni ni-user-run"></i>
+                    <span>Çıxış</span>
+                </a>
+
+                <!-- User -->
+
+            </div>
+        </nav>
         @RenderBody()
     </div>
-    
+
     <script src="~/Public/assets/js/plugins/jquery/dist/jquery.min.js"></script>
     <script src="~/Public/assets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/Public/assets/js/plugins/chart.js/dist/Chart.min.js"></script>
@@ -110,7 +126,17 @@
     <script src="~/Public/assets/js/argon-dashboard.min.js?v=1.1.0"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
     <script src="~/Public/assets/js/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-    <script src="~/Public/assets/js/Costumer.js"></script>
+
+
+    <script src="~/Public/assets/js/datatable/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="~/Public/assets/js/datatable/js/dataTables.buttons.min.js" type="text/javascript"></script>
+    <script src="~/Public/assets/js/datatable/js/jszip.min.js" type="text/javascript"></script>
+    <script src="~/Public/assets/js/datatable/js/pdfmake.min.js" type="text/javascript"></script>
+    <script src="~/Public/assets/js/datatable/js/vfs_fonts.js" type="text/javascript"></script>
+    <script src="~/Public/assets/js/datatable/js/buttons.html5.min.js" type="text/javascript"></script>
+    <script src="~/Public/assets/js/datatable/js/buttons.print.min.js" type="text/javascript"></script>
+    <script src="~/Public/assets/js/datatable/js/buttons.bootstrap4.min.js" type="text/javascript"></script>
+    <script src="~/Public/assets/js/Costumer.js" type="text/javascript"></script>
 
 </body>
 

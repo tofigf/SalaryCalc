@@ -28,7 +28,6 @@ namespace SalaryCalc.Controllers
             if (user.Email == null || user.Password == null)
             {
                 Session["LoginError"] = "Boşluq buraxmayın";
-                //return RedirectToAction("index");
                 return Content("bosluq");
             }
             User loginned = db.Users.FirstOrDefault(u => u.Email.ToLower() == user.Email.ToLower());
@@ -46,8 +45,14 @@ namespace SalaryCalc.Controllers
             }
             Session["LoginError"] = "E-poçt və ya şifrə səhvdir";
 
-            return Content("sehvdir");
-            //return RedirectToAction("index");
+            return RedirectToAction("index");
+        }
+
+        public ActionResult Logout()
+        {
+            Session["LoggedUser"] = null;
+            Session["UserId"] = null;
+            return RedirectToAction("index");
         }
 
     }

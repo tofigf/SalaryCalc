@@ -161,6 +161,7 @@
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Dal\DataContext.cs" />
     <Compile Include="Dtos\RoleIdsDto.cs" />
+    <Compile Include="Dtos\SalesGroupFileDto.cs" />
     <Compile Include="Filters\FilterContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -222,6 +223,14 @@
     <Compile Include="Migrations\201908111813102_User_Phone.Designer.cs">
       <DependentUpon>201908111813102_User_Phone.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908112058388_Sale_FileUrl.cs" />
+    <Compile Include="Migrations\201908112058388_Sale_FileUrl.Designer.cs">
+      <DependentUpon>201908112058388_Sale_FileUrl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908121311549_SaleCount.cs" />
+    <Compile Include="Migrations\201908121311549_SaleCount.Designer.cs">
+      <DependentUpon>201908121311549_SaleCount.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ButtonsStatic.cs" />
     <Compile Include="Models\CalcForum.cs" />
@@ -240,6 +249,12 @@
     <Content Include="Global.asax" />
     <Content Include="Public\assets\css\argon-dashboard.css" />
     <Content Include="Public\assets\css\argon-dashboard.min.css" />
+    <Content Include="Public\assets\css\custom.css" />
+    <Content Include="Public\assets\css\datatable\css\buttons.bootstrap4.min.css" />
+    <Content Include="Public\assets\css\datatable\css\buttons.dataTables.min.css" />
+    <Content Include="Public\assets\css\datatable\css\dataTables.bootstrap4.min.css" />
+    <Content Include="Public\assets\css\datatable\css\jquery.dataTables.min.css" />
+    <Content Include="Public\assets\css\datatable\css\responsive.dataTables.min.css" />
     <Content Include="Public\assets\demo\demo.css" />
     <Content Include="Public\assets\demo\demo.js" />
     <Content Include="Public\assets\img\brand\blue.png" />
@@ -261,6 +276,15 @@
     <Content Include="Public\assets\js\argon-dashboard.min.js" />
     <Content Include="Public\assets\js\argon.min.js" />
     <Content Include="Public\assets\js\Costumer.js" />
+    <Content Include="Public\assets\js\datatable\js\buttons.bootstrap4.min.js" />
+    <Content Include="Public\assets\js\datatable\js\buttons.html5.min.js" />
+    <Content Include="Public\assets\js\datatable\js\buttons.print.min.js" />
+    <Content Include="Public\assets\js\datatable\js\dataTables.bootstrap4.min.js" />
+    <Content Include="Public\assets\js\datatable\js\dataTables.buttons.min.js" />
+    <Content Include="Public\assets\js\datatable\js\jquery.dataTables.min.js" />
+    <Content Include="Public\assets\js\datatable\js\jszip.min.js" />
+    <Content Include="Public\assets\js\datatable\js\pdfmake.min.js" />
+    <Content Include="Public\assets\js\datatable\js\vfs_fonts.js" />
     <Content Include="Public\assets\js\plugins\fortawesome\fontawesome-free\css\all.min.css" />
     <Content Include="Public\assets\js\plugins\fortawesome\fontawesome-free\css\brands.min.css" />
     <Content Include="Public\assets\js\plugins\fortawesome\fontawesome-free\css\fontawesome.min.css" />
@@ -2180,9 +2204,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Uploads\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Files\Sample.xlsx" />
     <None Include="packages.config" />
     <Content Include="Views\Positions\Index.cshtml" />
     <Content Include="Views\Positions\Edit.cshtml" />
@@ -2199,6 +2225,8 @@
     <Content Include="Views\Calculation\CalculatedSalary.cshtml" />
     <Content Include="Views\Shared\_UsersForCalcPartial.cshtml" />
     <Content Include="Views\Calculation\EditCalcMethod.cshtml" />
+    <Content Include="Views\Sales\GetImport.cshtml" />
+    <Content Include="Views\Sales\Import.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201908051303471_InitialCreate.resx">
@@ -2242,6 +2270,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908111813102_User_Phone.resx">
       <DependentUpon>201908111813102_User_Phone.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908112058388_Sale_FileUrl.resx">
+      <DependentUpon>201908112058388_Sale_FileUrl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908121311549_SaleCount.resx">
+      <DependentUpon>201908121311549_SaleCount.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

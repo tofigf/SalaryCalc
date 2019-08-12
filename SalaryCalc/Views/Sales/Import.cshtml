@@ -1,0 +1,83 @@
+﻿@using SalaryCalc.Models
+@model List<User>
+
+@{
+    ViewBag.Title = "Import";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8 mb-4">
+        <div class="container-fluid">
+            <div class="header-body">
+                <!-- Card stats -->
+                <div class="row">
+                    <div class="col-xl-12 order-xl-1">
+                        <div class="card bg-secondary shadow">
+                            <div class="card-header bg-white border-0">
+                                <div class="row align-items-center">
+
+                                    <div class="col-10">
+                                        <a href="@Url.Action("downloadsample","sales")" class="btn btn-sm btn-primary"><i class="ni ni-fat-add"></i>Nümunə Yükləmək</a>
+                                    </div>
+                                    <div class="col-2 text-right">
+                                        <a href="@Url.Action("index","sales")" class="btn btn-sm btn-primary toback"><i class="ni ni-bold-left"></i>Geri Qayıt</a>
+                                    </div>
+                                </div>
+                                <small id="emailHelp" class="form-text text-muted ml-3">Satış Məlumatları Nümunəyə Əsasən Hazırlanmalıdı</small>
+                            </div>
+                            <div class="card-body">
+                                <div class="pl-lg-4">
+                                    <form action="@Url.Action("import","sales")" method="post" enctype="multipart/form-data">
+                                        @Html.AntiForgeryToken()
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="Position">Vəzifə</label>
+                                                    <select class="form-control" required name="UserId">
+                                                        <option value="">Secin</option>
+                                                        @foreach (var item in Model)
+                                                        {
+                                                            <option value="@item.Id">@item.UserName</option>
+                                                        }
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="Name">Yüklə</label>
+
+                                                    <input type="file" name="File" class="form-control"
+                                                           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                                                           data-validation="length mime size"
+                                                           data-validation-length="min1"
+                                                           data-validation-allowing="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                                                           data-validation-max-size="1M"
+                                                           data-validation-error-msg-size="Siz 1MG aşağı olan fayl yükləməlisiniz"
+                                                           data-validation-error-msg-mime="Siz ancaq excel növlü fayl yükləyə bilərsiniz"
+                                                           data-validation-error-msg-length="Yükləmək Vacibdir"
+                                                           id="exampleInputFile" aria-describedby="fileHelp">
+
+                                                </div>
+                                            </div>
+                                           
+                                        </div>
+
+                                        <div class="row mt-2 mb-3">
+                                            <div class="col-md-2 offset-10 float-right">
+                                                <button class="btn btn-success" type="submit">Yadda Saxla</button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+            </div>
+        </div>
+    </div>
+

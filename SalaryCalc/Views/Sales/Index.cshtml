@@ -7,6 +7,14 @@
 
     <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8 mb-4">
         <div class="container-fluid">
+            @if (Session["Error"] != null)
+            {
+                <div class="alert alert-danger text-center">
+                    @Session["Error"]
+                </div>
+
+                Session["Error"] = null;
+            }
             <div class="header-body">
                 <div class="row">
                     <div class="col">
@@ -14,8 +22,11 @@
                             <div class="card-header border-0">
                                 <div class="row align-items-center">
                                     <div class="col-8">
-                                        <h3 class="mb-0">İstifadəçi</h3>
+                                        <a href="@Url.Action("getimport","sales")" class="btn btn-sm btn-primary"><i class="ni ni-fat-add"></i>Satış Import et</a>
+                                        <small id="emailHelp" class="form-text text-muted ml-3">Excel Formatında İmport Etmək</small>
                                     </div>
+
+
                                     <div class="col-4 text-right">
                                         <a href="@Url.Action("create","sales")" class="btn btn-sm btn-success"><i class="ni ni-fat-add"></i>Satış Yarat</a>
                                     </div>
@@ -61,10 +72,10 @@
                                 </table>
 
                             </div>
-                            </div>
                         </div>
                     </div>
                 </div>
-                        </div>
+            </div>
+        </div>
                     </div>
 

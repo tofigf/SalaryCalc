@@ -8,6 +8,14 @@
 
     <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8 mb-4">
         <div class="container-fluid">
+            @if (Session["Error"] != null)
+            {
+                <div class="alert alert-danger text-center">
+                    @Session["Error"]
+                </div>
+
+                Session["Error"] = null;
+            }
             <div class="header-body">
                 <div class="row">
                     <div class="col">
@@ -25,7 +33,7 @@
                             <div class="table-responsive">
                                 <table class="table align-items-center table-flush">
                                     <thead class="thead-light">
-                                   
+
                                         <tr>
                                             <th scope="col">#</th>
                                             <th scope="col">Adı</th>
@@ -37,16 +45,16 @@
                                         @{int i = 1;}
                                         @foreach (var item in Model)
                                         {
-                                        <tr>
-                                            <th scope="row">@i</th>
-                                            <td>@item.Name</td>
-                                            <td>@item.Formula</td>
-                                            <td class="text-right">
-                                                <a href="@Url.Action("editcalcmethod","calculation" , new { id = item.Id})" class="btn btn-sm btn-primary">Dəyiş</a>
-                                                <a onclick="return confirm('Əminsinizmi?');" href="@Url.Action("Delete","calculation" , new {id = item.Id})" class="btn btn-sm btn-danger ml-2">Sil</a>
+                                            <tr>
+                                                <th scope="row">@i</th>
+                                                <td>@item.Name</td>
+                                                <td>@item.Formula</td>
+                                                <td class="text-right">
+                                                    <a href="@Url.Action("editcalcmethod","calculation" , new { id = item.Id})" class="btn btn-sm btn-primary">Dəyiş</a>
+                                                    <a onclick="return confirm('Əminsinizmi?');" href="@Url.Action("Delete","calculation" , new {id = item.Id})" class="btn btn-sm btn-danger ml-2">Sil</a>
 
-                                            </td>
-                                        </tr>
+                                                </td>
+                                            </tr>
                                             i++;
                                         }
 
@@ -54,8 +62,8 @@
                                 </table>
                             </div>
                         </div>
-                        </div>
                     </div>
                 </div>
             </div>
+        </div>
     </div>

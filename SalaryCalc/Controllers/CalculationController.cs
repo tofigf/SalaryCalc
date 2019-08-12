@@ -37,9 +37,12 @@ namespace SalaryCalc.Controllers
         [HttpPost]
         public ActionResult CalcMethod(CalcForum forum)
         {
-           
+
             if (!ModelState.IsValid)
-                return Content("required");
+            {
+                Session["Error"] = "Bütün xanaları doldurun";
+                return RedirectToAction("index");
+            }
 
             forum.Date = DateTime.Now;
             db.CalcForums.Add(forum);
@@ -72,6 +75,7 @@ namespace SalaryCalc.Controllers
                 db.SaveChanges();
                 return RedirectToAction("index");
             }
+            Session["Error"] = "Bütün xanaları doldurun";
             return RedirectToAction("index");
         }
 
@@ -100,7 +104,11 @@ namespace SalaryCalc.Controllers
                     foreach (var id in usersId)
                     {
                         if (CheckCalculatedUsers(Date.Month, Date.Year, id))
-                            return Content("bu user artiq maasi hesblanmisdi");
+                        {
+                            Session["Error"] = "İstifadəçinin maaşı Hesablanmışdı";
+                            return RedirectToAction("calculatesalary");
+                        }
+                        
                         User findedUser = db.Users.Find(id);
                         if (findedUser == null)
                             return Content("user empty");
@@ -111,9 +119,15 @@ namespace SalaryCalc.Controllers
 
                         string formula = findedUser.CalcForum.Formula;
                         if (ByMonth(id, Date.Month) == null)
-                            return Content("bu iscinin secilmis ay uzre hec bir satisi yoxdu");
+                        {
+                            Session["Error"] = "İşçinin seçilmiş ay üzrə heç bir satışı yoxdu";
+                            return RedirectToAction("calculatesalary");
+                        }
                         if (ByYear(id, Date.Year) == null)
-                            return Content("bu iscinin secilmis illik uzre hec bir satisi yoxdu");
+                        {
+                            Session["Error"] = "İşçinin seçilmiş il üzrə heç bir satışı yoxdu";
+                            return RedirectToAction("calculatesalary");
+                        }
                         string ByMonthValue = ByMonth(id, Date.Month).ToString();
                         string ByYearValue = ByYear(id, Date.Year).ToString();
 
@@ -127,7 +141,10 @@ namespace SalaryCalc.Controllers
                             NCalc.Expression e = new NCalc.Expression(formula);
                             if (e.HasErrors())
                             {
-                                return Content("expression error");
+                                {
+                                    Session["Error"] = "Düstürda düzgün olmayan simvol var. Xəta!";
+                                    return RedirectToAction("calculatesalary");
+                                }
                             }
                             CalculatedSalaryByUser calculated = new CalculatedSalaryByUser
                             {
@@ -144,7 +161,7 @@ namespace SalaryCalc.Controllers
                         }
                         catch (EvaluationException e)
                         {
-                            return Content("catch");
+                           
                         }
 
                     }
@@ -152,24 +169,33 @@ namespace SalaryCalc.Controllers
                     return RedirectToAction("calculatedsalary");
                 }
             }
-            else if(all == true)
+            else if (all == true)
             {
                 if (users != null)
                 {
                     foreach (var userr in users)
                     {
                         if (CheckCalculatedUsers(Date.Month, Date.Year, userr.Id))
-                            return Content("bu user artiq maasi hesblanmisdi");
-                      
+                        {
+                            Session["Error"] = "İstifadəçinin maaşı Hesablanmışdı";
+                            return RedirectToAction("calculatesalary");
+                        }
+
                         //static keys
                         string bymonth = db.ButtonsStatics.FirstOrDefault(f => f.Key == "{ayliqgelir}").Key;
                         string byyear = db.ButtonsStatics.FirstOrDefault(f => f.Key == "{illikgelir}").Key;
 
                         string formula = userr.CalcForum.Formula;
                         if (ByMonth(userr.Id, Date.Month) == null)
-                            return Content("bu iscinin secilmis ay uzre hec bir satisi yoxdu");
+                        {
+                            Session["Error"] = "İşçinin seçilmiş ay üzrə heç bir satışı yoxdu";
+                            return RedirectToAction("calculatesalary");
+                        }
                         if (ByYear(userr.Id, Date.Year) == null)
-                            return Content("bu iscinin secilmis illik uzre hec bir satisi yoxdu");
+                        {
+                            Session["Error"] = "İşçinin seçilmiş il üzrə heç bir satışı yoxdu";
+                            return RedirectToAction("calculatesalary");
+                        }
                         string ByMonthValue = ByMonth(userr.Id, Date.Month).ToString();
                         string ByYearValue = ByYear(userr.Id, Date.Year).ToString();
 
@@ -183,7 +209,8 @@ namespace SalaryCalc.Controllers
                             NCalc.Expression e = new NCalc.Expression(formula);
                             if (e.HasErrors())
                             {
-                                return Content("expression error");
+                                Session["Error"] = "Düstürda düzgün olmayan simvol var. Xəta!";
+                                return RedirectToAction("calculatesalary");
                             }
                             CalculatedSalaryByUser calculated = new CalculatedSalaryByUser
                             {
@@ -200,7 +227,7 @@ namespace SalaryCalc.Controllers
                         }
                         catch (EvaluationException e)
                         {
-                            return Content("catch");
+                           
                         }
 
                     }
@@ -208,8 +235,9 @@ namespace SalaryCalc.Controllers
                     return RedirectToAction("calculatedsalary");
                 }
             }
-      
-            return Content("500");
+
+            Session["Error"] = "Xəta!";
+            return RedirectToAction("calculatesalary");
 
         }
 

@@ -1,0 +1,13 @@
+﻿
+#datatable {
+  
+    padding-bottom: 10px;
+}
+#datatable_length {
+    position: absolute!important;
+    left: 78%!important;
+}
+#datatable_filter {
+    position: absolute !important;
+    left: 144% !important;
+}

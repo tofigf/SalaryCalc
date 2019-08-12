@@ -28,7 +28,10 @@ namespace SalaryCalc.Controllers
         public ActionResult Create(Postion postion)
         {
             if (!ModelState.IsValid)
-                return Content("required");
+            {
+                Session["Error"] = "Bütün xanaları doldurun";
+                return RedirectToAction("index");
+            }
             if (postion == null)
                 return RedirectToAction("index");
 
@@ -56,6 +59,11 @@ namespace SalaryCalc.Controllers
         [HttpPost]
         public ActionResult Edit(Postion postion)
         {
+            if(postion == null)
+            {
+                Session["Error"] = "Bütün xanaları doldurun";
+                return RedirectToAction("index");
+            }
             db.Entry(postion).State = EntityState.Modified;
             db.Entry(postion).Property(o => o.Status).IsModified = false;
 

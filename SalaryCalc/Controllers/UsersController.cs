@@ -36,9 +36,17 @@ namespace SalaryCalc.Controllers
         public ActionResult Create(User user)
         {
             if (!ModelState.IsValid)
-                return Content("required");
-            if (user == null)
+            {
+                Session["Error"] = "Bütün xanaları doldurun";
                 return RedirectToAction("index");
+            }
+   
+            if (user == null)
+            {
+                Session["Error"] = "Bütün xanaları doldurun";
+                return RedirectToAction("index");
+            }
+     
             user.Password = Crypto.HashPassword(user.Password);
             db.Users.Add(user);
             db.SaveChanges();
@@ -50,7 +58,10 @@ namespace SalaryCalc.Controllers
         public ActionResult Edit(int? id)
         {
             if (!ModelState.IsValid)
-                return Content("required");
+            {
+                Session["Error"] = "Bütün xanaları doldurun";
+                return RedirectToAction("index");
+            }
             if (id == null)
                 return HttpNotFound();
 

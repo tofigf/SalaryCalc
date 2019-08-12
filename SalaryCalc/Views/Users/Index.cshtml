@@ -8,6 +8,14 @@
 
 <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8 mb-4">
     <div class="container-fluid">
+        @if (Session["Error"] != null)
+        {
+            <div class="alert alert-danger text-center">
+                @Session["Error"]
+            </div>
+
+            Session["Error"] = null;
+        }
         <div class="header-body">
             <div class="row">
                 <div class="col">
@@ -47,7 +55,7 @@
                                             <td>@item.FullName</td>
                                             <td>@item.Email</td>
                                             <td>@item.Postion.Name</td>
-                                           <td>@item.CalcForum.Name</td>
+                                            <td>@item.CalcForum.Name</td>
                                             <td>
                                                 <a href="@Url.Action("edit","users",new { id = item.Id })" class="btn btn-sm btn-primary">Dəyiş</a>
                                                 <a onclick="return confirm('Əminsinizmi?')" href="@Url.Action("delete","users",new { id = item.Id })" class="btn btn-sm btn-danger ml-2">Sil</a>
@@ -65,7 +73,7 @@
                         </div>
                     </div>
                 </div>
-                </div>
             </div>
         </div>
+    </div>
     </div>
