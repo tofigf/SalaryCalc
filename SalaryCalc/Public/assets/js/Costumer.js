@@ -4,41 +4,7 @@
         modules: ' date, security, file'
         
     });
-    //Datatable
-    $('#datatable').DataTable({
-        "responsive": true,
-        "paging": true,
-        "ordering": true,
-        "lenghmenu": [20],
-        "pageLength": 10,
-        dom: '<"dt-buttons"Bf><"clear">lirtp',
-
-        buttons: [
-            'copy', 'excel', 'pdf', 'print'
-        ],
-
-        language: {
-            'paginate': {
-                'previous': '<span class="prev-icon"></span>',
-                'next': '<span class="next-icon"></span>'
-            }
-        },
-        oLanguage: {
-            "oPaginate": {
-                "sFirst": "", // This is the link to the first page
-                "sPrevious": " Əvvəlki ", // This is the link to the previous page
-                "sNext": " Növbəti ", // This is the link to the next page
-                "sLast": "" // This is the link to the last page
-            },
-            "sLengthMenu": "Hər səhifədə _MENU_  nəticə",
-            "sZeroRecords": "Heçbir nəticə yoxdur",
-            "sInfo": " _START_ dan _END_ of _TOTAL_ qədər nəticə",
-            "sSearch": "Axtar:",
-            "sInfoFiltered": "(filtered from _MAX_ total records)"
-
-        }
-
-    });
+    
     //checkbox checked button enabled
     $(document).on("click", "#checkAll", function (e) {
         $('input:checkbox').not(this).prop('checked', this.checked);
@@ -99,7 +65,7 @@
         });
         
     });
-    //Pagenate a click
+    //Paginate a click
     $(document).on("click", ".pagclick", function (e) {
         e.preventDefault();
         var page = $(this).data('page');
@@ -142,6 +108,56 @@
        
       
        
+    });
+    //Bootstrap Tooltip
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+    $('input:checkbox').change(function () {
+        if ($(this).is(":checked")) {
+            $('.active_for_confirm').removeClass("disabled");
+        } else {
+            $('.active_for_confirm').addClass("disabled");
+        }
+    });
+    //Confirm :checked ids
+    $('#confirm').click(function (e) {
+        var url = $(this).data('url');
+        console.log(url);
+        var ids = [];
+        var flag = false;
+        $("#confirmTable tbody tr .confirmchecked:checked").each(function (e) {
+            ids.push($(this).data("id"));
+        });
+        $.ajax({
+            url: url,
+            type: 'Post',
+            data: { ids: ids },
+            dataType: "json",
+            success: function (response) {
+
+                if (response.status === 200 && response.isRedirect)
+                {
+                    if (!flag) {
+                        
+                        flag = true;
+                        toastr.success("Təsdiq Olundu");
+                    }
+                   
+                    window.location.href = response.redirectUrl;
+                } else if (response.status === 409)
+                {
+                    if (!flag) {
+                        flag = true;
+                        toastr.error("Satış Seçilməyib");
+                    }
+                }
+            },
+            error: function ()
+            {
+                toastr.warning("Bir xəta yarandı");
+            }
+        });
     });
   
 });

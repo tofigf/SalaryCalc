@@ -28,44 +28,62 @@
 
 
                                     <div class="col-4 text-right">
+                                        <a href="javascript:void(0)"
+                                           class="btn btn-sm btn-default" id="confirm" data-url="@Url.Action("confirmsales","sales")">
+                                        <i class="ni ni-fat-add">
+                                                 </i>Təsdiqlə</a>
                                         <a href="@Url.Action("create","sales")" class="btn btn-sm btn-success"><i class="ni ni-fat-add"></i>Satış Yarat</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="table-responsive">
-                                <table class="table align-items-center table-flush">
+                                <table class="table align-items-center table-flush" id="confirmTable">
                                     <thead class="thead-light">
                                         <tr>
-                                            <th scope="col">#</th>
+                                            <th scope="col">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input class="custom-control-input" id="checkAll" type="checkbox">
+                                                    <label class="custom-control-label" for="checkAll">Hamsı</label>
+                                                </div>
+                                            </th>
                                             <th scope="col">İşçinin Adı</th>
                                             <th scope="col">Məhsul</th>
+                                            <th scope="col">Tarix</th>
                                             <th scope="col">Qiymət</th>
-                                            <th scope="col">Vip</th>
-                                            <th scope="col">Endirim</th>
+                                            <th scope="col"></th>
                                             <th scope="col">Tənzimləmə</th>
                                         </tr>
                                     </thead>
                                     <tbody>
 
-                                        @{int i = 1;}
 
                                         @foreach (var item in Model)
                                         {
-                                            <tr>
-                                                <th scope="row">@i</th>
-                                                <td>@item.User.UserName</td>
-                                                <td>@item.Name</td>
-                                                <td>@item.Price</td>
-                                                <td>@(item.Vip == true ? "Vip" : "Vip deyil")</td>
-                                                <td>@(item.DisCount == true ? "Endirim var" : "Endirim yoxdu")</td>
-                                                <td>
-                                                    <a href="@Url.Action("edit","sales",new { id = item.Id })" class="btn btn-sm btn-primary">Dəyiş</a>
-                                                    <a onclick="return confirm('Əminsinizmi?')" href="@Url.Action("delete","sales",new { id = item.Id })" class="btn btn-sm btn-danger ml-2">Sil</a>
-                                                </td>
+                                        <tr>
+                                            <td scope="row">
+                                             <div class="custom-control custom-checkbox">
+                                                    <input class="custom-control-input confirmchecked" id="check-@item.Id" type="checkbox"  data-id="@item.Id">
+                                                    <label class="custom-control-label" for="check-@item.Id"></label>
+                                                </div></td>
+                                            <td>@item.User.UserName</td>
+                                            <td>@item.Name</td>
+                                            <td>@item.Date.ToString("dd.MM.yyyy")</td>
+                                            <td>@item.Price.ToString("#.00")</td>
+                                            <td>
+                                                <a href="javascript:void(0)" class="tooltip-primary btn btn-sm btn-@(item.IsComfirmed ==true ?"success":"danger")"
+                                                   data-toggle="tooltip" data-placement="left" title="@(item.IsComfirmed ==true ?"ləğv et":"təsdiqlə")"
+                                                   data-type="primary">
+                                                    @(item.IsComfirmed == true ? "təsdiqlənib" : "təsdiqlənməyib")
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("edit","sales",new { id = item.Id })" class="btn btn-sm btn-primary">Dəyiş</a>
+                                                <a onclick="return confirm('Əminsinizmi?')" href="@Url.Action("delete","sales",new { id = item.Id })" class="btn btn-sm btn-danger ml-2">Sil</a>
+                                                <a href="@Url.Action("details","sales",new { id = item.Id })" class="btn btn-sm btn-primary">Ətraflı</a>
+                                            </td>
 
-                                            </tr>
-
-                                            i++;
+                                        </tr>
+                                     
                                         }
 
                                     </tbody>

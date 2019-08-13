@@ -96,45 +96,49 @@ namespace SalaryCalc.Controllers
         [HttpGet]
         public ActionResult GetImport()
         {
-            List<SalesGroupFileDto> groupFileDtos = new List<SalesGroupFileDto>();
-            var sales = db.Sales
-                .Where(w => w.FileUrl != null)
-                .OrderByDescending(d =>d.Id)
-                .GroupBy(g => g.UserId)
-                .Select(s => new {
-
-                userId = s.Key,
-                userName = s.FirstOrDefault().User.UserName,
-                userFullname =s.FirstOrDefault().User.FullName,
-                userEmail =s.FirstOrDefault().User.Email,
-                userPhone =s.FirstOrDefault().User.Phone,
-                productName =s.FirstOrDefault().Name,
-                totalPrice = s.Sum(su => su.Price),
-                totalCount = s.Sum(so=>so.Count),
-
-            }).ToList();
-            foreach (var item in sales)
-            {
-                SalesGroupFileDto groupFileDto = new SalesGroupFileDto {
-                     UserId =item.userId,
-                     UserName =item.userName,
-                     UserFullname =item.userFullname,
-                     UserEmail = item.userEmail,
-                     UserPhone =item.userPhone,
-                     ProductName = item.productName,
-                     TotalPrice = item.totalPrice,
-                     TotalCount =item.totalCount
-                };
-                groupFileDtos.Add(groupFileDto);
-            }
         
-            return View(groupFileDtos);
+            return View(model:db.SaleImports.ToList());
         }
         [AllowAnonymous]
         public FileResult DownloadSample()
         {
             string path = "~/Files/Sample.xlsx";
             return File(path, "application/vnd.ms-excel", "Nümunə.xlsx");
+        }
+        [AllowAnonymous]
+        public FileResult DownloadImportedExcel(int? id)
+        {
+            if (id == null)
+                return null;
+
+            SaleImport saleImport = db.SaleImports.Find(id);
+            if (saleImport == null)
+                return null;
+
+            string path = Server.MapPath("~/Uploads/" + saleImport.FileUrl);
+
+            return File(path, "application/vnd.ms-excel", saleImport.Name);
+        }
+        //DeleteImported excel and data
+        public ActionResult DeleteImported(int? id)
+        {
+            SaleImport saleImport = db.SaleImports.Find(id);
+            List<Sale> sales = db.Sales.Where(w => w.SaleImportId == saleImport.Id).ToList();
+             if(sales.Any(a=>a.IsComfirmed ==true))
+                {
+
+                Session["uploadError"] = "Yüklənmiş excel faylının  satışlarından hər hansı biri təsdiqlənmişdi(yalnız tək tək silmək olar)";
+                return RedirectToAction("getimport");
+            }
+           
+            if (System.IO.File.Exists(Path.Combine(Server.MapPath("~/Uploads"), saleImport.FileUrl)))
+            {
+                System.IO.File.Delete(Path.Combine(Server.MapPath("~/Uploads"), saleImport.FileUrl));
+            }
+            db.Sales.RemoveRange(sales);
+            db.SaleImports.Remove(saleImport);
+            db.SaveChanges();
+            return RedirectToAction("getimport");
         }
         //Get [baseUrl]Sales/Import
         [HttpGet]
@@ -171,6 +175,13 @@ namespace SalaryCalc.Controllers
             string filename = Guid.NewGuid().ToString() + File.FileName;
             string path = Path.Combine(Server.MapPath("~/Uploads"), filename);
             File.SaveAs(path);
+
+            //SaleImport
+            SaleImport saleImport = new SaleImport {
+                Date = DateTime.Now,
+                FileUrl = filename,
+                Name = File.FileName
+            };
 
             XLWorkbook xLWorkbook = new XLWorkbook(path);
             XLWorkbook workbook = xLWorkbook;
@@ -243,12 +254,14 @@ namespace SalaryCalc.Controllers
                         Date = Convert.ToDateTime(row.Cell(4).Value.ToString()),
                         Vip = vip == 1 ? true : false,
                         DisCount = discount == 1 ? true : false,
-                        FileUrl = filename,
-                        UserId = Convert.ToInt32(UserId)
+                        SaleImport = saleImport,
+                        UserId = Convert.ToInt32(UserId),
+                        IsImported = true,
+                        IsComfirmed = false
                     };
                     db.Sales.Add(sale);
 
-                    db.SaveChanges();
+                    
                 }
                 else
                 {
@@ -261,9 +274,46 @@ namespace SalaryCalc.Controllers
                 }
               
             }
+            db.SaveChanges();
             Session["uploadSucces"] = "Müvəfəqiyyətlə Yükləndi";
             return RedirectToAction("getimport");
 
         }
+        [HttpGet]
+        public ActionResult ImporteData(int? id)
+        {
+            if (id == null)
+                return HttpNotFound();
+            List<Sale> sales = db.Sales.Where(w => w.SaleImportId == id).ToList();
+
+            return View(sales);
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult ConfirmSales(int[] ids)
+        {
+            if (ids == null)
+            {
+
+                return Json(new { status = 409 }, JsonRequestBehavior.AllowGet);
+            }
+            
+            foreach (var id in ids)
+            {
+                Sale sale = db.Sales.Find(id);
+                if (sale != null)
+                {
+                    sale.IsComfirmed = true;
+                    db.SaveChanges();
+                }
+            }
+            return Json(new
+            {
+                status = 200,
+                redirectUrl = Url.Action("index"),
+                isRedirect = true
+            }, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

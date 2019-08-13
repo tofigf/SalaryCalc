@@ -162,6 +162,7 @@
     <Compile Include="Dal\DataContext.cs" />
     <Compile Include="Dtos\RoleIdsDto.cs" />
     <Compile Include="Dtos\SalesGroupFileDto.cs" />
+    <Compile Include="Dtos\SalesImportDto.cs" />
     <Compile Include="Filters\FilterContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -231,6 +232,14 @@
     <Compile Include="Migrations\201908121311549_SaleCount.Designer.cs">
       <DependentUpon>201908121311549_SaleCount.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908130852525_SaleImport.cs" />
+    <Compile Include="Migrations\201908130852525_SaleImport.Designer.cs">
+      <DependentUpon>201908130852525_SaleImport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908130854411_SaleImportId_Nullable.cs" />
+    <Compile Include="Migrations\201908130854411_SaleImportId_Nullable.Designer.cs">
+      <DependentUpon>201908130854411_SaleImportId_Nullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ButtonsStatic.cs" />
     <Compile Include="Models\CalcForum.cs" />
@@ -238,6 +247,7 @@
     <Compile Include="Models\Postion.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Sale.cs" />
+    <Compile Include="Models\SaleImport.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserRole.cs" />
     <Compile Include="Models\VwModel\VwRoles.cs" />
@@ -2227,6 +2237,7 @@
     <Content Include="Views\Calculation\EditCalcMethod.cshtml" />
     <Content Include="Views\Sales\GetImport.cshtml" />
     <Content Include="Views\Sales\Import.cshtml" />
+    <Content Include="Views\Sales\ImporteData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201908051303471_InitialCreate.resx">
@@ -2276,6 +2287,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908121311549_SaleCount.resx">
       <DependentUpon>201908121311549_SaleCount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908130852525_SaleImport.resx">
+      <DependentUpon>201908130852525_SaleImport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908130854411_SaleImportId_Nullable.resx">
+      <DependentUpon>201908130854411_SaleImportId_Nullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

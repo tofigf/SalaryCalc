@@ -11,3 +11,8 @@
     position: absolute !important;
     left: 144% !important;
 }
+.tooltip > .tooltip-inner {
+    /*background-color: #06060696;*/
+    padding: 10px;
+    font-size: 10px;
+}
