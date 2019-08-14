@@ -37,7 +37,7 @@ namespace SalaryCalc.Controllers
         {
             if (!ModelState.IsValid)
             {
-                Session["Error"] = "Bütün xanaları doldurun";
+                Session["Error"] = "Xanaları Düzgün Doldurun";
                 return RedirectToAction("index");
             }
    
@@ -77,11 +77,20 @@ namespace SalaryCalc.Controllers
            
             var us = db.Users.Find(user.Id);
             if (!Crypto.VerifyHashedPassword(us.Password, OldPassword))
-                return Content("kohne email sehvdir");
 
-            if (!ModelState.IsValid)
-                return Content("required");
-        
+                if (!ModelState.IsValid)
+                {
+                    Session["Error"] = "Köhnə Şifrə Səhvdi";
+                    return RedirectToAction("index");
+                }
+
+               if (!ModelState.IsValid)
+            {
+                Session["Error"] = "Xanaları Düzgün Doldurun";
+                return RedirectToAction("index");
+            }
+
+
             us.UserName = user.UserName;
             us.FullName = user.FullName;
             us.PostionId = user.PostionId;
@@ -99,6 +108,11 @@ namespace SalaryCalc.Controllers
                 return HttpNotFound();
 
             User user = db.Users.Find(id);
+            if(user == null)
+            {
+                Session["Error"] = "İşçi yoxdu";
+                return RedirectToAction("index");
+            }
             if(user != null)
             {
                 db.Users.Remove(user);

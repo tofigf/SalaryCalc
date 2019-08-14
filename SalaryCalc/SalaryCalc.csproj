@@ -163,6 +163,7 @@
     <Compile Include="Dtos\RoleIdsDto.cs" />
     <Compile Include="Dtos\SalesGroupFileDto.cs" />
     <Compile Include="Dtos\SalesImportDto.cs" />
+    <Compile Include="Filters\FilterConfirm.cs" />
     <Compile Include="Filters\FilterContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -239,6 +240,22 @@
     <Compile Include="Migrations\201908130854411_SaleImportId_Nullable.cs" />
     <Compile Include="Migrations\201908130854411_SaleImportId_Nullable.Designer.cs">
       <DependentUpon>201908130854411_SaleImportId_Nullable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908140758402_UserPinCod.cs" />
+    <Compile Include="Migrations\201908140758402_UserPinCod.Designer.cs">
+      <DependentUpon>201908140758402_UserPinCod.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908140803504_UserPinCodInt.cs" />
+    <Compile Include="Migrations\201908140803504_UserPinCodInt.Designer.cs">
+      <DependentUpon>201908140803504_UserPinCodInt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908140838474_UserPinCodString.cs" />
+    <Compile Include="Migrations\201908140838474_UserPinCodString.Designer.cs">
+      <DependentUpon>201908140838474_UserPinCodString.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908141008056_UserPinCodStringlength.cs" />
+    <Compile Include="Migrations\201908141008056_UserPinCodStringlength.Designer.cs">
+      <DependentUpon>201908141008056_UserPinCodStringlength.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ButtonsStatic.cs" />
@@ -2293,6 +2310,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908130854411_SaleImportId_Nullable.resx">
       <DependentUpon>201908130854411_SaleImportId_Nullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908140758402_UserPinCod.resx">
+      <DependentUpon>201908140758402_UserPinCod.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908140803504_UserPinCodInt.resx">
+      <DependentUpon>201908140803504_UserPinCodInt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908140838474_UserPinCodString.resx">
+      <DependentUpon>201908140838474_UserPinCodString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908141008056_UserPinCodStringlength.resx">
+      <DependentUpon>201908141008056_UserPinCodStringlength.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

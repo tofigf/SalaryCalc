@@ -30,7 +30,7 @@
                                     <form action="@Url.Action("import","sales")" method="post" enctype="multipart/form-data">
                                         @Html.AntiForgeryToken()
                                         <div class="row">
-                                            <div class="col-md-6">
+                                            @*<div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label" for="Position">Vəzifə</label>
                                                     <select class="form-control" required name="UserId">
@@ -42,8 +42,8 @@
 
                                                     </select>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-6">
+                                            </div>*@
+                                            <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="control-label" for="Name">Yüklə</label>
 

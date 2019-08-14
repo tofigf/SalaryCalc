@@ -59,36 +59,70 @@
 
                                         @foreach (var item in Model)
                                         {
-                                        <tr>
-                                            <td scope="row">
-                                             <div class="custom-control custom-checkbox">
-                                                    <input class="custom-control-input confirmchecked" id="check-@item.Id" type="checkbox"  data-id="@item.Id">
-                                                    <label class="custom-control-label" for="check-@item.Id"></label>
-                                                </div></td>
-                                            <td>@item.User.UserName</td>
-                                            <td>@item.Name</td>
-                                            <td>@item.Date.ToString("dd.MM.yyyy")</td>
-                                            <td>@item.Price.ToString("#.00")</td>
-                                            <td>
-                                                <a href="javascript:void(0)" class="tooltip-primary btn btn-sm btn-@(item.IsComfirmed ==true ?"success":"danger")"
-                                                   data-toggle="tooltip" data-placement="left" title="@(item.IsComfirmed ==true ?"ləğv et":"təsdiqlə")"
-                                                   data-type="primary">
-                                                    @(item.IsComfirmed == true ? "təsdiqlənib" : "təsdiqlənməyib")
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <a href="@Url.Action("edit","sales",new { id = item.Id })" class="btn btn-sm btn-primary">Dəyiş</a>
-                                                <a onclick="return confirm('Əminsinizmi?')" href="@Url.Action("delete","sales",new { id = item.Id })" class="btn btn-sm btn-danger ml-2">Sil</a>
-                                                <a href="@Url.Action("details","sales",new { id = item.Id })" class="btn btn-sm btn-primary">Ətraflı</a>
-                                            </td>
+                                            <tr>
+                                                <td scope="row">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input class="custom-control-input confirmchecked" id="check-@item.Id" type="checkbox" data-id="@item.Id">
+                                                        <label class="custom-control-label" for="check-@item.Id"></label>
+                                                    </div>
+                                                </td>
+                                                <td>@item.User.UserName</td>
+                                                <td>@item.Name</td>
+                                                <td>@item.Date.ToString("dd.MM.yyyy")</td>
+                                                <td>@item.Price.ToString("#.00")</td>
+                                                <td>
+                                                    <a href="javascript:void(0)" class="tooltip-primary btn btn-sm btn-@(item.IsComfirmed ==true ?"success":"danger")"
+                                                       data-type="primary">
+                                                        @(item.IsComfirmed == true ? "təsdiqlənib" : "təsdiqlənməyib")
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    @if (item.IsComfirmed == false)
+                                                    {
+                                                        <a href="@Url.Action("edit","sales",new { id = item.Id })" class="btn btn-sm btn-primary">Dəyiş</a>
+                                                        <a onclick="return confirm('Əminsinizmi?')" href="@Url.Action("delete","sales",new { id = item.Id })" class="btn btn-sm btn-danger ml-2">Sil</a>
+                                                    }
 
-                                        </tr>
-                                     
+                                                    <a href="@Url.Action("details","sales",new { id = item.Id })" class="btn btn-sm btn-primary">Ətraflı</a>
+                                                </td>
+
+                                            </tr>
+
                                         }
 
                                     </tbody>
                                 </table>
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination">
 
+                                        @if (ViewBag.Page - 1 != 0)
+                                        {
+                                            <li class="page-item" data-page="@(ViewBag.Page-1)">
+                                                <a class="page-link" href="@Url.Action("index","sales",new{  page = ViewBag.Page-1 })">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                        }
+
+                                        @for (int i = 1; i <= ViewBag.TotalPage; i++)
+                                        {
+
+                                            <li class="page-item @(i==ViewBag.Page?"active":"")" data-page="@i">
+                                                <a class="page-link" href="@Url.Action("index","sales",new { page = i })">@i</a>
+                                            </li>
+
+                                        }
+
+                                        @if (ViewBag.Page + 1 <= ViewBag.TotalPage)
+                                        {
+                                            <li class="page-item" data-page="@(ViewBag.Page+1)">
+                                                <a class="page-link" href="@Url.Action("index","sales",new { page = ViewBag.Page+1 })">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </nav>
                             </div>
                         </div>
                     </div>

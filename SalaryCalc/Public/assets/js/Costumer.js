@@ -1,4 +1,17 @@
 ﻿$(document).ready(function () {
+
+    // Add custom validation rule
+    // didnt use yet
+    $.formUtils.addValidator({
+        name: 'regextest',
+        validatorFunction: function (value) {
+            var test = RegExp('^[a-zA-Z0-9]+$');
+            return test(value);
+        },
+        errorMessage: 'You have to answer with an even number',
+        errorMessageKey: 'badEvenNumber'
+    });
+
     //validate inputs
     $.validate({
         modules: ' date, security, file'
@@ -113,13 +126,7 @@
     $(function () {
         $('[data-toggle="tooltip"]').tooltip();
     });
-    $('input:checkbox').change(function () {
-        if ($(this).is(":checked")) {
-            $('.active_for_confirm').removeClass("disabled");
-        } else {
-            $('.active_for_confirm').addClass("disabled");
-        }
-    });
+
     //Confirm :checked ids
     $('#confirm').click(function (e) {
         var url = $(this).data('url');

@@ -59,7 +59,12 @@ namespace SalaryCalc.Controllers
         [HttpPost]
         public ActionResult Edit(Postion postion)
         {
-            if(postion == null)
+            if (!ModelState.IsValid)
+            {
+                Session["Error"] = "Xanaları düzgün doldurun";
+                return RedirectToAction("index");
+            }
+            if (postion == null)
             {
                 Session["Error"] = "Bütün xanaları doldurun";
                 return RedirectToAction("index");

@@ -78,7 +78,6 @@ namespace SalaryCalc.Controllers
             Session["Error"] = "Bütün xanaları doldurun";
             return RedirectToAction("index");
         }
-
         //Get [baseUrl]Calculation/CalculatedSalary
         [HttpGet]
         public ViewResult CalculatedSalary()
@@ -105,13 +104,17 @@ namespace SalaryCalc.Controllers
                     {
                         if (CheckCalculatedUsers(Date.Month, Date.Year, id))
                         {
-                            Session["Error"] = "İstifadəçinin maaşı Hesablanmışdı";
+                            Session["Error"] = "İstifadəçinin Maaşı Hesablanmışdı";
                             return RedirectToAction("calculatesalary");
                         }
                         
                         User findedUser = db.Users.Find(id);
+
                         if (findedUser == null)
-                            return Content("user empty");
+                        {
+                            Session["Error"] = "İşçi Yoxdu";
+                            return RedirectToAction("calculatesalary");
+                        }
 
                         //static keys
                         string bymonth = db.ButtonsStatics.FirstOrDefault(f => f.Key == "{ayliqgelir}").Key;
@@ -120,12 +123,12 @@ namespace SalaryCalc.Controllers
                         string formula = findedUser.CalcForum.Formula;
                         if (ByMonth(id, Date.Month) == null)
                         {
-                            Session["Error"] = "İşçinin seçilmiş ay üzrə heç bir satışı yoxdu";
+                            Session["Error"] = "İşçinin seçilmiş ay üzrə heç bir təsdiqlənmiş satışı yoxdu";
                             return RedirectToAction("calculatesalary");
                         }
                         if (ByYear(id, Date.Year) == null)
                         {
-                            Session["Error"] = "İşçinin seçilmiş il üzrə heç bir satışı yoxdu";
+                            Session["Error"] = "İşçinin seçilmiş il üzrə heç bir təsdiqlənmiş satışı yoxdu";
                             return RedirectToAction("calculatesalary");
                         }
                         string ByMonthValue = ByMonth(id, Date.Month).ToString();
@@ -157,13 +160,12 @@ namespace SalaryCalc.Controllers
                             db.CalculatedSalaryByUsers.Add(calculated);
                             db.SaveChanges();
 
-
                         }
                         catch (EvaluationException e)
                         {
-                           
+                            Session["Error"] = "Xəta!";
+                            return RedirectToAction("calculatesalary");
                         }
-
                     }
 
                     return RedirectToAction("calculatedsalary");
@@ -188,12 +190,12 @@ namespace SalaryCalc.Controllers
                         string formula = userr.CalcForum.Formula;
                         if (ByMonth(userr.Id, Date.Month) == null)
                         {
-                            Session["Error"] = "İşçinin seçilmiş ay üzrə heç bir satışı yoxdu";
+                            Session["Error"] = "İşçinin seçilmiş ay üzrə heç bir satışı təsdiqlənmiş yoxdu";
                             return RedirectToAction("calculatesalary");
                         }
                         if (ByYear(userr.Id, Date.Year) == null)
                         {
-                            Session["Error"] = "İşçinin seçilmiş il üzrə heç bir satışı yoxdu";
+                            Session["Error"] = "İşçinin seçilmiş il üzrə heç bir satışı təsdiqlənmiş yoxdu";
                             return RedirectToAction("calculatesalary");
                         }
                         string ByMonthValue = ByMonth(userr.Id, Date.Month).ToString();
@@ -223,13 +225,12 @@ namespace SalaryCalc.Controllers
                             db.CalculatedSalaryByUsers.Add(calculated);
                             db.SaveChanges();
 
-
                         }
                         catch (EvaluationException e)
                         {
-                           
+                            Session["Error"] = "Xəta!";
+                            return RedirectToAction("calculatesalary");
                         }
-
                     }
 
                     return RedirectToAction("calculatedsalary");
@@ -238,7 +239,6 @@ namespace SalaryCalc.Controllers
 
             Session["Error"] = "Xəta!";
             return RedirectToAction("calculatesalary");
-
         }
 
         //Partial view
@@ -268,21 +268,17 @@ namespace SalaryCalc.Controllers
         public double? ByMonth(int? id, int? currMonth)
         {
       
-            if (db.Sales.FirstOrDefault(a => a.UserId == id) == null)
+            if (db.Sales.FirstOrDefault(a => a.UserId == id && a.Date.Month == currMonth && a.IsComfirmed == true) == null)
                 return null;
-            if (db.Sales.FirstOrDefault(a => a.UserId == id && a.Date.Month == currMonth) == null)
-                return null;
-            double? total = db.Sales.Where(w => w.UserId == id && w.Date.Month == currMonth).Sum(s=>s.Price);
+            double? total = db.Sales.Where(w => w.UserId == id && w.Date.Month == currMonth && w.IsComfirmed == true).Sum(s=>s.Price);
             
             return total;
         }
         public double? ByYear(int? id, int? currYear)
         {
-            if (db.Sales.FirstOrDefault(a => a.UserId == id) == null)
+            if (db.Sales.FirstOrDefault(a => a.UserId == id && a.Date.Year == currYear && a.IsComfirmed == true) == null)
                 return null;
-            if (db.Sales.FirstOrDefault(a => a.UserId == id && a.Date.Year == currYear) == null)
-                return null;
-            double? total = db.Sales.Where(w => w.UserId == id && w.Date.Year == currYear).Sum(s => s.Price);
+            double? total = db.Sales.Where(w => w.UserId == id && w.Date.Year == currYear && w.IsComfirmed == true).Sum(s => s.Price);
                       
             return total;
         }

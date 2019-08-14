@@ -29,49 +29,58 @@
                                     <form method="post" action="@Url.Action("create","users")">
                                         @Html.AntiForgeryToken()
                                         <div class="row">
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="control-label" for="Name">İşçinin Adı</label>
                                                     <input type="text" autocomplete="off" class="form-control" name="UserName" id="Name" placeholder="İstifadəçi Adı"
                                                            data-validation="required" data-validation-error-msg="Qeyd edin">
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="PinCod">Pin Kod</label>
+                                                    <input type="text" autocomplete="off" class="form-control" name="PinCod" id="PinCod" placeholder="Pin Kod"
+                                                           data-validation="required" data-validation-error-msg="Qeyd edin">
+                                                    <small id="emailHelp" class="form-text text-muted">Pin Kod Böyuk Hərif və Rəqəmdən Min və Max 7 olmalıdı </small>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="control-label" for="FullName">Ad Soyad</label>
                                                     <input type="text" autocomplete="off" class="form-control" name="FullName" id="FullName" placeholder="Adı Soyadı"
                                                            data-validation="required" data-validation-error-msg="Qeyd edin">
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="control-label" for="Phone">Telefon</label>
                                                     <input type="text" autocomplete="off" class="form-control" name="Phone" id="Phone" placeholder="Telefon"
                                                            data-validation="required" data-validation-error-msg="Qeyd edin">
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="control-label" for="Email">Email</label>
                                                     <input type="text" autocomplete="off" class="form-control" name="Email" id="Email" placeholder="Email"
                                                            data-validation="email" data-validation-error-msg="Daxil etdiyiniz email ünvanı yalnışdır">
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="control-label" for="Password">Şifrə</label>
                                                     <input type="password" class="form-control" name="Password" id="Password" placeholder="Şifrə"
                                                            data-validation="length" data-validation-length="min8" data-validation-error-msg="Daxil etdiyiniz şifrə ən azı 8 simvol olmalıdı">
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="control-label" for="ConfirmPassword">Şifrə Təkrarı</label>
                                                     <input type="password" autocomplete="off" class="form-control" name="ConfirmPassword" id="ConfirmPassword" placeholder="Şifrə Təkrarı"
                                                            data-validation="confirmation" data-validation-confirm="Password" data-validation-error-msg="Şifrə təkrarı düzgün deyil">
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="control-label" for="Position">Maaş Hesablama formulu</label>
                                                     <select class="form-control" required name="CalcForumId">
@@ -84,7 +93,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="control-label" for="Position">Vəzifə</label>
                                                     <select class="form-control" required name="PostionId">

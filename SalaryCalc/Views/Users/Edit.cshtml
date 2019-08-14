@@ -31,28 +31,35 @@
                                 <form method="post" action="@Url.Action("edit","users")">
                                     @Html.AntiForgeryToken()
                                     <div class="form-row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="control-label" for="Name">İstifadəçi Adı</label>
                                                 <input type="text" class="form-control" value="@Model.UserName" name="UserName" id="Name" placeholder="İstifadəçi Adı"
                                                        data-validation="required" data-validation-error-msg="Qeyd edin">
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label" for="Name">Pin Kod</label>
+                                                <input type="text" class="form-control" value="@Model.PinCod" name="PinCod" id="Name" placeholder="Pin Kod"
+                                                       data-validation="required" data-validation-error-msg="Qeyd edin">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="control-label" for="FullName">Adı Soyadı</label>
                                                 <input type="text" class="form-control" value="@Model.FullName" name="FullName" id="FullName" placeholder="Adı Soyadı"
                                                        data-validation="required" data-validation-error-msg="Qeyd edin">
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label class="control-label" for="Phone">Telefon</label>
                                                 <input type="text" autocomplete="off" class="form-control" name="Phone" value="@Model.Phone" id="Phone" placeholder="Telefon"
                                                        data-validation="required" data-validation-error-msg="Qeyd edin">
                                             </div>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="Email">Email</label>
                                                 <input type="text" required class="form-control" value="@Model.Email" name="Email" id="Email" placeholder="Email"

@@ -20,9 +20,11 @@ namespace SalaryCalc.Models
         [Required, MaxLength(150)]
         public string Phone { get; set; }
         [Required,MaxLength(150)]
-        [DataType(DataType.Password)]
         public string Password { get; set; }
 
+        [RegularExpression(@"^[A-Z0-9]+$")]
+        [Required, StringLength(7, MinimumLength = 7)]
+        public string PinCod { get; set; }
         public byte IsAdmin { get; set; }
         [ForeignKey("Postion")]
         public Nullable<int> PostionId { get; set; }
