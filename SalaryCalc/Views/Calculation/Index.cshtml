@@ -8,6 +8,14 @@
 
     <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8 mb-4">
         <div class="container-fluid">
+            @if (Session["Success"] != null)
+            {
+                <div class="alert alert-success text-center">
+                    @Session["Success"]
+                </div>
+
+                Session["Success"] = null;
+            }
             @if (Session["Error"] != null)
             {
                 <div class="alert alert-danger text-center">
@@ -50,8 +58,13 @@
                                                 <td>@item.Name</td>
                                                 <td>@item.Formula</td>
                                                 <td class="text-right">
-                                                    <a href="@Url.Action("editcalcmethod","calculation" , new { id = item.Id})" class="btn btn-sm btn-primary">Dəyiş</a>
-                                                    <a onclick="return confirm('Əminsinizmi?');" href="@Url.Action("Delete","calculation" , new {id = item.Id})" class="btn btn-sm btn-danger ml-2">Sil</a>
+
+                                                    @if (item.Users.Count() == 0)
+                                                    {
+                                                        <a href="@Url.Action("editcalcmethod","calculation" , new { id = item.Id})" class="btn btn-sm btn-primary">Dəyiş</a>
+                                                        <a onclick="return confirm('Əminsinizmi?');" href="@Url.Action("deletecalcmethod","calculation" , new {id = item.Id})" class="btn btn-sm btn-danger ml-2">Sil</a>
+
+                                                    }
 
                                                 </td>
                                             </tr>

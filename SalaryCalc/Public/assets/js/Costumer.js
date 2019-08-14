@@ -17,7 +17,6 @@
         modules: ' date, security, file'
         
     });
-    
     //checkbox checked button enabled
     $(document).on("click", "#checkAll", function (e) {
         $('input:checkbox').not(this).prop('checked', this.checked);
@@ -42,8 +41,6 @@
 
         }
     }); 
-    
-   
     //date month and year
     $('.datepicker').datepicker({
         format: "mm-yyyy",
@@ -94,12 +91,13 @@
         });
 
     });
-    $(".positionId").val($(".tabclick").data("id"));
-    $(document).on("click", ".tabclick", function (e) {
-        e.preventDefault();
-        var id = $(this).data("id");
-        $(".positionId").val(id);
-    });
+
+    //$(".positionId").val($(".tabclick").data("id"));
+    //$(document).on("click", ".tabclick", function (e) {
+    //    e.preventDefault();
+    //    var id = $(this).data("id");
+    //    $(".positionId").val(id);
+    //});
     //take all pages data  on click(pagination)
     $(document).on("click", "#all" , function (e) {
         e.preventDefault();
@@ -126,7 +124,6 @@
     $(function () {
         $('[data-toggle="tooltip"]').tooltip();
     });
-
     //Confirm :checked ids
     $('#confirm').click(function (e) {
         var url = $(this).data('url');
@@ -166,5 +163,37 @@
             }
         });
     });
+    //Calc Add User
+    $("select[name='PinCod']").change(function (e) {
+
+        if ($("select[name='CalcMethod'] option[value='ayliqgelir']").length === 0 && $("select[name='CalcMethod'] option[value='illikgelir']").length === 0 ) {
+
+            $("select[name='CalcMethod']").append(`
+              <option value="ayliqgelir">Aylıq</option>
+              <option value="illikgelir">İllik</option>
+                       `);
+        }
+         $("input[name ='HiddenPinCod']").val($(this).val());
+      
+    });
+    $("select[name='CalcMethod']").change(function (e) {
+         $("input[name ='HiddenCalcMethod']").val($(this).val());
+
+        $("select[name='CalcMethod'] option").each(function () {
+           
+            if ($(this).val() !== '') {
+                $(this).remove();
+            }
+        });
+    });
+    $("#calcAddUser").click(function () {
+
+        if ($("input[name ='HiddenPinCod']").val() !== '' && $("input[name ='HiddenCalcMethod']").val() !== '') {
+            $("#Formula").val(function () {
+                return this.value + "{" + $("input[name ='HiddenPinCod']").val() + "&" + $("input[name ='HiddenCalcMethod']").val() + "}";
+            });
+        }
   
+
+    });
 });

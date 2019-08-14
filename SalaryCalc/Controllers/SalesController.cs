@@ -59,19 +59,24 @@ namespace SalaryCalc.Controllers
             return RedirectToAction("index");
         }
         //Get [baseUrl]Sales/Edit
-        [FilterConfirm]
         [HttpGet]
         public ActionResult Edit(int? id)
         {
             if (id == null)
                 return HttpNotFound();
 
-            Sale model = db.Sales.Find(id);
+            if (db.Sales.FirstOrDefault(f=>f.Id == id && f.IsComfirmed == false) == null)
+            {
+                Session["Error"] = "Təsdiqlənmiş Satışı Yeniləmək Olmaz!";
+                return RedirectToAction("index");
 
+            }
+            Sale model = db.Sales.Find(id);
 
             ViewBag.User = db.Users.ToList();
 
             return View(model);
+
         }
         //Post [baseUrl]Sales/Edit
         [ValidateAntiForgeryToken]
@@ -97,13 +102,20 @@ namespace SalaryCalc.Controllers
             if (id == null)
                 return HttpNotFound();
 
+            if (db.Sales.FirstOrDefault(f => f.Id == id && f.IsComfirmed == false) == null)
+            {
+                Session["Error"] = "Təsdiqlənmiş Satışı Silmək Olmaz!";
+                return RedirectToAction("index");
+
+            }
+
             Sale sale = db.Sales.Find(id);
             if(sale != null)
             {
                 db.Sales.Remove(sale);
             }
             db.SaveChanges();
-
+            Session["Success"] = "Müvəfəqiyyətlə Silindi!";
             return RedirectToAction("index");
         }
         //Get [baseUrl]Sales/GetImport
@@ -136,6 +148,9 @@ namespace SalaryCalc.Controllers
         //DeleteImported excel and data
         public ActionResult DeleteImported(int? id)
         {
+            if (id == null)
+                return HttpNotFound();
+
             SaleImport saleImport = db.SaleImports.Find(id);
             List<Sale> sales = db.Sales.Where(w => w.SaleImportId == saleImport.Id).ToList();
              if(sales.Any(a=>a.IsComfirmed ==true))
@@ -152,6 +167,7 @@ namespace SalaryCalc.Controllers
             db.Sales.RemoveRange(sales);
             db.SaleImports.Remove(saleImport);
             db.SaveChanges();
+            Session["uploadSucces"] = "Müvəfəqiyyətlə Silindi!";
             return RedirectToAction("getimport");
         }
         //Get [baseUrl]Sales/Import

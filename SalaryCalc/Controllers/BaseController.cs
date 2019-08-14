@@ -16,7 +16,7 @@ namespace SalaryCalc.Controllers
         private readonly DataContext db = new DataContext();
         public  User user { get; set; }
 
-       public  List<UserRole> roles { get; set; }
+        public  List<UserRole> roles { get; set; }
         protected override void Initialize(RequestContext requestContext)
         {
              user = requestContext.HttpContext.Session["LoggedUser"] as User;

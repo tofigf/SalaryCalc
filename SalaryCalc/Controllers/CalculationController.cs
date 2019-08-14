@@ -22,15 +22,19 @@ namespace SalaryCalc.Controllers
     {
         private readonly DataContext db = new DataContext();
 
+
+        #region CalcMethod
         // GET: Calculation
+        [HttpGet]
         public ViewResult Index()
         {
-            return View(model:db.CalcForums.ToList());
+            return View(model: db.CalcForums.OrderByDescending(o=>o.Id).ToList());
         }
         //Get [baseUrl]Calculation/CalcMethod
         [HttpGet]
         public ViewResult CalcMethod()
         {
+            ViewBag.Users = db.Users.ToList();
             return View();
         }
         //Post [baseUrl]Calculation/CalcMethod
@@ -47,7 +51,7 @@ namespace SalaryCalc.Controllers
             forum.Date = DateTime.Now;
             db.CalcForums.Add(forum);
             db.SaveChanges();
-          
+
             return RedirectToAction("index");
         }
         //Get [baseUrl]Calculation/EditCalcMethod
@@ -56,11 +60,16 @@ namespace SalaryCalc.Controllers
         {
             if (id == null)
                 return HttpNotFound();
+            if (db.CalcForums.FirstOrDefault(f => f.Id == id).Users.Count() > 0)
+            {
+                Session["Error"] = "İstifadə Olunmuş Düsturu Dəyişmək Olmaz!";
+                return RedirectToAction("index");
 
-            
+            }
+
             CalcForum forum = db.CalcForums.Find(id);
-            if(forum != null)
-            return View(model: forum);
+            if (forum != null)
+                return View(model: forum);
 
             return RedirectToAction("index");
         }
@@ -68,7 +77,7 @@ namespace SalaryCalc.Controllers
         [HttpPost]
         public ActionResult EditCalcMethod(CalcForum forum)
         {
-            if(forum != null)
+            if (forum != null)
             {
                 db.Entry(forum).State = EntityState.Modified;
                 db.Entry(forum).Property(x => x.Date).IsModified = false;
@@ -78,6 +87,31 @@ namespace SalaryCalc.Controllers
             Session["Error"] = "Bütün xanaları doldurun";
             return RedirectToAction("index");
         }
+        //Get [baseUrl]Sales/Delete
+        [HttpGet]
+        public ActionResult DeleteCalcMethod(int? id)
+        {
+            if (id == null)
+                return HttpNotFound();
+            if (db.CalcForums.FirstOrDefault(f => f.Id == id).Users.Count() > 0)
+            {
+                Session["Error"] = "İstifadə Olunmuş Düsturu Silmək Olmaz!";
+                return RedirectToAction("index");
+
+            }
+
+            CalcForum calc = db.CalcForums.Find(id);
+            if (calc != null)
+            {
+                db.CalcForums.Remove(calc);
+            }
+            db.SaveChanges();
+            Session["Success"] = "Müvəfəqiyyətlə Silindi!";
+            return RedirectToAction("index");
+        }
+        #endregion
+
+        #region CalculateSalary
         //Get [baseUrl]Calculation/CalculatedSalary
         [HttpGet]
         public ViewResult CalculatedSalary()
@@ -88,14 +122,14 @@ namespace SalaryCalc.Controllers
         [HttpGet]
         public ViewResult CalculateSalary()
         {
-            
+
             return View();
         }
         //Post [baseUrl]Calculation/CalculateSalary
         [HttpPost]
         public ActionResult CalculateSalary(DateTime Date, int[] usersId, bool all = false)
         {
-           List<User> users = (List<User>)TempData["AllUsers"];
+            List<User> users = (List<User>)TempData["AllUsers"];
             if (all == false)
             {
                 if (usersId != null)
@@ -107,7 +141,7 @@ namespace SalaryCalc.Controllers
                             Session["Error"] = "İstifadəçinin Maaşı Hesablanmışdı";
                             return RedirectToAction("calculatesalary");
                         }
-                        
+
                         User findedUser = db.Users.Find(id);
 
                         if (findedUser == null)
@@ -243,13 +277,13 @@ namespace SalaryCalc.Controllers
 
         //Partial view
         [HttpGet]
-        public PartialViewResult UsersForCalc(int? currMonth,int? currYear, int page = 1 )
+        public PartialViewResult UsersForCalc(int? currMonth, int? currYear, int page = 1)
         {
             int skip = ((int)page - 1) * 3;
-          
-            List<User> model = db.Users.Where(w=>w.CalculatedSalaryByUsers
+
+            List<User> model = db.Users.Where(w => w.CalculatedSalaryByUsers
             .Where(x => x.Date.Month == currMonth && x.Date.Year == currYear)
-            .FirstOrDefault(a=>a.UserId == w.Id) == null).ToList();
+            .FirstOrDefault(a => a.UserId == w.Id) == null).ToList();
 
             //Pagination list
             List<User> PaginateModel = db.Users.Where(w => w.CalculatedSalaryByUsers
@@ -267,11 +301,11 @@ namespace SalaryCalc.Controllers
 
         public double? ByMonth(int? id, int? currMonth)
         {
-      
+
             if (db.Sales.FirstOrDefault(a => a.UserId == id && a.Date.Month == currMonth && a.IsComfirmed == true) == null)
                 return null;
-            double? total = db.Sales.Where(w => w.UserId == id && w.Date.Month == currMonth && w.IsComfirmed == true).Sum(s=>s.Price);
-            
+            double? total = db.Sales.Where(w => w.UserId == id && w.Date.Month == currMonth && w.IsComfirmed == true).Sum(s => s.Price);
+
             return total;
         }
         public double? ByYear(int? id, int? currYear)
@@ -279,10 +313,10 @@ namespace SalaryCalc.Controllers
             if (db.Sales.FirstOrDefault(a => a.UserId == id && a.Date.Year == currYear && a.IsComfirmed == true) == null)
                 return null;
             double? total = db.Sales.Where(w => w.UserId == id && w.Date.Year == currYear && w.IsComfirmed == true).Sum(s => s.Price);
-                      
+
             return total;
         }
-        public bool CheckCalculatedUsers(int? currMonth, int? currYear ,int? userId)
+        public bool CheckCalculatedUsers(int? currMonth, int? currYear, int? userId)
         {
             if (db.CalculatedSalaryByUsers.FirstOrDefault(w => w.UserId == userId && w.Date.Month == currMonth && w.Date.Year == currYear) != null)
             {
@@ -290,6 +324,8 @@ namespace SalaryCalc.Controllers
             }
             return false;
         }
-       
+        #endregion
+
+
     }
 }

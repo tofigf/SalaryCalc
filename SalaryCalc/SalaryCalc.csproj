@@ -163,7 +163,6 @@
     <Compile Include="Dtos\RoleIdsDto.cs" />
     <Compile Include="Dtos\SalesGroupFileDto.cs" />
     <Compile Include="Dtos\SalesImportDto.cs" />
-    <Compile Include="Filters\FilterConfirm.cs" />
     <Compile Include="Filters\FilterContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
