@@ -41,31 +41,62 @@
 
                                     @foreach (var item in Model)
                                     {
-                                    <tr>
-                                        <th scope="row">@i</th>
-                                        <td>@item.Name</td>
-                                        <td>@item.Price.ToString("#.00")</td>
-                                         <td>@item.Count</td>
-                                        <td>@(item.Vip == true ? "Vip" : "Vip deyil")</td>
-                                        <td>@(item.DisCount == true ? "Endirim var" : "Endirim yoxdu")</td>
-                                        <td>
-                                            <a href="javascript:void(0)" class="btn btn-sm btn-@(item.IsComfirmed ==true ?"success":"danger")">
-                                                @(item.IsComfirmed == true ? "təsdiqlənib" : "təsdiqlənməyib")
-                                            </a>
+                                        <tr>
+                                            <th scope="row">@i</th>
+                                            <td>@item.Name</td>
+                                            <td>@item.Price.ToString("#.00")</td>
+                                            <td>@item.Count</td>
+                                            <td>@(item.Vip == true ? "Vip" : "Vip deyil")</td>
+                                            <td>@(item.DisCount == true ? "Endirim var" : "Endirim yoxdu")</td>
+                                            <td>
+                                                <a href="javascript:void(0)" class="btn btn-sm btn-@(item.IsComfirmed ==true ?"success":"danger")">
+                                                    @(item.IsComfirmed == true ? "təsdiqlənib" : "təsdiqlənməyib")
+                                                </a>
 
-                                        </td>
+                                            </td>
 
-                                        @*<td>
-            <a href="@Url.Action("downloadimportedexcel","sales",new {id = item.Id })" class="btn btn-sm btn-info">Yüklə</a>
-            <a onclick="return confirm('Əminsinizmi?')" href="@Url.Action("deleteimported","sales",new { id = item.Id })" class="btn btn-sm btn-danger ml-2">Sil</a>
-            <a href="@Url.Action("importedata","sales",new {id = item.Id })" class="btn btn-sm btn-primary">Yüklənmişə Bax</a>
-        </td>*@
-                                    </tr>
+                                            @*<td>
+                            <a href="@Url.Action("downloadimportedexcel","sales",new {id = item.Id })" class="btn btn-sm btn-info">Yüklə</a>
+                            <a onclick="return confirm('Əminsinizmi?')" href="@Url.Action("deleteimported","sales",new { id = item.Id })" class="btn btn-sm btn-danger ml-2">Sil</a>
+                            <a href="@Url.Action("importedata","sales",new {id = item.Id })" class="btn btn-sm btn-primary">Yüklənmişə Bax</a>
+                        </td>*@
+                                        </tr>
                                         i++;
                                     }
 
                                 </tbody>
                             </table>
+                            <nav aria-label="Page navigation example" class="mt-4">
+                                <ul class="pagination">
+
+                                    @if (ViewBag.Page - 1 != 0)
+                                    {
+                                        <li class="page-item" data-page="@(ViewBag.Page - 1)">
+                                            <a class="page-link" href="@Url.Action("index","sales",new{  page = ViewBag.Page-1 })">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                    }
+
+                                    @for (int j = 1; j <= ViewBag.TotalPage; j++)
+                                    {
+
+                                        <li class="page-item @(j==ViewBag.Page?"active":"")" data-page="@j">
+                                            <a class="page-link" href="@Url.Action("index","sales",new { page = j })">@j</a>
+                                        </li>
+
+                                    }
+
+                                    @if (ViewBag.Page + 1 <= ViewBag.TotalPage)
+                                    {
+                                        <li class="page-item" data-page="@(ViewBag.Page+1)">
+                                            <a class="page-link" href="@Url.Action("index","sales",new { page = ViewBag.Page + 1 })">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </nav>
 
                         </div>
                     </div>

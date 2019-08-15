@@ -27,13 +27,16 @@
                                     <small id="emailHelp" class="form-text text-muted">Maaş işçinin aylıq və ya illik  etdiyi satışlarının faiz nisbəti ilə hesablanır.</small>
 
                                 </div>
-
+                               
                             </div>
                         </div>
                         <form action="@Url.Action("calculatesalary","calculation")" method="post">
                             <div class="row mt-2 mb-2 mt-5">
-                                <div class="col-md-2 offset-10 float-right">
-                                    <button class="btn btn-success" type="submit">Yadda Saxla</button>
+                                <div class="col-4">
+                                    <a class="btn btn-sm btn-default" href="@Url.Action("calculatedsalary","calculation")">Hesablanmış Maaşlar</a>
+                                </div>
+                                <div class="col-md-2 offset-6 float-right">
+                                    <button class="btn btn-sm btn-success" type="submit">Yadda Saxla</button>
                                 </div>
                             </div>
                             <div class="row">
@@ -55,7 +58,6 @@
 
                             <div class="table-responsive mt-5" id="divPartialView">
                                 @*PartialView*@
-
                             </div>
 
                         </form>

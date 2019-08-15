@@ -101,39 +101,41 @@
 
                                     </tbody>
                                 </table>
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination">
 
-                                        @if (ViewBag.Page - 1 != 0)
-                                        {
-                                            <li class="page-item" data-page="@(ViewBag.Page-1)">
-                                                <a class="page-link" href="@Url.Action("index","sales",new{  page = ViewBag.Page-1 })">
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                </a>
-                                            </li>
-                                        }
-
-                                        @for (int i = 1; i <= ViewBag.TotalPage; i++)
-                                        {
-
-                                            <li class="page-item @(i==ViewBag.Page?"active":"")" data-page="@i">
-                                                <a class="page-link" href="@Url.Action("index","sales",new { page = i })">@i</a>
-                                            </li>
-
-                                        }
-
-                                        @if (ViewBag.Page + 1 <= ViewBag.TotalPage)
-                                        {
-                                            <li class="page-item" data-page="@(ViewBag.Page+1)">
-                                                <a class="page-link" href="@Url.Action("index","sales",new { page = ViewBag.Page+1 })">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                </a>
-                                            </li>
-                                        }
-                                    </ul>
-                                </nav>
                             </div>
+                            <nav aria-label="Page navigation example" class="mt-4">
+                                <ul class="pagination">
+
+                                    @if (ViewBag.Page - 1 != 0)
+                                    {
+                                        <li class="page-item" data-page="@(ViewBag.Page-1)">
+                                            <a class="page-link" href="@Url.Action("index","sales",new{  page = ViewBag.Page-1 })">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                    }
+
+                                    @for (int i = 1; i <= ViewBag.TotalPage; i++)
+                                    {
+
+                                        <li class="page-item @(i==ViewBag.Page?"active":"")" data-page="@i">
+                                            <a class="page-link" href="@Url.Action("index","sales",new { page = i })">@i</a>
+                                        </li>
+
+                                    }
+
+                                    @if (ViewBag.Page + 1 <= ViewBag.TotalPage)
+                                    {
+                                        <li class="page-item" data-page="@(ViewBag.Page+1)">
+                                            <a class="page-link" href="@Url.Action("index","sales",new { page = ViewBag.Page+1 })">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </nav>
                         </div>
+                    
                     </div>
                 </div>
             </div>

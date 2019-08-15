@@ -73,6 +73,37 @@
 
                                     </tbody>
                                 </table>
+                                <nav aria-label="Page navigation example" class="mt-4">
+                                    <ul class="pagination">
+
+                                        @if (ViewBag.Page - 1 != 0)
+                                        {
+                                            <li class="page-item" data-page="@(ViewBag.Page - 1)">
+                                                <a class="page-link" href="@Url.Action("index","sales",new{  page = ViewBag.Page-1 })">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                        }
+
+                                        @for (int j = 1; j <= ViewBag.TotalPage; j++)
+                                        {
+
+                                            <li class="page-item @(j==ViewBag.Page?"active":"")" data-page="@j">
+                                                <a class="page-link" href="@Url.Action("index","sales",new { page = j })">@j</a>
+                                            </li>
+
+                                        }
+
+                                        @if (ViewBag.Page + 1 <= ViewBag.TotalPage)
+                                        {
+                                            <li class="page-item" data-page="@(ViewBag.Page+1)">
+                                                <a class="page-link" href="@Url.Action("index","sales",new { page = ViewBag.Page + 1 })">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </nav>
                             </div>
                         </div>
                     </div>

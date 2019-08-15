@@ -18,10 +18,17 @@ namespace SalaryCalc.Controllers
     {
         private readonly DataContext db = new DataContext();
         // GET: Users
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
-            
-            return View(model: db.Users.ToList());
+
+            int skip = ((int)page - 1) * 10;
+
+            ViewBag.TotalPage = Math.Ceiling(db.SaleImports.Count() / 10.0);
+            ViewBag.Page = page;
+
+         List<User> users =  db.Users.Where(w => w.IsAdmin != 0 && w.IsAdmin != 1).OrderByDescending(a => a.Id)
+                 .Skip(skip).Take(10).ToList();
+            return View(users);
         }
         //Get [baseUrl]Users/Create
         [HttpGet]

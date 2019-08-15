@@ -120,10 +120,17 @@ namespace SalaryCalc.Controllers
         }
         //Get [baseUrl]Sales/GetImport
         [HttpGet]
-        public ActionResult GetImport()
+        public ActionResult GetImport(int page = 1)
         {
-        
-            return View(model:db.SaleImports.ToList());
+            int skip = ((int)page - 1) * 10;
+
+            List<SaleImport> model = db.SaleImports.OrderByDescending(a => a.Id)
+                 .Skip(skip).Take(10).ToList();
+
+
+            ViewBag.TotalPage = Math.Ceiling(db.SaleImports.Count() / 10.0);
+            ViewBag.Page = page;
+            return View(model);
         }
         [AllowAnonymous]
         public FileResult DownloadSample()
@@ -351,11 +358,18 @@ namespace SalaryCalc.Controllers
             return RedirectToAction("getimport");
         }
         [HttpGet]
-        public ActionResult ImporteData(int? id)
+        public ActionResult ImporteData(int? id, int page = 1)
         {
             if (id == null)
                 return HttpNotFound();
-            List<Sale> sales = db.Sales.Where(w => w.SaleImportId == id).ToList();
+
+            int skip = ((int)page - 1) * 10;
+
+
+            ViewBag.TotalPage = Math.Ceiling(db.SaleImports.Count() / 10.0);
+            ViewBag.Page = page;
+            List<Sale> sales = db.Sales.Where(w => w.SaleImportId == id).OrderByDescending(a => a.Id)
+                 .Skip(skip).Take(10).ToList();
 
             return View(sales);
         }

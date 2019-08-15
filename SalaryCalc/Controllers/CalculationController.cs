@@ -1,17 +1,14 @@
 ﻿using NCalc;
 using SalaryCalc.Auth;
 using SalaryCalc.Dal;
-using SalaryCalc.Dtos;
+using SalaryCalc.Extensions;
 using SalaryCalc.Filters;
 using SalaryCalc.Models;
-using SalaryCalc.Models.VwModel;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Mvc;
 
 namespace SalaryCalc.Controllers
@@ -26,9 +23,16 @@ namespace SalaryCalc.Controllers
         #region CalcMethod
         // GET: Calculation
         [HttpGet]
-        public ViewResult Index()
+        public ViewResult Index(int page = 1)
         {
-            return View(model: db.CalcForums.OrderByDescending(o=>o.Id).ToList());
+            int skip = ((int)page - 1) * 10;
+
+            ViewBag.TotalPage = Math.Ceiling(db.SaleImports.Count() / 10.0);
+            ViewBag.Page = page;
+
+         List<CalcForum> calcForums = db.CalcForums.OrderByDescending(o => o.Id).OrderByDescending(a => a.Id)
+                 .Skip(skip).Take(10).ToList();
+            return View(calcForums);
         }
         //Get [baseUrl]Calculation/CalcMethod
         [HttpGet]
@@ -114,9 +118,17 @@ namespace SalaryCalc.Controllers
         #region CalculateSalary
         //Get [baseUrl]Calculation/CalculatedSalary
         [HttpGet]
-        public ViewResult CalculatedSalary()
+        public ViewResult CalculatedSalary(int page = 1)
         {
-            return View();
+            int skip = ((int)page - 1) * 10;
+
+            ViewBag.TotalPage = Math.Ceiling(db.Sales.Count() / 10.0);
+            ViewBag.Page = page;
+
+            List<CalculatedSalaryByUser> salaryByUsers = db.CalculatedSalaryByUsers.OrderByDescending(a => a.Id)
+                 .Skip(skip).Take(10).ToList();
+
+            return View(salaryByUsers);
         }
         //Get [baseUrl]Calculation/CalculateSalary
         [HttpGet]
@@ -153,25 +165,73 @@ namespace SalaryCalc.Controllers
                         //static keys
                         string bymonth = db.ButtonsStatics.FirstOrDefault(f => f.Key == "{ayliqgelir}").Key;
                         string byyear = db.ButtonsStatics.FirstOrDefault(f => f.Key == "{illikgelir}").Key;
-
+                        //Find Each User Formula
                         string formula = findedUser.CalcForum.Formula;
-                        if (ByMonth(id, Date.Month) == null)
-                        {
-                            Session["Error"] = "İşçinin seçilmiş ay üzrə heç bir təsdiqlənmiş satışı yoxdu";
-                            return RedirectToAction("calculatesalary");
-                        }
-                        if (ByYear(id, Date.Year) == null)
-                        {
-                            Session["Error"] = "İşçinin seçilmiş il üzrə heç bir təsdiqlənmiş satışı yoxdu";
-                            return RedirectToAction("calculatesalary");
-                        }
-                        string ByMonthValue = ByMonth(id, Date.Month).ToString();
-                        string ByYearValue = ByYear(id, Date.Year).ToString();
 
-                        if (formula.Contains(bymonth) || formula.Contains(byyear))
+
+                        if (formula.Contains(bymonth))
                         {
-                            formula = formula.Replace(bymonth, ByMonthValue).Replace(byyear, ByYearValue);
+                            if (ByMonth(id, Date.Month) == null)
+                            {
+                                Session["Error"] = "İşçinin seçilmiş ay üzrə heç bir təsdiqlənmiş satışı yoxdu";
+                                return RedirectToAction("calculatesalary");
+                            }
+
+                            string ByMonthValue = ByMonth(id, Date.Month).ToString();
+                            formula = formula.Replace(bymonth, ByMonthValue);
                         }
+                        if (formula.Contains(byyear))
+                        {
+                            if (ByYear(id, Date.Year) == null)
+                            {
+                                Session["Error"] = "İşçinin seçilmiş il üzrə heç bir təsdiqlənmiş satışı yoxdu";
+                                return RedirectToAction("calculatesalary");
+                            }
+
+                            string ByYearValue = ByYear(id, Date.Year).ToString();
+                            formula = formula.Replace(byyear, ByYearValue);
+                        }
+
+                        List<string> userPinCodes = StringExtentions.EverythingBetween(formula, "[", "]");
+
+                            foreach (var item in userPinCodes)
+                            {
+                                string pincode = item.Split('&')[0];
+                                string old = "{[" + item + "]}";
+                                User userCalcSalary = db.Users.FirstOrDefault(w => w.PinCod == pincode);
+                                if(userCalcSalary == null)
+                                {
+                                    Session["Error"] = ""+ pincode + " Fin Kodlu işçi yoxdu";
+                                    return RedirectToAction("calculatesalary");
+                                }
+                                string dateMonthOrYear = item.Split('&')[1];
+                                if (dateMonthOrYear == "ayliq")
+                                {
+                                    if (ByMonth(userCalcSalary.Id, Date.Month) == null)
+                                    {
+                                        Session["Error"] = "İşçinin seçilmiş ay üzrə heç bir təsdiqlənmiş satışı yoxdu";
+                                        return RedirectToAction("calculatesalary");
+                                    }
+
+                                    string ByPinCodeMonthValue = ByMonth(id, Date.Month).ToString();
+
+                                    formula = formula.Replace(old, ByPinCodeMonthValue);
+                                }
+                                 if (dateMonthOrYear == "illik")
+                                {
+                                    if (ByYear(userCalcSalary.Id, Date.Year) == null)
+                                    {
+                                       
+
+                                        Session["Error"] = "İşçinin seçilmiş il üzrə heç bir təsdiqlənmiş satışı yoxdu";
+                                        return RedirectToAction("calculatesalary");
+                                    }
+
+                                    string BPinCodeyYearValue = ByYear(id, Date.Year).ToString();
+
+                                    formula = formula.Replace(old, BPinCodeyYearValue);
+                                }
+                            }
                         //Expression
                         try
                         {
@@ -183,6 +243,7 @@ namespace SalaryCalc.Controllers
                                     return RedirectToAction("calculatesalary");
                                 }
                             }
+                             
                             CalculatedSalaryByUser calculated = new CalculatedSalaryByUser
                             {
 
@@ -274,7 +335,6 @@ namespace SalaryCalc.Controllers
             Session["Error"] = "Xəta!";
             return RedirectToAction("calculatesalary");
         }
-
         //Partial view
         [HttpGet]
         public PartialViewResult UsersForCalc(int? currMonth, int? currYear, int page = 1)
@@ -325,7 +385,6 @@ namespace SalaryCalc.Controllers
             return false;
         }
         #endregion
-
-
+      
     }
 }
