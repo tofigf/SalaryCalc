@@ -50,7 +50,13 @@
                         {
 
                         }
-                        <td>@(item.Sales.FirstOrDefault(w => w.Date.Year == currYear && w.Date.Month == currMonth) == null ? "Bu işçinin satışı yoxdu" : "") </td>
+                    <td>
+                        <span class="badge badge-dot mr-4">
+                            <i class="bg-@(item.Sales.FirstOrDefault(w => w.Date.Year == currYear && w.Date.Month == currMonth) == null ? "danger" : "success")"></i>
+                            @(item.Sales.FirstOrDefault(w => w.Date.Year == currYear && w.Date.Month == currMonth) == null ? "Satışı Yoxdu" : "Satışı var")
+                        </span>
+                        
+                    </td>
                     </tr>
                 }
 

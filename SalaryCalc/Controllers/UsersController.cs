@@ -16,7 +16,6 @@ namespace SalaryCalc.Controllers
     [RolesAuth]
     public class UsersController : BaseController
     {
-        private readonly DataContext db = new DataContext();
         // GET: Users
         public ActionResult Index(int page = 1)
         {

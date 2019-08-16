@@ -80,10 +80,11 @@
                                                 <td>@item.Date.ToString("dd.MM.yyyy")</td>
                                                 <td>@item.Price.ToString("#.00")</td>
                                                 <td>
-                                                    <a href="javascript:void(0)" class="tooltip-primary btn btn-sm btn-@(item.IsComfirmed ==true ?"success":"danger")"
-                                                       data-type="primary">
+                                                    <span class="badge badge-dot mr-4">
+                                                        <i class="bg-@(item.IsComfirmed ==true ?"success":"danger")"></i>
                                                         @(item.IsComfirmed == true ? "təsdiqlənib" : "təsdiqlənməyib")
-                                                    </a>
+                                                    </span>
+                                                
                                                 </td>
                                                 <td>
                                                     @if (item.IsComfirmed == false)

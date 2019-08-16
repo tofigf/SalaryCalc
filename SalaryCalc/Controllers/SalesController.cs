@@ -19,8 +19,6 @@ namespace SalaryCalc.Controllers
     [RolesAuth]
     public class SalesController : BaseController
     {
-        private readonly DataContext db = new DataContext();
-    
         // GET: Sales
         public ActionResult Index(int page = 1)
         {
@@ -117,6 +115,23 @@ namespace SalaryCalc.Controllers
             db.SaveChanges();
             Session["Success"] = "Müvəfəqiyyətlə Silindi!";
             return RedirectToAction("index");
+        }
+        //Get [baseUrl]Sales/Details
+        [HttpGet]
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+                return HttpNotFound();
+
+            Sale sale = db.Sales.Find(id);
+
+            if(sale == null)
+            {
+                Session["Error"] = "Satış Tapılmadı";
+                return RedirectToAction("index");
+            }
+
+            return View(sale);
         }
         //Get [baseUrl]Sales/GetImport
         [HttpGet]

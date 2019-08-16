@@ -16,7 +16,6 @@ namespace SalaryCalc.Controllers
     [RolesAuth]
     public class RolesController : BaseController
     {
-        private readonly DataContext db = new DataContext();
         // GET: Roles
         public ActionResult Index()
         {
@@ -47,12 +46,12 @@ namespace SalaryCalc.Controllers
                         newRole.RoleId = role ?? 0;
                         newRole.Date = DateTime.Now.Date;
                         db.UserRoles.Add(newRole);
-
                     }
                 }
                 db.SaveChanges();
+               
             }
-            return RedirectToAction("index");
+            return RedirectToAction("index","roles");
         }
 
 

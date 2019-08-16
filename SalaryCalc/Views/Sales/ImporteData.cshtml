@@ -49,17 +49,13 @@
                                             <td>@(item.Vip == true ? "Vip" : "Vip deyil")</td>
                                             <td>@(item.DisCount == true ? "Endirim var" : "Endirim yoxdu")</td>
                                             <td>
-                                                <a href="javascript:void(0)" class="btn btn-sm btn-@(item.IsComfirmed ==true ?"success":"danger")">
+                                                <span class="badge badge-dot mr-4">
+                                                    <i class="bg-@(item.IsComfirmed ==true ?"success":"danger")"></i>
                                                     @(item.IsComfirmed == true ? "təsdiqlənib" : "təsdiqlənməyib")
-                                                </a>
+                                                </span>
 
                                             </td>
 
-                                            @*<td>
-                            <a href="@Url.Action("downloadimportedexcel","sales",new {id = item.Id })" class="btn btn-sm btn-info">Yüklə</a>
-                            <a onclick="return confirm('Əminsinizmi?')" href="@Url.Action("deleteimported","sales",new { id = item.Id })" class="btn btn-sm btn-danger ml-2">Sil</a>
-                            <a href="@Url.Action("importedata","sales",new {id = item.Id })" class="btn btn-sm btn-primary">Yüklənmişə Bax</a>
-                        </td>*@
                                         </tr>
                                         i++;
                                     }

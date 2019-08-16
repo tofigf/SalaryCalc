@@ -1,4 +1,5 @@
 ﻿@using SalaryCalc.Models;
+
 @{
        User user = Session["LoggedUser"] as User;
     List<UserRole> UserRoles = (ViewContext.Controller as SalaryCalc.Controllers.BaseController).roles;
@@ -93,6 +94,14 @@
                                 <i class="ni ni-chart-bar-32 text-blue"></i> Maaş Hesablama
                             </a>
                         </li>
+                    }
+                    @if (UserRoles.Any(a => a.Role.Controller == "Reports" && a.Role.Action == "Index"))
+                    {
+                <li class="nav-item">
+                    <a class="nav-link @(controller =="Reports" ? "active" : "")" href="@Url.Action("index", "reports")">
+                        <i class="ni ni-chart-bar-32 text-blue"></i>Hesabatlar
+                    </a>
+                </li>
                     }
                 </ul>
             </div>

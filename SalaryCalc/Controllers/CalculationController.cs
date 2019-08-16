@@ -17,8 +17,6 @@ namespace SalaryCalc.Controllers
     [RolesAuth]
     public class CalculationController : BaseController
     {
-        private readonly DataContext db = new DataContext();
-
 
         #region CalcMethod
         // GET: Calculation
@@ -339,7 +337,7 @@ namespace SalaryCalc.Controllers
         [HttpGet]
         public PartialViewResult UsersForCalc(int? currMonth, int? currYear, int page = 1)
         {
-            int skip = ((int)page - 1) * 3;
+            int skip = ((int)page - 1) * 6;
 
             List<User> model = db.Users.Where(w => w.CalculatedSalaryByUsers
             .Where(x => x.Date.Month == currMonth && x.Date.Year == currYear)
@@ -349,8 +347,8 @@ namespace SalaryCalc.Controllers
             List<User> PaginateModel = db.Users.Where(w => w.CalculatedSalaryByUsers
             .Where(x => x.Date.Month == currMonth && x.Date.Year == currYear)
             .FirstOrDefault(a => a.UserId == w.Id) == null).OrderBy(a => a.Id)
-            .Skip(skip).Take(3).ToList().ToList();
-            ViewBag.TotalPage = Math.Ceiling(model.Count() / 3.0);
+            .Skip(skip).Take(6).ToList().ToList();
+            ViewBag.TotalPage = Math.Ceiling(model.Count() / 6.0);
             ViewBag.Page = page;
             ViewBag.CurrMonth = currMonth;
             ViewBag.CurrYear = currYear;

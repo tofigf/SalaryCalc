@@ -1,0 +1,76 @@
+﻿@using SalaryCalc.Models
+@model Sale
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8 mb-4">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row">
+                <div class="col">
+                    <div class="card shadow">
+                        <div class="card-header border-0">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h3>Ətraflı</h3>
+                                </div>
+
+                                <div class="col-4 text-right">
+                                    <a href="@Url.Action("index","sales")" class="btn btn-sm btn-primary toback"><i class="ni ni-bold-left"></i>Geri Qayıt</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table align-items-center table-flush" id="confirmTable">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">İşçinin Adı</th>
+                                        <th scope="col">Məhsul</th>
+                                        <th scope="col">Tarix</th>
+                                        <th scope="col">Qiymət</th>
+                                        <th scope="col">Sayı</th>
+                                        <th scope="col">VİP</th>
+                                        <th scope="col">Endirim</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                 
+                                    <tr>
+                                        <td>@Model.User.UserName</td>
+                                        <td>@Model.Name</td>
+                                        <td>@Model.Date.ToString("dd.MM.yyyy")</td>
+                                        <td>@Model.Price.ToString("0.00")</td>
+                                        <td>@Model.Count</td>
+                                        <td>
+                                            <span class="badge badge-dot mr-4">
+                                                <i class="bg-@(Model.Vip == true ? "success" : "warning")"></i>
+                                                @(Model.Vip == true ? "Vip-di" : "Vip deyil")
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-dot mr-4">
+                                                <i class="bg-@(Model.DisCount == true ? "success" : "warning")"></i>
+                                                @(Model.Vip == true ? "Endrimlidi" : "Endirim Yoxdu")
+                                            </span>
+                                        </td>
+                                        <td>@(Model.IsImported == true ? "Excel vasitəsilə yüklənmişdi":"Proqram vasitəsilə yüklənmişdi")</td>
+                                    </tr>
+
+                                 
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
