@@ -162,6 +162,7 @@
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Dal\DataContext.cs" />
     <Compile Include="Dtos\SalaryReportByDateDto.cs" />
+    <Compile Include="Dtos\SalaryReportDetailsDto.cs" />
     <Compile Include="Dtos\SalesGroupFileDto.cs" />
     <Compile Include="Extensions\StringExtentions.cs" />
     <Compile Include="Filters\FilterContext.cs" />
@@ -2260,6 +2261,8 @@
     <Content Include="Views\Reports\SalaryReportByMonth.cshtml" />
     <Content Include="Views\Reports\SAlaryReportByYear.cshtml" />
     <Content Include="Views\Reports\SalaryReportByQuarterly.cshtml" />
+    <Content Include="Views\Reports\SalaryReportByWorkers.cshtml" />
+    <Content Include="Views\Reports\SalaryRepoByWorkerDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201908051303471_InitialCreate.resx">

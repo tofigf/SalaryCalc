@@ -8,7 +8,6 @@ namespace SalaryCalc.Extensions
 {
     public static class StringExtentions
     {
-      
             public static List<string> EverythingBetween(this string source, string start, string end)
             {
                 var results = new List<string>();
@@ -26,6 +25,16 @@ namespace SalaryCalc.Extensions
 
                 return results;
             }
-        
+            public static int Matches(this string text, string pattern)
+        {
+            int count = 0, i = 0;
+            while ((i = text.IndexOf(pattern, i)) != -1)
+            {
+                i += pattern.Length;
+                count++;
+            }
+            return count;
+        }
+
     }
 }

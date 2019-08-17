@@ -20,13 +20,33 @@
     //checkbox checked button enabled
     $(document).on("click", "#checkAll", function (e) {
         $('input:checkbox').not(this).prop('checked', this.checked);
-    });
-    //calculate
-    $(".calcbutton").click(function () {
-        var text = $(this).data('text');
-        $("#Formula").val(function () {
-            return this.value + text;
-        });
+      
+            $.ajax({
+                url: "/Calculation/AllChecked/?allChecked=" + true,
+                cache: false,
+                type: "get",
+                dataType: "json",
+                success: function () {
+                }
+            });
+        if (!$('#checkAll').is(':checked'))  {
+            $.ajax({
+                url: "/Calculation/AllChecked/?allChecked=" + false,
+                cache: false,
+                type: "get",
+                dataType: "json",
+                success: function () {
+                }
+            });
+        }
+        if (!$('#allpages').val().length) {
+
+            $("#allpages").val("true");
+        }
+        else {
+            $("#allpages").val("");
+
+        }
     });
     //Role table
     $('.role-checkboxx').click(function () {
@@ -86,19 +106,34 @@
             dataType: "html",
             success: function (data) {
                 SetData(data);
-          
             }
         });
+        //=====================================
+        //Checkbox:Checked
+        //=====================================
+        if ($('#checkAll').is(':checked')) {
 
+            $.ajax({
+                url: "/Calculation/AllChecked/?allChecked=" + true,
+                cache: false,
+                type: "get",
+                dataType: "json",
+                success: function () {
+                }
+            });
+        }
+        //else {
+        //    $.ajax({
+        //        url: "/Calculation/AllChecked/?allChecked=" + false,
+        //        cache: false,
+        //        type: "get",
+        //        dataType: "json",
+        //        success: function () {
+        //        }
+        //    });
+        //}
     });
-
-    //$(".positionId").val($(".tabclick").data("id"));
-    //$(document).on("click", ".tabclick", function (e) {
-    //    e.preventDefault();
-    //    var id = $(this).data("id");
-    //    $(".positionId").val(id);
-    //});
-    //take all pages data  on click(pagination)
+    //take all pages data  on click(pagination) didnt use
     $(document).on("click", "#all" , function (e) {
         e.preventDefault();
         if (!$('#allpages').val().length) {
@@ -115,10 +150,6 @@
             $(this).text("Hamısını Seçin (bütün səhifələr)");
 
         }
-     
-       
-      
-       
     });
     //Bootstrap Tooltip
     $(function () {
@@ -164,6 +195,12 @@
         });
     });
     //Calc Add User
+    $(".calcbutton").click(function () {
+        var text = $(this).data('text');
+        $("#Formula").val(function () {
+            return this.value + text;
+        });
+    });
     $("select[name='PinCod']").change(function (e) {
         //{ [123456B & ayliq] }* { [123456C & illik] } / 2
         if ($("select[name='CalcMethod'] option[value='ayliqgelir']").length === 0 && $("select[name='CalcMethod'] option[value='illikgelir']").length === 0 ) {
@@ -174,7 +211,6 @@
                        `);
         }
          $("input[name ='HiddenPinCod']").val($(this).val());
-      
     });
     $("select[name='CalcMethod']").change(function (e) {
          $("input[name ='HiddenCalcMethod']").val($(this).val());
@@ -195,5 +231,37 @@
         }
   
 
+    });
+    $(".allow_decimal").on("input", function (evt) {
+        var self = $(this);
+        self.val(self.val().replace(/[^0-9\.]/g, ''));
+        if ((evt.which !== 46 || self.val().indexOf('.') !== -1) && (evt.which < 48 || evt.which > 57)) {
+            evt.preventDefault();
+        }
+    });
+    $("#NumberAdd").click(function () {
+        thisValue = $("#startNumber").val();
+        selectNumberdate = $("select[name ='NumberAddMonthOrYear']").val();
+        //var lastChar = thisValue.substr(thisValue.length - 1);
+        //if (lastChar.indexOf('%') > -1) {
+
+        //}
+
+        if (thisValue !== '' && selectNumberdate !== '') {
+            $("#Formula").val(function () {
+                return this.value + "$" + thisValue + "," + selectNumberdate + "$";
+            });
+        }
+        $("#startNumber").val("");
+        $(this).prop('disabled', true);
+
+    });
+    $('#Formula').on("change paste keyup", function ()  {
+
+        if ($(this).val().indexOf('$') !== -1) {
+
+            $("#NumberAdd").prop('disabled', false);
+        }
+      
     });
 });

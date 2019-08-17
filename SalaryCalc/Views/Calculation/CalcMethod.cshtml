@@ -27,17 +27,30 @@
                                             <i class="ni ni-fat-add"></i>İllik Hesablamaq
                                         </a>
                                     </div>
-                                    <div class="col-md-4">
-                                        <small id="emailHelp" class="form-text text-muted ml-3">({ayliqgelir} * 30) / 100 bu şəkildə yazılacaq.</small>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="startNumber">Ədəd(Məbləğ-Digər işçilərin satış cəmi)</label>
+                                            <input autocomplete="off" type="text" class="form-control-sm allow_decimal"
+                                                   name="StartNumber" id="startNumber" placeholder="Ədəd">
+                                            <select class="form-control-sm" required name="NumberAddMonthOrYear">
+                                                <option value="">Seçin</option>
 
+                                                <option value="ayliq">Aylıq</option>
+
+                                                <option value="illik">İllik</option>
+                                            </select>
+                                            <button class="btn btn-sm btn-info" id="NumberAdd">Məbləğ</button>
+                                            <small id="emailHelp" class="form-text text-muted ml-3">Verilmiş ədədi keçərsə</small>
+
+                                        </div>
                                     </div>
-                                    <div class="col-4 text-right">
+                                 
+                                    <div class="col-2 text-right">
                                         <a href="@Url.Action("index","calculation")" class="btn btn-sm btn-primary toback"><i class="ni ni-bold-left"></i>Geri Qayıt</a>
                                     </div>
-
                                 </div>
-                                <div class="row align-items-center">
-                                    <div class="col-md-6">
+                                <div class="row align-items-center mt-4">
+                                    <div class="col-4">
                                         <div class="form-group">
                                             <label for="Position">İşçilər</label>
                                             <select class="form-control" required name="PinCod">
@@ -51,7 +64,7 @@
                                             <input type="hidden" name="HiddenPinCod" />
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-4">
                                         <div class="form-group">
                                             <label for="Position">Aylıq və ya İllik</label>
                                             <select class="form-control" required name="CalcMethod">
@@ -60,14 +73,18 @@
                                             <input type="hidden" name="HiddenCalcMethod" />
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-4">
                                         <a href="javascript:void(0)"
-                                           class="btn  btn-success" id="calcAddUser" data-text="">
+                                           class="btn btn  btn-success" id="calcAddUser" data-text="">
                                             <i class="ni ni-fat-add"></i>Əlavə Et
                                         </a>
                                     </div>
+                            
+                                        <small id="emailHelp" class="form-text text-muted ml-3">({ayliqgelir} * 30) / 100 bu şəkildə yazılacaq.</small>
+
+                                    </div>
                                 </div>
-                            </div>
+                             
                             <div class="card-body">
                                 <div class="pl-lg-4">
 

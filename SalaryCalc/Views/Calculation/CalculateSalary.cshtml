@@ -17,6 +17,7 @@
         <div class="header-body">
             <!-- Card stats -->
             <div class="row">
+
                 <div class="col-xl-12 order-xl-1">
                     <div class="card bg-secondary shadow">
                         <div class="card-header bg-white border-0">
@@ -25,45 +26,40 @@
                                 <div class="col-8">
                                     <h3 class="mb-0">Maaş Hesabla</h3>
                                     <small id="emailHelp" class="form-text text-muted">Maaş işçinin aylıq və ya illik  etdiyi satışlarının faiz nisbəti ilə hesablanır.</small>
-
-                                </div>
-
-                            </div>
-                            <div class="row mt-2 mb-2 mt-5">
-                                <div class="col-10">
-                                    <a class="btn btn-sm btn-default" href="@Url.Action("calculatedsalary","calculation")">Hesablanmış Maaşlar</a>
-                                </div>
-                                <div class="col-2 text-right ">
-                                    <button class="btn btn-sm btn-success" type="submit">Yadda Saxla</button>
                                 </div>
                             </div>
-                        </div>
-                        <form action="@Url.Action("calculatesalary","calculation")" method="post">
-                            
-                            <div class="row">
 
-                                <div class="col-md-3"></div>
-                                <div class="col-md-6">
-                                    <label class="form-control-label" for="input-email">Tarix Seçin</label>
-                                    <div class="input-group date">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                                        </div>
-
-                                        <input class="form-control datepicker" autocomplete="off" data-provide="datepicker" name="Date" placeholder="Tarix" type="text">
+                            <form action="@Url.Action("calculatesalary","calculation")" method="post">
+                                <div class="row mt-2 mb-2 mt-5">
+                                    <div class="col-10">
+                                        <a class="btn btn-sm btn-default" href="@Url.Action("calculatedsalary","calculation")">Hesablanmış Maaşlar</a>
+                                    </div>
+                                    <div class="col-2 text-right ">
+                                        <button class="btn btn-sm btn-success" type="submit">Yadda Saxla</button>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-6">
+                                        <label class="form-control-label" for="input-email">Tarix Seçin</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                                            </div>
 
-                                <div class="col-md-3"></div>
-                            </div>
+                                            <input class="form-control datepicker" autocomplete="off" data-provide="datepicker" name="Date" placeholder="Tarix" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3"></div>
+                                </div>
 
-                            <div class="table-responsive mt-5" id="divPartialView">
-                                @*PartialView*@
-                            </div>
+                                <div class="table-responsive mt-5" id="divPartialView">
+                                    @*PartialView*@
+                                </div>
+                            </form>
+                        </div>
 
-                        </form>
                     </div>
-
                 </div>
             </div>
         </div>

@@ -52,7 +52,8 @@ namespace SalaryCalc.Controllers
                 Session["Error"] = "Bütün xanaları doldurun";
                 return RedirectToAction("index");
             }
-     
+            //Dinamik yazmaq lazimdi admin ve ya isci olamgini
+            user.IsAdmin = 2;
             user.Password = Crypto.HashPassword(user.Password);
             db.Users.Add(user);
             db.SaveChanges();

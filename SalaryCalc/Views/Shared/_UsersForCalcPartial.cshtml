@@ -8,20 +8,15 @@
 
 @if (Model.Count() > 0)
 {
-    if (ViewBag.TotalPage > 1)
-    {
-    <a class="btn btn-default" href="javascript:void(0)" id="all">Hamısını Seçin (bütün səhifələr)</a>
-        <input type="hidden" name="all" id="allpages" />
-    }
     <table class="table align-items-center table-flush">
         <thead class="thead-light">
             <tr>
                 <th scope="col">
                     <div class="custom-control custom-checkbox mb-3">
-                        <input class="custom-control-input" id="checkAll" type="checkbox">
+                        <input class="custom-control-input" @(ViewBag.AllChecked == true ? "checked" : "") id="checkAll" type="checkbox">
                         <label class="custom-control-label" for="checkAll">Hamsını Seçmək(bu səhifədə)</label>
+                        <input type="hidden" name="all" id="allpages" />
                     </div>
-
                 </th>
                 <th>İşçilər</th>
                 <th>Hesablama Metodu</th>
@@ -35,7 +30,7 @@
                     <tr>
                         <td>
                             <div class="custom-control custom-checkbox mb-3">
-                                <input class="custom-control-input" id="check-@item.Id" type="checkbox" name="usersId[]" value="@item.Id" data-id="@item.Id">
+                                <input class="custom-control-input" @(ViewBag.AllChecked == true ? "checked" :"") id="check-@item.Id" type="checkbox" name="usersId[]" value="@item.Id" data-id="@item.Id">
                                 <label class="custom-control-label" for="check-@item.Id">Seçin</label>
                             </div>
 

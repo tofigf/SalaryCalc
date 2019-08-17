@@ -1,4 +1,5 @@
 ﻿using SalaryCalc.Dtos;
+using SalaryCalc.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.SqlServer;
@@ -112,6 +113,93 @@ namespace SalaryCalc.Controllers
                 monthDtos.Add(monthDto);
             }
             return View(monthDtos);
+        }
+        [HttpGet]
+        public ActionResult SalaryReportByWorkers(int? year, int page = 1)
+        {
+            if (year == null)
+            {
+                year = DateTime.Now.Year;
+            }
+            int skip = ((int)page - 1) * 10;
+
+            ViewBag.TotalPage = Math.Ceiling(db.SaleImports.Count() / 10.0);
+            ViewBag.Page = page;
+            if (year == null)
+            {
+                year = DateTime.Now.Year;
+            }
+            List<SalaryReportDetailsDto> salaryReportDetails = new List<SalaryReportDetailsDto>();
+            var salaryByUsers = db.CalculatedSalaryByUsers.Where(w => w.Date.Year == year)
+                 .GroupBy(g => g.UserId)
+                 .Select(s => new {
+                     userId = s.Key,
+                     userName = s.FirstOrDefault().User.UserName,
+                     totalPrice = s.Sum(su => su.Salary),
+                     date = s.FirstOrDefault().Date,
+                     formulaName = s.FirstOrDefault().User.CalcForum.Name
+                 })
+                   .OrderBy(d => d.userId)
+                 .Skip(skip).Take(10).ToList();
+
+            if (salaryByUsers != null)
+            {
+                foreach (var item in salaryByUsers)
+                {
+                    SalaryReportDetailsDto salaryReport = new SalaryReportDetailsDto
+                    {
+
+                        UserId = item.userId,
+                        UserName = item.userName,
+                        FormulaName = item.formulaName,
+                        TotalPrice = item.totalPrice,
+                        Date = item.date
+                    };
+                    salaryReportDetails.Add(salaryReport);
+                }
+                return View(salaryReportDetails);
+            }
+
+
+            return RedirectToAction("index");
+        }
+        [HttpGet]
+        public ActionResult SalaryRepoByWorkerDetails(int? year, int? id)
+        {
+            if (year == null)
+            {
+                year = DateTime.Now.Year;
+            }
+            var sqlMinDate = (DateTime)SqlDateTime.MinValue;
+            List<SalaryReportDetailsDto> salaryReportDetails = new List<SalaryReportDetailsDto>();
+            var SalaryWorkerByMonyh = db.CalculatedSalaryByUsers.Where(w => w.Date.Year == year && w.UserId == id)
+              .GroupBy(o => SqlFunctions.DateAdd("month", SqlFunctions.DateDiff("month", sqlMinDate, o.Date), sqlMinDate))
+              .Select(s => new {
+
+                  date = s.Key,
+                  userName = s.FirstOrDefault().User.UserName,
+                  totalPrice = s.Sum(su => su.Salary)
+
+              })
+                   .OrderBy(d => d.date.Value.Month).
+                ToList();
+            if (SalaryWorkerByMonyh != null)
+            {
+                foreach (var item in SalaryWorkerByMonyh)
+                {
+                    SalaryReportDetailsDto salaryReport = new SalaryReportDetailsDto
+                    {
+
+                        UserName = item.userName,
+                        TotalPrice = item.totalPrice,
+                        Date = item.date.Value
+                    };
+                    salaryReportDetails.Add(salaryReport);
+                }
+                return View(salaryReportDetails);
+            }
+
+            return RedirectToAction("index");
         }
     }
 }
