@@ -163,7 +163,8 @@
     <Compile Include="Dal\DataContext.cs" />
     <Compile Include="Dtos\SalaryReportByDateDto.cs" />
     <Compile Include="Dtos\SalaryReportDetailsDto.cs" />
-    <Compile Include="Dtos\SalesGroupFileDto.cs" />
+    <Compile Include="Dtos\SaleReportDetailsDto.cs" />
+    <Compile Include="Dtos\SalesReportByDateDto.cs" />
     <Compile Include="Extensions\StringExtentions.cs" />
     <Compile Include="Filters\FilterContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -257,6 +258,14 @@
     <Compile Include="Migrations\201908141008056_UserPinCodStringlength.cs" />
     <Compile Include="Migrations\201908141008056_UserPinCodStringlength.Designer.cs">
       <DependentUpon>201908141008056_UserPinCodStringlength.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908182002550_PositionIsAdmin.cs" />
+    <Compile Include="Migrations\201908182002550_PositionIsAdmin.Designer.cs">
+      <DependentUpon>201908182002550_PositionIsAdmin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908182027227_RemoveUserAdminColumn.cs" />
+    <Compile Include="Migrations\201908182027227_RemoveUserAdminColumn.Designer.cs">
+      <DependentUpon>201908182027227_RemoveUserAdminColumn.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ButtonsStatic.cs" />
@@ -2259,10 +2268,15 @@
     <Content Include="Views\Sales\Details.cshtml" />
     <Content Include="Views\Reports\Index.cshtml" />
     <Content Include="Views\Reports\SalaryReportByMonth.cshtml" />
-    <Content Include="Views\Reports\SAlaryReportByYear.cshtml" />
+    <Content Include="Views\Reports\SalaryReportByYear.cshtml" />
     <Content Include="Views\Reports\SalaryReportByQuarterly.cshtml" />
     <Content Include="Views\Reports\SalaryReportByWorkers.cshtml" />
     <Content Include="Views\Reports\SalaryRepoByWorkerDetails.cshtml" />
+    <Content Include="Views\Reports\SaleReportByMonth.cshtml" />
+    <Content Include="Views\Reports\SaleReportByQuarterly.cshtml" />
+    <Content Include="Views\Reports\SaleReportByYear.cshtml" />
+    <Content Include="Views\Reports\SaleReportByWorkers.cshtml" />
+    <Content Include="Views\Reports\SaleRepoByWorkerDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201908051303471_InitialCreate.resx">
@@ -2330,6 +2344,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908141008056_UserPinCodStringlength.resx">
       <DependentUpon>201908141008056_UserPinCodStringlength.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908182002550_PositionIsAdmin.resx">
+      <DependentUpon>201908182002550_PositionIsAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908182027227_RemoveUserAdminColumn.resx">
+      <DependentUpon>201908182027227_RemoveUserAdminColumn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

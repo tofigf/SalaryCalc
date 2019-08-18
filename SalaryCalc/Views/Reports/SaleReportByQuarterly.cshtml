@@ -1,11 +1,12 @@
 ﻿
 @using SalaryCalc.Dtos
-@model List<SalaryReportDetailsDto>
+@model List<SalesReportByDateDto>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var culture = new System.Globalization.CultureInfo("az");
 }
+
 
 <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8 mb-4">
     <div class="container-fluid">
@@ -16,15 +17,11 @@
                     <div class="card shadow">
                         <div class="card-header border-0">
                             <div class="row align-items-center">
-                                <div class="col-2">
-                                    <a href="@Url.Action("exportsalaryrepobyworkerdetails","reports")" class="btn btn-sm btn-success"><i class="ni ni-fat-add"></i>Export Et</a>
-                                </div>
                                 <div class="col-8">
-                                    <h3 class="mb-0">@Model.FirstOrDefault().UserName - Aylıq Maaşları</h3>
+                                    <h3 class="mb-0">Rüblük</h3>
                                 </div>
-
-                                <div class="col-2 text-right">
-                                    <a href="@Url.Action("salaryreportbyworkers","reports")" class="btn btn-sm btn-primary toback"><i class="ni ni-bold-left"></i>Geri Qayıt</a>
+                                <div class="col-4 text-right">
+                                    <a href="@Url.Action("index","reports")" class="btn btn-sm btn-primary toback"><i class="ni ni-bold-left"></i>Geri Qayıt</a>
                                 </div>
                             </div>
                         </div>
@@ -33,20 +30,29 @@
                                 <thead class="thead-light">
 
                                     <tr>
-                                        <th scope="col">Ay</th>
-                                        <th scope="col">Məbləğ</th>
+                                        <th scope="col">Rüblük</th>
+                                        <th scope="col">Sayı</th>
+                                        <th scope="col">Endirim</th>
+                                        <th scope="col">Təsdiqlənib</th>
+                                        <th scope="col">Təsdiqlənməyib</th>
+                                        <th scope="col">Vip</th>
+                                        <th scope="col">Excel vasitəsilə yüklənmişdi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
                                     @foreach (var item in Model)
                                     {
-                                        <tr>
-                                            <td>@item.Date.ToString("MMMM", culture)</td>
-                                            <td>@item.TotalPrice.ToString("0.00")</td>
-                                        </tr>
+                                    <tr>
+                                        <td>@item.quarterly</td>
+                                        <td>@item.TotalCount</td>
+                                        <td>@item.TotalDisCount</td>
+                                        <td>@item.TotalIsComfirmed</td>
+                                        <td>@item.totalNotConfirmed</td>
+                                        <td>@item.TotalVip</td>
+                                        <td>@item.TotalImported</td>
+                                    </tr>
                                     }
-
 
                                 </tbody>
                             </table>

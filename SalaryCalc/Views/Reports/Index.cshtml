@@ -45,14 +45,17 @@
                                             <h4 class="card-title">Satış Hesabatları</h4>
                                             <h6 class="card-subtitle mb-2 text-muted">Aylıq & İllik(təsdiqlənmiş və təsdiqlənməmiş)</h6>
                                             <div class="row">
-                                                <div class="col-3">
-                                                    <a href="#" class="card-link">Aylıq</a>
+                                                <div class="col-2">
+                                                    <a href="@Url.Action("salereportbymonth","reports")" class="card-link">Aylıq</a>
                                                 </div>
                                                 <div class="col-3">
-                                                    <a href="#" class="card-link">İllik</a>
+                                                    <a href="@Url.Action("salereportbyquarterly","reports")" class="card-link">Rüblük</a>
                                                 </div>
-                                                <div class="col-6">
-                                                    <a href="#" class="card-link">İşçilərə görə Satış</a>
+                                                <div class="col-2">
+                                                    <a href="@Url.Action("salereportByyear","reports")" class="card-link">İllik</a>
+                                                </div>
+                                                <div class="col-5">
+                                                    <a href="@Url.Action("salereportbyworkers","reports")" class="card-link">İşçilərə görə Satış</a>
                                                 </div>
                                             </div>
                                         </div>

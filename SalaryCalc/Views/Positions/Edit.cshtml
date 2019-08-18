@@ -20,23 +20,35 @@
                                     <a href="@Url.Action("index","positions")" class="btn btn-sm btn-primary toback"><i class="ni ni-bold-left"></i>Geri Qayıt</a>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                        </div>
-                        <div class="col-md-4">
+                           
                             <form id="myForm" method="post" action="@Url.Action("edit","positions")">
-                                @Html.AntiForgeryToken()
-                                <div class="form-group">
-                                    <input type="hidden" name="Id" value="@Model.Id" id="Id" />
-                                    <label class="control-label" for="Name">Adı</label>
-                                    <input type="text" autocomplete="off" class="form-control" name="Name" value="@Model.Name" id="Name" placeholder="Adı"
-                                           data-validation="required" data-validation-error-msg="Qeyd edin">
-                                </div>
+                                <div class="row">
+                                    @Html.AntiForgeryToken()
+                                    <div class="col-md-2">
+                                    </div>
+                                    <div class="col-md-4">
 
-                                <button type="submit" class="btn btn-primary mt-4">Sign in</button>
+                                        <div class="form-group">
+                                            <input type="hidden" name="Id" value="@Model.Id" id="Id" />
+                                            <label class="control-label" for="Name">Adı</label>
+                                            <input type="text" autocomplete="off" class="form-control" name="Name" value="@Model.Name" id="Name" placeholder="Adı"
+                                                   data-validation="required" data-validation-error-msg="Qeyd edin">
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary mt-4">Sign in</button>
+
+                                    </div>
+                                    <div class="col-md-6 mt-4">
+                                        <div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input" name="IsAdmin" value="true" id="IsAdmin" type="checkbox" @(Model.IsAdmin == true ? "checked" : "")>
+                                            <input type="hidden" value="false" name="IsAdmin" />
+                                            <label class="custom-control-label text-success" for="IsAdmin">Maaş hesablanmaya aid olmayan vəzifə</label>
+                                        </div>
+                                        <small id="emailHelp" class="form-text text-muted ml-3">Əgər yeni vəzifə maaş hesablanmaya aid deyilsə,seçin!</small>
+                                    </div>
+                                </div>
                             </form>
-                        </div>
-                        <div class="col-md-4">
+                         
                         </div>
                     </div>
                     </div>

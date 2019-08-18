@@ -55,6 +55,7 @@ namespace SalaryCalc.Controllers
 
         }
         //Get [baseUrl]Positions/Edit
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult Edit(Postion postion)
         {

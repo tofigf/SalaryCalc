@@ -25,7 +25,7 @@ namespace SalaryCalc.Controllers
             ViewBag.TotalPage = Math.Ceiling(db.SaleImports.Count() / 10.0);
             ViewBag.Page = page;
 
-         List<User> users =  db.Users.Where(w => w.IsAdmin != 0 && w.IsAdmin != 1).OrderByDescending(a => a.Id)
+         List<User> users =  db.Users.Where(w => w.Postion.IsAdmin == false).OrderByDescending(a => a.Id)
                  .Skip(skip).Take(10).ToList();
             return View(users);
         }
@@ -53,7 +53,6 @@ namespace SalaryCalc.Controllers
                 return RedirectToAction("index");
             }
             //Dinamik yazmaq lazimdi admin ve ya isci olamgini
-            user.IsAdmin = 2;
             user.Password = Crypto.HashPassword(user.Password);
             db.Users.Add(user);
             db.SaveChanges();
@@ -78,6 +77,7 @@ namespace SalaryCalc.Controllers
             return View(user);
         }
         //Post [baseUrl]Users/Edit
+        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult Edit(User user,string OldPassword)
         {
@@ -128,7 +128,7 @@ namespace SalaryCalc.Controllers
 
             return RedirectToAction("index");
         }
-       [AllowAnonymous]
+        [AllowAnonymous]
         [HttpPost]
         public JsonResult CheckUsersPassword(string OldPassword)
         {

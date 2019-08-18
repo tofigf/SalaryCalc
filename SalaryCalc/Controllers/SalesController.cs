@@ -38,7 +38,7 @@ namespace SalaryCalc.Controllers
         public ActionResult Create()
         {
 
-            return View(model:db.Users.ToList());
+            return View(model:db.Users.Where(w=>w.Postion.IsAdmin == false).ToList());
         }
         //Post [baseUrl]Sales/Create
         [ValidateAntiForgeryToken]
@@ -71,7 +71,7 @@ namespace SalaryCalc.Controllers
             }
             Sale model = db.Sales.Find(id);
 
-            ViewBag.User = db.Users.ToList();
+            ViewBag.User = db.Users.Where(w=>w.Postion.IsAdmin == false).ToList();
 
             return View(model);
 

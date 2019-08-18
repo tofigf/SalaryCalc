@@ -1,9 +1,11 @@
-﻿@using SalaryCalc.Dtos
-@model List<SalaryReportDetailsDto>
+﻿
+@using SalaryCalc.Dtos
+@model List<SaleReportDetailsDto>
 @{
-    ViewBag.Title = "SalaryReportByWorkers";
+    ViewBag.Title = "SaleReportByWorkers";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 
 <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8 mb-4">
     <div class="container-fluid">
@@ -22,7 +24,7 @@
                         <div class="card-header border-0">
                             <div class="row align-items-center">
                                 <div class="col-8">
-                                    <a href="@Url.Action("exportsalaryreportbyworkers","reports")" class="btn btn-sm btn-success"><i class="ni ni-fat-add"></i>Export Et</a>
+                                    <a href="@Url.Action("ExportSaleReportByWorkers","reports")" class="btn btn-sm btn-success"><i class="ni ni-fat-add"></i>Export Et</a>
                                 </div>
                                 <div class="col-4 text-right">
                                     <a href="@Url.Action("index","reports")" class="btn btn-sm btn-primary toback"><i class="ni ni-bold-left"></i>Geri Qayıt</a>
@@ -34,11 +36,13 @@
                                 <thead class="thead-light">
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">Işçi Adı</th>
-                                        <th scope="col">Düstur</th>
-                                        <th scope="col">Maaş</th>
-                                        <th scope="col">İl</th>
-                                        <th scope="col"></th>
+                                        <th scope="col">İşçi Adı</th>
+                                        <th scope="col">Sayı</th>
+                                        <th scope="col">Endirim</th>
+                                        <th scope="col">Vip</th>
+                                        <th scope="col">Təsdiqlənib</th>
+                                        <th scope="col">Təsdiqlənməyib</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -50,11 +54,13 @@
                                     <tr>
                                         <th scope="row">@i</th>
                                         <td>@item.UserName</td>
-                                        <td>@item.FormulaName</td>
-                                        <td>@item.TotalPrice.ToString("0.00")</td>
-                                        <td>@item.Date.Year</td>
+                                        <td>@item.TotalCount</td>
+                                        <td>@item.TotalDisCount</td>
+                                        <td>@item.TotalVip</td>
+                                        <td>@item.TotalIsComfirmed</td>
+                                        <td>@item.totalNotConfirmed</td>
                                         <td>
-                                            <a href="@Url.Action("salaryrepobyworkerdetails","reports",new { id = item.UserId })" class="btn btn-sm btn-primary">Ətraflı</a>
+                                            <a href="@Url.Action("salerepobyworkerdetails","reports",new { id = item.UserId })" class="btn btn-sm btn-primary">Ətraflı</a>
                                         </td>
                                     </tr>
 

@@ -18,7 +18,7 @@
             }
             <div class="header-body">
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-6">
                         <div class="card shadow">
                             <div class="card-header border-0">
                                 <div class="row align-items-center">
@@ -28,23 +28,31 @@
                                     <div class="col-4 text-right">
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-12">
                                 <form method="post" action="@Url.Action("create","positions")">
                                     @Html.AntiForgeryToken()
-                                    <div class="form-group">
-                                        <label class="control-label" for="Name">Adı</label>
-                                        <input type="text" autocomplete="off" data-validation="required" data-validation-error-msg="Qeyd edin"
-                                               class="form-control" name="Name" id="Name" placeholder="Adı">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                                <div class="form-group">
+                                                <label class="control-label" for="Name">Adı</label>
+                                                <input type="text" autocomplete="off" data-validation="required" data-validation-error-msg="Qeyd edin"
+                                                       class="form-control" name="Name" id="Name" placeholder="Adı">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mt-4">
+                                            <div class="custom-control custom-checkbox">
+                                                <input class="custom-control-input" name="IsAdmin" value="true" id="IsAdmin" type="checkbox">
+                                                <input type="hidden" value="false" name="IsAdmin" />
+                                                <label class="custom-control-label text-success" for="IsAdmin">Maaş hesablanmaya aid olmayan vəzifə</label>
+                                            </div>
+                                 <small id="emailHelp" class="form-text text-muted ml-3">Əgər yeni vəzifə maaş hesablanmaya aid deyilsə,seçin!</small>
+                                        </div>
                                     </div>
-
                                     <button type="submit" class="btn btn-primary mt-4 mb-4">Əlavə et</button>
                                 </form>
                             </div>
-
-                        </div>
+                            </div>
                     </div>
-                    <div class="col-8">
+                    <div class="col-6">
                         <div class="card shadow">
                             <div class="card-header border-0">
                                 <div class="row align-items-center">

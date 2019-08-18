@@ -25,7 +25,7 @@ namespace SalaryCalc.Models
         [RegularExpression(@"^[A-Z0-9]+$")]
         [Required, StringLength(7, MinimumLength = 7)]
         public string PinCod { get; set; }
-        public byte IsAdmin { get; set; }
+       
         [ForeignKey("Postion")]
         public Nullable<int> PostionId { get; set; }
 
