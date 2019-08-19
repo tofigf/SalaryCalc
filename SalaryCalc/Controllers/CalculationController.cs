@@ -406,12 +406,17 @@ namespace SalaryCalc.Controllers
         {
             int skip = ((int)page - 1) * 6;
 
-            List<User> model = db.Users.Where(w =>w.Postion.IsAdmin == false && w.CalculatedSalaryByUsers
+            List<User> model = db.Users.Where(w =>w.Postion.IsAdmin == false && 
+            w.Sales.Any(a => a.Date.Year == currYear && a.Date.Month == currMonth)
+            && w.CalculatedSalaryByUsers
             .Where(x => x.Date.Month == currMonth && x.Date.Year == currYear)
             .FirstOrDefault(a =>a.UserId == w.Id) == null).ToList();
 
             //Pagination List
-            List<User> PaginateModel = db.Users.Where(w => w.Postion.IsAdmin == false && w.CalculatedSalaryByUsers
+            List<User> PaginateModel = db.Users.Where(w => w.Postion.IsAdmin == false
+            &&
+            w.Sales.Any(a => a.Date.Year == currYear && a.Date.Month == currMonth)
+            && w.CalculatedSalaryByUsers
             .Where(x => x.Date.Month == currMonth && x.Date.Year == currYear)
             .FirstOrDefault(a => a.UserId == w.Id) == null).OrderBy(a => a.Id)
             .Skip(skip).Take(6).ToList().ToList();
@@ -430,6 +435,7 @@ namespace SalaryCalc.Controllers
             return PartialView("_UsersForCalcPartial", PaginateModel);
         }
       
+        [NonAction]
         public double? ByMonth(int? id, int? currMonth)
         {
 
@@ -439,6 +445,7 @@ namespace SalaryCalc.Controllers
 
             return total;
         }
+        [NonAction]
         public double? ByYear(int? id, int? currYear)
         {
             if (db.Sales.FirstOrDefault(a => a.UserId == id && a.Date.Year == currYear && a.IsComfirmed == true) == null)
@@ -447,6 +454,7 @@ namespace SalaryCalc.Controllers
 
             return total;
         }
+        [NonAction]
         public bool CheckCalculatedUsers(int? currMonth, int? currYear, int? userId)
         {
             if (db.CalculatedSalaryByUsers.FirstOrDefault(w => w.UserId == userId && w.Date.Month == currMonth && w.Date.Year == currYear) != null)

@@ -13,21 +13,21 @@ namespace SalaryCalc.Controllers
   
     public abstract class BaseController : Controller
     {
-        protected  User user { get; set; }
+        protected  User userLoginned { get; set; }
         protected  DataContext db { get; set; }
 
         public  List<UserRole> roles { get; set; }
         protected override void Initialize(RequestContext requestContext)
         {
-             user = requestContext.HttpContext.Session["LoggedUser"] as User;
+             userLoginned = requestContext.HttpContext.Session["LoggedUser"] as User;
              db = new DataContext();
-            if (user == null)
+            if (userLoginned == null)
             {
                 roles = db.UserRoles.Where(w => w.PostionId == db.Postions.FirstOrDefault().Id).ToList();
             }
             else
             {
-                roles = db.UserRoles.Where(w => w.PostionId == user.PostionId).ToList();
+                roles = db.UserRoles.Where(w => w.PostionId == userLoginned.PostionId).ToList();
 
             }
             base.Initialize(requestContext);

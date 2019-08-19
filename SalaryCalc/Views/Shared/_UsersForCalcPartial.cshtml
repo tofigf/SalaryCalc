@@ -41,10 +41,6 @@
                         </td>
                         <td> @item.CalcForum.Name</td>
 
-                        @if (item.Sales.FirstOrDefault(w => w.Date.Month == currMonth) == null)
-                        {
-
-                        }
                     <td>
                         <span class="badge badge-dot mr-4">
                             <i class="bg-@(item.Sales.FirstOrDefault(w => w.Date.Year == currYear && w.Date.Month == currMonth) == null ? "danger" : "success")"></i>
@@ -95,7 +91,7 @@
 else
 {
     <div class="text-center">
-        <h2> Bu ay üzrə bütün maaşlar hesablanıb</h2>
+        <h2> Bu ay üzrə satış olunmayıb və ya təsdiqlənməyib və ya bütün maaşlar hesablanıb</h2>
     </div>
 }
 

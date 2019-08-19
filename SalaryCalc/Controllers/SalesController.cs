@@ -52,6 +52,15 @@ namespace SalaryCalc.Controllers
             }
 
             db.Sales.Add(sale);
+            Log log = new Log {
+
+                CurrentUserId = userLoginned.Id,
+                ActionedUserId = sale.UserId,
+                CreatedAt = DateTime.Now,
+                Method = "Yaratmaq",
+                Sale =sale
+            };
+            db.Logs.Add(log);
             db.SaveChanges();
 
             return RedirectToAction("index");
@@ -81,17 +90,46 @@ namespace SalaryCalc.Controllers
         [HttpPost]
         public ActionResult Edit(Sale sale)
         {
-            if(sale != null){
-                db.Entry(sale).State = EntityState.Modified;
+            Sale findedSale = db.Sales.FirstOrDefault(f=>f.IsComfirmed == false && f.Id  == sale.Id);
+            if(findedSale == null)
+            {
 
+                Session["Error"] = "Xəta!";
+                return RedirectToAction("index");
+            }
+
+                Log log = new Log
+                {
+                    CurrentUserId = userLoginned.Id,
+                    ActionedUserId = sale.UserId,
+                    CreatedAt = DateTime.Now,
+                    Method = "Dəyişmək",
+                    SaleId = findedSale.Id
+                };
+                db.Logs.Add(log);
+
+                LogSale logSale = new  LogSale{
+                    OldPrice = findedSale.Price,
+                    OldName= findedSale.Name,
+                    OldCount =findedSale.Count,
+                    OLdDisCount =findedSale.DisCount,
+                    OLdVip = findedSale.Vip,
+                    OldIsComfirmed =findedSale.IsComfirmed,
+                    OldIsImported =findedSale.IsImported
+                };
+            db.LogSales.Add(logSale);
+
+            findedSale.Price = sale.Price;
+            findedSale.Name = sale.Name;
+            findedSale.UserId = sale.UserId;
+            findedSale.Count = sale.Count;
+            findedSale.Date = sale.Date;
+            findedSale.Vip = sale.Vip;
+            findedSale.DisCount = sale.DisCount;
+            
                 db.SaveChanges();
 
                 return RedirectToAction("index");
-            }
-          
-                Session["Error"] = "Bütün xanaları doldurun";
-                return RedirectToAction("index");
-            
         }
         //Get [baseUrl]Sales/Delete
         [HttpGet]
@@ -106,8 +144,21 @@ namespace SalaryCalc.Controllers
                 return RedirectToAction("index");
 
             }
-
             Sale sale = db.Sales.Find(id);
+            List<Log> logs = db.Logs.Where(w => w.SaleId == sale.Id).ToList();
+            foreach (var item in logs)
+            {
+               LogSale logSale = db.LogSales.FirstOrDefault(w => w.LogId == item.Id);
+                if(logSale != null)
+                {
+                    db.LogSales.Remove(logSale);
+                }
+            }
+            if(logs != null)
+            {
+                db.Logs.RemoveRange(logs);
+            }
+          
             if(sale != null)
             {
                 db.Sales.Remove(sale);
@@ -316,7 +367,7 @@ namespace SalaryCalc.Controllers
                     #endregion
 
                     var pincodFromExcel = row.Cell(2).Value.ToString();
-                    User user = db.Users.FirstOrDefault(f => f.PinCod == pincodFromExcel);
+                    User user = db.Users.Where(w=>w.Postion.IsAdmin == false).FirstOrDefault(f => f.PinCod == pincodFromExcel);
 
                     //Check
                     #region Check

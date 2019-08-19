@@ -24,10 +24,11 @@ namespace SalaryCalc.Models
         public DateTime Date { get; set; }
 
         [ForeignKey("SaleImport")]
-        public Nullable <int> SaleImportId { get; set; }
+        public int? SaleImportId { get; set; }
 
         public virtual SaleImport SaleImport { get; set; }
         public virtual User User { get; set; }
-      
+        public virtual ICollection<Log> Logs { get; set; }
+
     }
 }

@@ -95,14 +95,38 @@
                             </a>
                         </li>
                     }
-                    @if (UserRoles.Any(a => a.Role.Controller == "Reports" && a.Role.Action == "Index"))
+                    @if (user.Postion.IsAdmin == true)
                     {
-                <li class="nav-item">
-                    <a class="nav-link @(controller =="Reports" ? "active" : "")" href="@Url.Action("index", "reports")">
-                        <i class="ni ni-archive-2 text-success"></i>Hesabatlar
-                    </a>
-                </li>
+                        if (UserRoles.Any(a => a.Role.Controller == "Reports" && a.Role.Action == "Index"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link @(controller =="Reports" ? "active" : "")" href="@Url.Action("index", "reports")">
+                                    <i class="ni ni-archive-2 text-success"></i>Hesabatlar
+                                </a>
+                            </li>
+                        }
                     }
+                    else
+                    {
+                        if (UserRoles.Any(a => a.Role.Controller == "Reports" && a.Role.Action == "Report"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link @(controller =="Reports" ? "active" : "")" href="@Url.Action("report", "reports")">
+                                    <i class="ni ni-archive-2 text-success"></i>Hesabatlar
+                                </a>
+                            </li>
+                        }
+                    }
+
+                    @if (UserRoles.Any(a => a.Role.Controller == "Reports" && a.Role.Action == "Report"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link @(controller =="Reports" ? "active" : "")" href="@Url.Action("report", "reports")">
+                                <i class="ni ni-lock-circle-open text-danger"></i>Log
+                            </a>
+                        </li>
+                    }
+
                 </ul>
             </div>
 

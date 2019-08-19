@@ -19,7 +19,7 @@ namespace SalaryCalc.Models
         public string Email { get; set; }
         [Required, MaxLength(150)]
         public string Phone { get; set; }
-        [Required,MaxLength(150)]
+        [MaxLength(150)]
         public string Password { get; set; }
 
         [RegularExpression(@"^[A-Z0-9]+$")]
@@ -36,6 +36,11 @@ namespace SalaryCalc.Models
         public virtual CalcForum CalcForum { get; set; }
 
         public virtual ICollection<Sale> Sales { get; set; }
+
+        [InverseProperty("ActionedUser")]
+        public virtual ICollection<Log> ActionedUserLogs { get; set; }
+        [InverseProperty("CurrentUser")]
+        public virtual ICollection<Log> CurrentLogs { get; set; }
         public virtual ICollection<CalculatedSalaryByUser> CalculatedSalaryByUsers { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿
-
 @using SalaryCalc.Models
 @model User
 
@@ -19,7 +18,7 @@
                             <div class="row align-items-center">
 
                                 <div class="col-10">
-                                    <h3 class="mb-0">Yarat</h3>
+                                    <a href="@Url.Action("passwordchange","users",new { id = Model.Id })" class="btn btn-sm btn-default toback"><i class="ni ni-fat-add"></i>Şifrəni Dəyiş</a>
                                 </div>
                                 <div class="col-2 text-right">
                                     <a href="@Url.Action("index","users")" class="btn btn-sm btn-primary toback"><i class="ni ni-bold-left"></i>Geri Qayıt</a>
@@ -52,42 +51,22 @@
                                                        data-validation="required" data-validation-error-msg="Qeyd edin">
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <label class="control-label" for="Phone">Telefon</label>
                                                 <input type="text" autocomplete="off" class="form-control" name="Phone" value="@Model.Phone" id="Phone" placeholder="Telefon"
                                                        data-validation="required" data-validation-error-msg="Qeyd edin">
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="Email">Email</label>
                                                 <input type="text" required class="form-control" value="@Model.Email" name="Email" id="Email" placeholder="Email"
                                                        data-validation="email" data-validation-error-msg="Daxil etdiyiniz email ünvanı yalnışdır">
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="control-label" for="OldPassword">Köhnə Şifrə</label>
-                                                <input type="password" class="form-control" name="OldPassword" id="OldPassword" placeholder="Köhnə Şifrə"
-                                                       data-validation="server" data-validation-url="@Url.Action("checkuserspassword","users")">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="control-label" for="Password">Şifrə</label>
-                                                <input type="password" class="form-control" name="Password" id="Password" placeholder="Şifrə"
-                                                       data-validation="length" data-validation-length="min8" data-validation-error-msg="Daxil etdiyiniz şifrə ən azı 8 simvol olmalıdı">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label class="control-label" for="ConfirmPassword">Şifrə Təkrarı</label>
-                                                <input type="password" class="form-control" name="ConfirmPassword" id="ConfirmPassword" placeholder="Şifrə Təkrarı"
-                                                       data-validation="confirmation" data-validation-confirm="Password" data-validation-error-msg="Şifrə təkrarı düzgün deyil">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
+                                     
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="Position">Maaş Hesablama formulu</label>
                                                 <select class="form-control" required name="CalcForumId">
@@ -100,7 +79,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="Position">Vəzifə</label>
                                                 <select class="form-control" required name="PostionId">
@@ -114,14 +93,12 @@
                                             </div>
                                         </div>
 
-
                                     </div>
                                     <div class="row mt-2 mb-3">
                                         <div class="col-md-2 offset-10 float-right">
                                             <button class="btn btn-success" type="submit">Yadda Saxla</button>
                                         </div>
                                     </div>
-
 
                                 </form>
                                 </div>

@@ -154,6 +154,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CalculationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PositionsController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
@@ -271,10 +272,29 @@
     <Compile Include="Migrations\201908190609290_RoleArea.Designer.cs">
       <DependentUpon>201908190609290_RoleArea.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908190821511_Log_LogUser.cs" />
+    <Compile Include="Migrations\201908190821511_Log_LogUser.Designer.cs">
+      <DependentUpon>201908190821511_Log_LogUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908191004171_LogSale.cs" />
+    <Compile Include="Migrations\201908191004171_LogSale.Designer.cs">
+      <DependentUpon>201908191004171_LogSale.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908191006552_LogSales.cs" />
+    <Compile Include="Migrations\201908191006552_LogSales.Designer.cs">
+      <DependentUpon>201908191006552_LogSales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201908191238164_UserPassword.cs" />
+    <Compile Include="Migrations\201908191238164_UserPassword.Designer.cs">
+      <DependentUpon>201908191238164_UserPassword.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ButtonsStatic.cs" />
     <Compile Include="Models\CalcForum.cs" />
     <Compile Include="Models\CalculatedSalaryByUser.cs" />
+    <Compile Include="Models\Log.cs" />
+    <Compile Include="Models\LogSale.cs" />
+    <Compile Include="Models\LogUser.cs" />
     <Compile Include="Models\Postion.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Sale.cs" />
@@ -2247,6 +2267,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\Log\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Files\Sample.xlsx" />
@@ -2281,6 +2302,14 @@
     <Content Include="Views\Reports\SaleReportByYear.cshtml" />
     <Content Include="Views\Reports\SaleReportByWorkers.cshtml" />
     <Content Include="Views\Reports\SaleRepoByWorkerDetails.cshtml" />
+    <Content Include="Views\Users\PasswordChange.cshtml" />
+    <Content Include="Views\Reports\Report.cshtml" />
+    <Content Include="Views\Reports\SalaryEachUserReportByMonth.cshtml" />
+    <Content Include="Views\Reports\SalaryEachUserReportByYear.cshtml" />
+    <Content Include="Views\Reports\SaleReportEachUserByMonth.cshtml" />
+    <Content Include="Views\Reports\SaleReportByEachUserQuarterly.cshtml" />
+    <Content Include="Views\Reports\SaleReportEachUserByYear.cshtml" />
+    <Content Include="Views\Reports\SalaryEachUserReportByQuarterly.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201908051303471_InitialCreate.resx">
@@ -2357,6 +2386,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908190609290_RoleArea.resx">
       <DependentUpon>201908190609290_RoleArea.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908190821511_Log_LogUser.resx">
+      <DependentUpon>201908190821511_Log_LogUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908191004171_LogSale.resx">
+      <DependentUpon>201908191004171_LogSale.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908191006552_LogSales.resx">
+      <DependentUpon>201908191006552_LogSales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908191238164_UserPassword.resx">
+      <DependentUpon>201908191238164_UserPassword.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

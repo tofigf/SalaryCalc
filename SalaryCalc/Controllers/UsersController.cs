@@ -52,10 +52,19 @@ namespace SalaryCalc.Controllers
                 Session["Error"] = "Bütün xanaları doldurun";
                 return RedirectToAction("index");
             }
-            //Dinamik yazmaq lazimdi admin ve ya isci olamgini
             user.Password = Crypto.HashPassword(user.Password);
             db.Users.Add(user);
+
+            //Log
+            Log log = new Log {
+                CurrentUserId = userLoginned.Id,
+                ActionedUser = user,
+                CreatedAt  =DateTime.Now,
+                Method = "Yaratmaq"
+            };
+            db.Logs.Add(log);
             db.SaveChanges();
+
 
             return RedirectToAction("index");
         }
@@ -63,15 +72,11 @@ namespace SalaryCalc.Controllers
         [HttpGet]
         public ActionResult Edit(int? id)
         {
-            if (!ModelState.IsValid)
-            {
-                Session["Error"] = "Bütün xanaları doldurun";
-                return RedirectToAction("index");
-            }
             if (id == null)
                 return HttpNotFound();
 
             User user = db.Users.Find(id);
+            Session["EditUserId"] = user.Id;
             ViewBag.CalcForum = db.CalcForums.ToList();
             ViewBag.Postion = db.Postions.Where(w => w.Status == true).ToList();
             return View(user);
@@ -79,31 +84,45 @@ namespace SalaryCalc.Controllers
         //Post [baseUrl]Users/Edit
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public ActionResult Edit(User user,string OldPassword)
+        public ActionResult Edit(User user, string OldPassword)
         {
-           
-            var us = db.Users.Find(user.Id);
-            if (!Crypto.VerifyHashedPassword(us.Password, OldPassword))
-
-                if (!ModelState.IsValid)
-                {
-                    Session["Error"] = "Köhnə Şifrə Səhvdi";
-                    return RedirectToAction("index");
-                }
-
-               if (!ModelState.IsValid)
+            User us = db.Users.Find(user.Id);
+            if (us == null)
             {
-                Session["Error"] = "Xanaları Düzgün Doldurun";
+                Session["Error"] = "Xəta!";
                 return RedirectToAction("index");
             }
 
+            if (!ModelState.IsValid)
+            {
+                Session["Error"] = "Xəta!";
+                return RedirectToAction("index");
+            }
+            //Log
+            Log log = new Log
+            {
+                CurrentUserId = userLoginned.Id,
+                ActionedUserId = us.Id,
+                CreatedAt = DateTime.Now,
+                Method = "Dəyişmək"
+            };
+            db.Logs.Add(log);
+            LogUser logUser = new LogUser
+            {
+                OldUserName = us.UserName,
+                OldFullName = us.FullName,
+                OldEmail = us.Email,
+                OldPhone = us.Phone,
+                OldPinCod = us.PinCod
+            };
+            db.LogUsers.Add(logUser);
 
             us.UserName = user.UserName;
             us.FullName = user.FullName;
             us.PostionId = user.PostionId;
+            us.Phone = user.Phone;
             us.Email = user.Email;
             us.CalcForumId = user.CalcForumId;
-            us.Password = Crypto.HashPassword(user.Password);
 
             db.SaveChanges();
             return RedirectToAction("index");
@@ -128,11 +147,32 @@ namespace SalaryCalc.Controllers
 
             return RedirectToAction("index");
         }
+        [HttpGet]
+        public ActionResult PasswordChange(int? id)
+        {
+            if (id == null)
+                return HttpNotFound();
+
+            User user = db.Users.Find(id);
+            return View();
+        }
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult PasswordChange(User user ,string OldPassword)
+        {
+            User findedUser = db.Users.Find(user.Id);
+            if (!Crypto.VerifyHashedPassword(findedUser.Password, OldPassword))
+            {
+                findedUser.Password = Crypto.HashPassword(user.Password);
+                db.SaveChanges();
+            }
+            return RedirectToAction("index");
+        }
         [AllowAnonymous]
         [HttpPost]
         public JsonResult CheckUsersPassword(string OldPassword)
         {
-            int Id = (int)Session["UserId"];
+            int Id = (int)Session["EditUserId"];
 
             User loginned = db.Users.Find(Id);
 

@@ -1,8 +1,8 @@
 ﻿
 @using SalaryCalc.Dtos
-@model List<SalaryReportByDateDto>
+@model List<SalesReportByDateDto>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "SaleReportByMonth";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var culture = new System.Globalization.CultureInfo("az");
 }
@@ -10,7 +10,7 @@
 
 <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8 mb-4">
     <div class="container-fluid">
- 
+
         <div class="header-body">
             <div class="row">
                 <div class="col">
@@ -18,20 +18,12 @@
                         <div class="card-header border-0">
                             <div class="row align-items-center">
                                 <div class="col-8">
-                                    <h3 class="mb-0">Aylıq</h3>
+                                    <a href="@Url.Action("exportsaleeachuserrepobyworkerdetails","reports")" class="btn btn-sm btn-success"><i class="ni ni-fat-add"></i>Export Et</a>
                                 </div>
                                 <div class="col-4 text-right">
-                                    <a href="@Url.Action("index","reports")" class="btn btn-sm btn-primary toback"><i class="ni ni-bold-left"></i>Geri Qayıt</a>
+                                    <a href="@Url.Action("report","reports")" class="btn btn-sm btn-primary toback"><i class="ni ni-bold-left"></i>Geri Qayıt</a>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <form action="@Url.Action("salaryreportbymonth", "reports")">
-                                    <div class="form-group">
-                                        <label for="DateYear">İlə görə axtarış</label>
-                              <input type="text" class="form-control datepickeryear"  onchange="this.form.submit();" name="Year" id="DateYear" data-provide="datepicker" placeholder="Tarix">
-                                    </div>
-                            </form>
                         </div>
                         <div class="table-responsive">
                             <table class="table align-items-center table-flush">
@@ -39,7 +31,11 @@
 
                                     <tr>
                                         <th scope="col">Ay</th>
-                                        <th scope="col">Məbləğ</th>
+                                        <th scope="col">Sayı</th>
+                                        <th scope="col">Endirim</th>
+                                        <th scope="col">Təsdiqlənib</th>
+                                        <th scope="col">Təsdiqlənməyib</th>
+                                        <th scope="col">Vip</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -48,13 +44,18 @@
                                     {
                                         <tr>
                                             <td>@item.Date.Value.ToString("MMMM", culture)</td>
-                                            <td>@item.Total.Value.ToString("0.00")</td>
+                                            <td>@item.TotalCount</td>
+                                            <td>@item.TotalDisCount</td>
+                                            <td>@item.TotalIsComfirmed</td>
+                                            <td>@item.totalNotConfirmed</td>
+                                            <td>@item.TotalVip</td>
                                         </tr>
                                     }
 
 
                                 </tbody>
                             </table>
+
                         </div>
                     </div>
                 </div>

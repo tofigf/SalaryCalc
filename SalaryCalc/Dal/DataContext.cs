@@ -28,6 +28,9 @@ namespace SalaryCalc.Dal
         public virtual DbSet<ButtonsStatic> ButtonsStatics { get; set; }
         public virtual DbSet<CalculatedSalaryByUser> CalculatedSalaryByUsers { get; set; }
         public virtual DbSet<SaleImport> SaleImports { get; set; }
+        public virtual DbSet<Log> Logs { get; set; }
+        public virtual DbSet<LogUser> LogUsers { get; set; }
+        public virtual DbSet<LogSale> LogSales { get; set; }
     }
 
 }

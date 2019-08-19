@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8 mb-4">
+    <div class="container-fluid">
+
+        <div class="header-body">
+            <div class="row">
+                <div class="col">
+                    <div class="card shadow">
+                        <div class="card-header border-0">
+                            <h3 class="mb-3">Hesabatlar</h3>
+                            <div class="row align-items-center">
+
+                                <div class="col-md-6">
+                                    <div class="card" style="width: 100%;">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Maaş Hesabatları</h4>
+                                            <h6 class="card-subtitle mb-2 text-muted">Aylıq & İllik</h6>
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <a href="@Url.Action("salaryeachuserreportbymonth","reports")" class="card-link">Aylıq</a>
+                                                </div>
+                                                <div class="col-4">
+                                                    <a href="@Url.Action("salaryeachuserreportbyquarterly","reports")" class="card-link">Rüblük</a>
+                                                </div>
+                                                <div class="col-4">
+                                                    <a href="@Url.Action("salaryeachuserreportbyYear","reports")" class="card-link">İllik</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card" style="width: 100%;">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Satış Hesabatları</h4>
+                                            <h6 class="card-subtitle mb-2 text-muted">Aylıq & İllik(təsdiqlənmiş və təsdiqlənməmiş)</h6>
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <a href="@Url.Action("salereporteachuserbymonth","reports")" class="card-link">Aylıq</a>
+                                                </div>
+                                                <div class="col-4">
+                                                    <a href="@Url.Action("salereportbyeachuserquarterly","reports")" class="card-link">Rüblük</a>
+                                                </div>
+                                                <div class="col-4">
+                                                    <a href="@Url.Action("salereporteachuserbyyear","reports")" class="card-link">İllik</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

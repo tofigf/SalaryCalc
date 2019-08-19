@@ -72,6 +72,11 @@
         format: 'dd/mm/yyyy'
        
     });
+    $("#DateYear").datepicker({
+        format: "yyyy",
+        viewMode: "years",
+        minViewMode: "years"
+    });
     //partial view
     function SetData(data) {
         $("#divPartialView").html(data); 

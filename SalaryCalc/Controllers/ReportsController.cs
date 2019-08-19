@@ -18,7 +18,6 @@ namespace SalaryCalc.Controllers
     [RolesAuth]
     public class ReportsController : BaseController
     {
-
         // GET: Reports
         public ActionResult Index()
         {
@@ -175,8 +174,8 @@ namespace SalaryCalc.Controllers
             {
                 year = DateTime.Now.Year;
             }
-            TempData["SelectedYear"] = year;
-            TempData["UserId"] = id;
+            Session["SelectedYear"] = year;
+            Session["UserId"] = id;
             
             var sqlMinDate = (DateTime)SqlDateTime.MinValue;
             List<SalaryReportDetailsDto> salaryReportDetails = new List<SalaryReportDetailsDto>();
@@ -213,7 +212,7 @@ namespace SalaryCalc.Controllers
         [HttpGet]
         public ActionResult ExportSalaryReportByWorkers()
         {
-            int? year = (int)TempData["SelectedYear"];
+            int? year = (int)Session["SelectedYear"];
             if (year == null)
             {
                 return RedirectToAction("index");
@@ -274,8 +273,8 @@ namespace SalaryCalc.Controllers
         [HttpGet]
         public ActionResult ExportSalaryRepoByWorkerDetails()
         {
-            int? year = (int)TempData["SelectedYear"];
-            int? id = (int)TempData["UserId"];
+            int? year = (int)Session["SelectedYear"];
+            int? id = (int)Session["UserId"];
             if (year == null || id == null)
             {
                 return RedirectToAction("index");
@@ -480,7 +479,8 @@ namespace SalaryCalc.Controllers
             {
                 year = DateTime.Now.Year;
             }
-            TempData["SelectedSaleYear"] = year;
+            Session["SelectedSaleYear"] = year;
+
             int skip = ((int)page - 1) * 10;
             ViewBag.TotalPage = Math.Ceiling(db.SaleImports.Count() / 10.0);
             ViewBag.Page = page;
@@ -531,8 +531,8 @@ namespace SalaryCalc.Controllers
             {
                 year = DateTime.Now.Year;
             }
-            TempData["SelectedSaleYear"] = year;
-            TempData["UserId"] = id;
+            Session["SelectedSaleYear"] = year;
+            Session["UserId"] = id;
             List<SalesReportByDateDto> monthDtos = new List<SalesReportByDateDto>();
             var sqlMinDate = (DateTime)SqlDateTime.MinValue;
 
@@ -565,7 +565,7 @@ namespace SalaryCalc.Controllers
         [HttpGet]
         public ActionResult ExportSaleReportByWorkers()
         {
-            int? year = (int?)TempData["SelectedSaleYear"];
+            int? year = (int?)Session["SelectedSaleYear"];
             if (year == null)
             {
                 return RedirectToAction("index");
@@ -634,8 +634,8 @@ namespace SalaryCalc.Controllers
         [HttpGet]
         public ActionResult ExportSaleRepoByWorkerDetails()
         {
-            int? year = (int)TempData["SelectedSaleYear"];
-            int? id = (int)TempData["UserId"];
+            int? year = (int)Session["SelectedSaleYear"];
+            int? id = (int)Session["UserId"];
             if(year == null || id == null)
             {
                 return  RedirectToAction("index");
@@ -711,6 +711,393 @@ namespace SalaryCalc.Controllers
             }
         }
 
+        #endregion
+
+        #region SalaryForEachUser
+        [HttpGet]
+        public ActionResult Report()
+        {
+            return View();
+        }
+        [HttpGet]
+        public ActionResult SalaryEachUserReportByMonth( int? year)
+        {
+            if (year == null)
+            {
+                year = DateTime.Now.Year;
+            }
+            Session["SelectedYear"] = year;
+
+            List<SalaryReportByDateDto> monthDtos = new List<SalaryReportByDateDto>();
+            var sqlMinDate = (DateTime)SqlDateTime.MinValue;
+
+            var SalaryByMonyh = db.CalculatedSalaryByUsers.Where(w =>w.UserId == userLoginned.Id && w.Date.Year == year).OrderBy(o => o.Date.Month)
+                .GroupBy(o => SqlFunctions.DateAdd("month", SqlFunctions.DateDiff("month", sqlMinDate, o.Date), sqlMinDate))
+                .Select(s => new {
+
+                    date = s.Key,
+                    total = s.Sum(su => su.Salary)
+
+                }).ToList();
+
+            foreach (var item in SalaryByMonyh)
+            {
+                SalaryReportByDateDto monthDto = new SalaryReportByDateDto
+                {
+                    Date = item.date,
+                    Total = item.total
+
+                };
+                monthDtos.Add(monthDto);
+            }
+            return View(monthDtos);
+        }
+        [HttpGet]
+        public ActionResult SalaryEachUserReportByYear(int? year)
+        {
+            if (year == null)
+            {
+                year = DateTime.Now.Year;
+            }
+            List<SalaryReportByDateDto> monthDtos = new List<SalaryReportByDateDto>();
+            var sqlMinDate = (DateTime)SqlDateTime.MinValue;
+
+            var SalaryByMonyh = db.CalculatedSalaryByUsers.Where(w =>w.UserId == userLoginned.Id && w.Date.Year == year).OrderBy(o => o.Date.Month)
+                .GroupBy(o => SqlFunctions.DateAdd("year", SqlFunctions.DateDiff("year", sqlMinDate, o.Date), sqlMinDate))
+                .Select(s => new {
+
+                    date = s.Key,
+                    total = s.Sum(su => su.Salary)
+
+                }).ToList();
+
+            foreach (var item in SalaryByMonyh)
+            {
+                SalaryReportByDateDto monthDto = new SalaryReportByDateDto
+                {
+
+                    Date = item.date,
+                    Total = item.total
+
+                };
+                monthDtos.Add(monthDto);
+            }
+            return View(monthDtos);
+        }
+        [HttpGet]
+        public ActionResult SalaryEachUserReportByQuarterly(int? year)
+        {
+            if (year == null)
+            {
+                year = DateTime.Now.Year;
+            }
+            List<SalaryReportByDateDto> monthDtos = new List<SalaryReportByDateDto>();
+            var sqlMinDate = (DateTime)SqlDateTime.MinValue;
+
+            var SalaryByMonyh = db.CalculatedSalaryByUsers.Where(w =>w.UserId == userLoginned.Id  && w.Date.Year == year).OrderBy(o => o.Date.Month)
+                .GroupBy(o => (o.Date.Month - 1) / 3 + 1)
+                .Select(s => new {
+
+                    quarterly = s.Key,
+
+                    total = s.Sum(su => su.Salary)
+
+                }).ToList();
+
+            foreach (var item in SalaryByMonyh)
+            {
+                SalaryReportByDateDto monthDto = new SalaryReportByDateDto
+                {
+
+                    Quarterly = (byte)item.quarterly,
+                    Total = item.total
+
+                };
+                monthDtos.Add(monthDto);
+            }
+            return View(monthDtos);
+        }
+        [HttpGet]
+        public ActionResult ExportSalaryEachUserRepoByWorkerDetails()
+        {
+            int? year = (int)Session["SelectedYear"];
+            if (year == null)
+            {
+                return RedirectToAction("index");
+            }
+            var sqlMinDate = (DateTime)SqlDateTime.MinValue;
+            var culture = new System.Globalization.CultureInfo("az");
+            User user = db.Users.Find(userLoginned.Id);
+            if (user == null)
+                return null;
+            var workbook = new XLWorkbook();
+            var ws = workbook.Worksheets.Add("Reports");
+            string fileName = "Hesabat.xlsx";
+
+            ws.Row(1).Height = 25;
+
+            Dictionary<string, string> items = new Dictionary<string, string>
+            {
+                {"A","Ay" },
+                {"B","Məbləğ" }
+            };
+
+            foreach (KeyValuePair<string, string> item in items)
+            {
+                ws.Cell(item.Key + "1").Value = item.Value;
+                ws.Cell(item.Key + "1").Style.Font.SetFontSize(12);
+                ws.Cell(item.Key + "1").Style.Font.SetFontColor(XLColor.FromArgb(255, 255, 255));
+                ws.Cell(item.Key + "1").Style.Fill.SetBackgroundColor(XLColor.FromArgb(21, 107, 125));
+                ws.Cell(item.Key + "1").Style.Alignment.SetVertical(XLAlignmentVerticalValues.Center);
+                ws.Cell(item.Key + "1").Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                ws.Column(item.Key).Width = 22;
+            }
+
+            ws.Cell("C" + 1).Value = "İşçinin Adı = " + user.UserName;
+            ws.Cell("C" + 1).Style.Font.SetFontSize(12);
+            ws.Cell("C" + 1).Style.Font.SetFontColor(XLColor.FromArgb(255, 255, 255));
+            ws.Cell("C" + 1).Style.Fill.SetBackgroundColor(XLColor.FromArgb(1, 116, 62));
+            ws.Cell("C" + 1).Style.Alignment.SetVertical(XLAlignmentVerticalValues.Center);
+            ws.Cell("C" + 1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+            ws.Column("C").Width = 22;
+
+            var SalaryWorkerByMonyh = db.CalculatedSalaryByUsers.Where(w => w.Date.Year == year && w.UserId == userLoginned.Id)
+                       .GroupBy(o => SqlFunctions.DateAdd("month", SqlFunctions.DateDiff("month", sqlMinDate, o.Date), sqlMinDate))
+                       .Select(s => new {
+
+                           date = s.Key,
+                           totalPrice = s.Sum(su => su.Salary)
+
+                       })
+                            .OrderBy(d => d.date.Value.Month).
+                         ToList();
+
+            int i = 2;
+            foreach (var item in SalaryWorkerByMonyh)
+            {
+                ws.Cell("A" + i).Value = item.date.Value.ToString("MMMM", culture);
+                ws.Cell("B" + i).Value = item.totalPrice.ToString("0.00");
+                i++;
+            }
+            using (MemoryStream stream = new MemoryStream())
+            {
+                workbook.SaveAs(stream);
+
+                return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+            }
+        }
+
+        #endregion
+
+        #region SaleForEachUser
+        [HttpGet]
+        public ActionResult SaleReportEachUserByMonth(int? year)
+        {
+            if (year == null)
+            {
+                year = DateTime.Now.Year;
+            }
+            Session["SelectedSaleYear"] = year;
+
+            List<SalesReportByDateDto> monthDtos = new List<SalesReportByDateDto>();
+            var sqlMinDate = (DateTime)SqlDateTime.MinValue;
+
+            var SalesByMonyh = db.Sales.Where(w =>w.UserId == userLoginned.Id && w.Date.Year == year).OrderBy(o => o.Date.Month)
+                .GroupBy(o => SqlFunctions.DateAdd("month", SqlFunctions.DateDiff("month", sqlMinDate, o.Date), sqlMinDate))
+                .Select(s => new {
+                    date = s.Key,
+                    totalCount = s.Count(),
+                    totalDisCount = (int?)s.Where(w => w.DisCount == true).Count() ?? 0,
+                    totalVip = (int?)s.Where(w => w.Vip == true).Count() ?? 0,
+                    totalIsComfirmed = (int?)s.Where(w => w.IsComfirmed == true).Count() ?? 0,
+                    totalNotConfirmed = (int?)s.Where(w => w.IsComfirmed == false).Count() ?? 0,
+                    totalImported = (int?)s.Where(w => w.IsComfirmed == true).Count() ?? 0
+
+                }).ToList();
+
+            foreach (var item in SalesByMonyh)
+            {
+                SalesReportByDateDto monthDto = new SalesReportByDateDto
+                {
+
+                    Date = item.date,
+                    TotalCount = item.totalCount,
+                    TotalDisCount = item.totalDisCount,
+                    TotalIsComfirmed = item.totalIsComfirmed,
+                    totalNotConfirmed = item.totalNotConfirmed,
+                    TotalImported = item.totalImported,
+                    TotalVip = item.totalVip
+
+                };
+                monthDtos.Add(monthDto);
+            }
+            return View(monthDtos);
+        }
+        [HttpGet]
+        public ActionResult SaleReportByEachUserQuarterly(int? year)
+        {
+            if (year == null)
+            {
+                year = DateTime.Now.Year;
+            }
+
+            List<SalesReportByDateDto> monthDtos = new List<SalesReportByDateDto>();
+            var sqlMinDate = (DateTime)SqlDateTime.MinValue;
+
+            var SalesByMonyh = db.Sales.Where(w => w.UserId == userLoginned.Id && w.Date.Year == year).OrderBy(o => o.Date.Month)
+                .GroupBy(o => (o.Date.Month - 1) / 3 + 1)
+                .Select(s => new {
+
+                    quarterly = s.Key,
+
+                    totalCount = s.Count(),
+                    totalDisCount = (int?)s.Where(w => w.DisCount == true).Count() ?? 0,
+                    totalVip = (int?)s.Where(w => w.Vip == true).Count() ?? 0,
+                    totalIsComfirmed = (int?)s.Where(w => w.IsComfirmed == true).Count() ?? 0,
+                    totalNotConfirmed = (int?)s.Where(w => w.IsComfirmed == false).Count() ?? 0,
+                    totalImported = (int?)s.Where(w => w.IsComfirmed == true).Count() ?? 0
+
+                }).ToList();
+
+            foreach (var item in SalesByMonyh)
+            {
+                SalesReportByDateDto monthDto = new SalesReportByDateDto
+                {
+
+                    quarterly = (byte)item.quarterly,
+                    TotalCount = item.totalCount,
+                    TotalDisCount = item.totalDisCount,
+                    TotalIsComfirmed = item.totalIsComfirmed,
+                    totalNotConfirmed = item.totalNotConfirmed,
+                    TotalImported = item.totalImported,
+                    TotalVip = item.totalVip
+
+                };
+                monthDtos.Add(monthDto);
+            }
+            return View(monthDtos);
+        }
+        [HttpGet]
+        public ActionResult SaleReportEachUserByYear(int? year)
+        {
+            if (year == null)
+            {
+                year = DateTime.Now.Year;
+            }
+
+            List<SalesReportByDateDto> monthDtos = new List<SalesReportByDateDto>();
+            var sqlMinDate = (DateTime)SqlDateTime.MinValue;
+
+            var SalesByMonyh = db.Sales.Where(w => w.UserId == userLoginned.Id && w.Date.Year == year).OrderBy(o => o.Date.Month)
+                .GroupBy(o => SqlFunctions.DateAdd("year", SqlFunctions.DateDiff("year", sqlMinDate, o.Date), sqlMinDate))
+                .Select(s => new {
+
+                    date = s.Key,
+                    totalCount = s.Count(),
+                    totalDisCount = (int?)s.Where(w => w.DisCount == true).Count() ?? 0,
+                    totalVip = (int?)s.Where(w => w.Vip == true).Count() ?? 0,
+                    totalIsComfirmed = (int?)s.Where(w => w.IsComfirmed == true).Count() ?? 0,
+                    totalNotConfirmed = (int?)s.Where(w => w.IsComfirmed == false).Count() ?? 0,
+                    totalImported = (int?)s.Where(w => w.IsComfirmed == true).Count() ?? 0
+
+                }).ToList();
+
+            foreach (var item in SalesByMonyh)
+            {
+                SalesReportByDateDto monthDto = new SalesReportByDateDto
+                {
+
+                    Date = item.date,
+                    TotalCount = item.totalCount,
+                    TotalDisCount = item.totalDisCount,
+                    TotalIsComfirmed = item.totalIsComfirmed,
+                    totalNotConfirmed = item.totalNotConfirmed,
+                    TotalImported = item.totalImported,
+                    TotalVip = item.totalVip
+
+                };
+                monthDtos.Add(monthDto);
+            }
+            return View(monthDtos);
+        }
+        [HttpGet]
+        public ActionResult ExportSaleEachUserRepoByWorkerDetails()
+        {
+            int? year = (int)Session["SelectedSaleYear"];
+            if (year == null)
+            {
+                return RedirectToAction("index");
+            }
+            var sqlMinDate = (DateTime)SqlDateTime.MinValue;
+            var culture = new System.Globalization.CultureInfo("az");
+            User user = db.Users.Find(userLoginned.Id);
+            if (user == null)
+                return null;
+            var workbook = new XLWorkbook();
+            var ws = workbook.Worksheets.Add("Reports");
+            string fileName = "Satış-Hesabat.xlsx";
+
+            ws.Row(1).Height = 25;
+
+            Dictionary<string, string> items = new Dictionary<string, string>
+            {
+                {"A","Ay" },
+                {"B","Sayı" },
+                {"C","Endirim" },
+                {"D","Vip" },
+                {"E", "Təsdiqlənib" },
+                {"F", "Təsdiqlənməyib"}
+            };
+
+            foreach (KeyValuePair<string, string> item in items)
+            {
+                ws.Cell(item.Key + "1").Value = item.Value;
+                ws.Cell(item.Key + "1").Style.Font.SetFontSize(12);
+                ws.Cell(item.Key + "1").Style.Font.SetFontColor(XLColor.FromArgb(255, 255, 255));
+                ws.Cell(item.Key + "1").Style.Fill.SetBackgroundColor(XLColor.FromArgb(21, 107, 125));
+                ws.Cell(item.Key + "1").Style.Alignment.SetVertical(XLAlignmentVerticalValues.Center);
+                ws.Cell(item.Key + "1").Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+                ws.Column(item.Key).Width = 22;
+            }
+
+            ws.Cell("G" + 1).Value = "İşçinin Adı = " + user.UserName;
+            ws.Cell("G" + 1).Style.Font.SetFontSize(12);
+            ws.Cell("G" + 1).Style.Font.SetFontColor(XLColor.FromArgb(255, 255, 255));
+            ws.Cell("G" + 1).Style.Fill.SetBackgroundColor(XLColor.FromArgb(1, 116, 62));
+            ws.Cell("G" + 1).Style.Alignment.SetVertical(XLAlignmentVerticalValues.Center);
+            ws.Cell("G" + 1).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
+            ws.Column("G").Width = 22;
+
+            var SalesByMonyh = db.Sales.Where(w => w.UserId == userLoginned.Id && w.Date.Year == year).OrderBy(o => o.Date.Month)
+                .GroupBy(o => SqlFunctions.DateAdd("month", SqlFunctions.DateDiff("month", sqlMinDate, o.Date), sqlMinDate))
+                .Select(s => new {
+                    date = s.Key,
+                    totalCount = s.Count(),
+                    totalDisCount = (int?)s.Where(w => w.DisCount == true).Count() ?? 0,
+                    totalVip = (int?)s.Where(w => w.Vip == true).Count() ?? 0,
+                    totalIsComfirmed = (int?)s.Where(w => w.IsComfirmed == true).Count() ?? 0,
+                    totalNotConfirmed = (int?)s.Where(w => w.IsComfirmed == false).Count() ?? 0
+                }).ToList();
+
+
+            int i = 2;
+            foreach (var item in SalesByMonyh)
+            {
+                ws.Cell("A" + i).Value = item.date.Value.ToString("MMMM", culture);
+                ws.Cell("B" + i).Value = item.totalCount;
+                ws.Cell("C" + i).Value = item.totalDisCount;
+                ws.Cell("D" + i).Value = item.totalVip;
+                ws.Cell("E" + i).Value = item.totalIsComfirmed;
+                ws.Cell("F" + i).Value = item.totalNotConfirmed;
+                i++;
+            }
+            using (MemoryStream stream = new MemoryStream())
+            {
+                workbook.SaveAs(stream);
+
+                return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+            }
+        }
         #endregion
     }
 }

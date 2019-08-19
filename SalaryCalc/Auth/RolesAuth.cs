@@ -15,6 +15,13 @@ namespace SalaryCalc.Auth
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            //AllowAnonymous
+            if (filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true)
+              || filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true))
+            {
+                return;
+            }
+
             User user = filterContext.HttpContext.Session["LoggedUser"] as User;
             bool IsDenied = true;
 
@@ -26,12 +33,7 @@ namespace SalaryCalc.Auth
                     Controller = s.Role.Controller
                 }).ToList();
 
-            //AllowAnonymous
-            if (filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true)
-              || filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true))
-            {
-                return;
-            }
+           
 
           
             string controller = filterContext.RouteData.Values["controller"].ToString();
