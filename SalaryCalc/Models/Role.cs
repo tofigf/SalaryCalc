@@ -11,8 +11,6 @@ namespace SalaryCalc.Models
         [Key]
         public int Id { get; set; }
         [MaxLength(150)]
-        public string Area { get; set; }
-        [MaxLength(150)]
         public string Controller { get; set; }
         [MaxLength(150)]
         public string Action { get; set; }

@@ -396,7 +396,6 @@ namespace SalaryCalc.Controllers
             if (allChecked == null)
             {
                 allChecked = false;
-
             }
             TempData["AllChecked"] = allChecked;
             return Json(allChecked, JsonRequestBehavior.AllowGet);

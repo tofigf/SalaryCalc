@@ -267,6 +267,10 @@
     <Compile Include="Migrations\201908182027227_RemoveUserAdminColumn.Designer.cs">
       <DependentUpon>201908182027227_RemoveUserAdminColumn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908190609290_RoleArea.cs" />
+    <Compile Include="Migrations\201908190609290_RoleArea.Designer.cs">
+      <DependentUpon>201908190609290_RoleArea.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ButtonsStatic.cs" />
     <Compile Include="Models\CalcForum.cs" />
@@ -2350,6 +2354,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201908182027227_RemoveUserAdminColumn.resx">
       <DependentUpon>201908182027227_RemoveUserAdminColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908190609290_RoleArea.resx">
+      <DependentUpon>201908190609290_RoleArea.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

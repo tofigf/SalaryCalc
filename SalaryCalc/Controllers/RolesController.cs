@@ -43,7 +43,7 @@ namespace SalaryCalc.Controllers
                     {
                         UserRole newRole = new UserRole();
                         newRole.PostionId = id;
-                        newRole.RoleId = role ?? 0;
+                        newRole.RoleId = (int)role;
                         newRole.Date = DateTime.Now.Date;
                         db.UserRoles.Add(newRole);
                     }

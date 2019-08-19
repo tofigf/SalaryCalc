@@ -22,9 +22,6 @@ namespace SalaryCalc.Controllers
         [HttpPost]
         public ActionResult Login(User user)
         {
-            if (user == null)
-                //return RedirectToAction("index");
-                return Content("null");
             if (user.Email == null || user.Password == null)
             {
                 Session["LoginError"] = "Boşluq buraxmayın";

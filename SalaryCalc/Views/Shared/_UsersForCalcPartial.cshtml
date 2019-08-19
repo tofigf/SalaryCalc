@@ -92,12 +92,6 @@
         </ul>
     </nav>
 }
-@*else if (Model.Where(w => w.CalculatedSalaryByUsers.Where(x => x.Date.Month == currMonth && x.Date.Year == currYear).FirstOrDefault(a => a.UserId == w.Id) != null) != null)
-    {
-        <div class="text-center">
-            <h2> Bu ay ərzində heç bir işçinin satışı olmayıb </h2>
-        </div>
-    }*@
 else
 {
     <div class="text-center">
