@@ -1,9 +1,8 @@
-﻿using NCalc;
+﻿using DataAccessLayer;
+using NCalc;
 using SalaryCalc.Auth;
-using SalaryCalc.Dal;
 using SalaryCalc.Extensions;
 using SalaryCalc.Filters;
-using SalaryCalc.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -42,7 +41,6 @@ namespace SalaryCalc.Controllers
         [HttpPost]
         public ActionResult CalcMethod(CalcForum forum)
         {
-
             if (!ModelState.IsValid)
             {
                 Session["Error"] = "Bütün xanaları doldurun";
@@ -51,6 +49,16 @@ namespace SalaryCalc.Controllers
 
             forum.Date = DateTime.Now;
             db.CalcForums.Add(forum);
+
+            Log log = new Log {
+
+                CurrentUserId = userLoginned.Id,
+                CreatedAt = DateTime.Now,
+                UsedDate = forum.Date,
+                Action = "CalcMethod",
+                Controller = "Calculation"
+            };
+            db.Logs.Add(log);
             db.SaveChanges();
 
             return RedirectToAction("index");
@@ -78,15 +86,32 @@ namespace SalaryCalc.Controllers
         [HttpPost]
         public ActionResult EditCalcMethod(CalcForum forum)
         {
-            if (forum != null)
+            if (!ModelState.IsValid)
             {
-                db.Entry(forum).State = EntityState.Modified;
-                db.Entry(forum).Property(x => x.Date).IsModified = false;
-                db.SaveChanges();
+                Session["Error"] = "Bütün xanaları doldurun";
                 return RedirectToAction("index");
             }
-            Session["Error"] = "Bütün xanaları doldurun";
-            return RedirectToAction("index");
+
+            CalcForum calcForum = db.CalcForums.Find(forum.Id);
+            calcForum.Name = forum.Name;
+            calcForum.Formula = forum.Formula;
+
+            Log log = new Log {
+                CurrentUserId = userLoginned.Id,
+                Controller ="Calculation",
+                Action = "EditCalcMethod",
+                CreatedAt = DateTime.Now,
+                UsedDate = forum.Date
+            };
+            db.Logs.Add(log);
+            LogCalcForum logCalcForum = new LogCalcForum {
+
+                OldFormula = calcForum.Formula,
+                OldName = calcForum.Name,
+                Log =log
+            };
+                db.SaveChanges();
+                return RedirectToAction("index");
         }
         //Get [baseUrl]Sales/Delete
         [HttpGet]
@@ -105,6 +130,15 @@ namespace SalaryCalc.Controllers
             if (calc != null)
             {
                 db.CalcForums.Remove(calc);
+                Log log = new Log
+                {
+                    CurrentUserId = userLoginned.Id,
+                    Controller = "Calculation",
+                    Action = "DeleteCalcMethod",
+                    CreatedAt = DateTime.Now,
+                    UsedDate = calc.Date
+                };
+                db.Logs.Add(log);
             }
             db.SaveChanges();
             Session["Success"] = "Müvəfəqiyyətlə Silindi!";
@@ -159,7 +193,15 @@ namespace SalaryCalc.Controllers
                     allUsersId.Add(item.Id);
                 }
             }
-                    foreach (var id in allChecked == true ? allUsersId : usersId)
+            Log log = new Log
+            {
+                Controller = "Calculation",
+                Action = "CalculateSalary",
+                CurrentUserId = userLoginned.Id,
+                CreatedAt = DateTime.Now
+            };
+            db.Logs.Add(log);
+            foreach (var id in allChecked == true ? allUsersId : usersId)
                     {
                         if (CheckCalculatedUsers(Date.Value.Month, Date.Value.Year, id))
                         {
@@ -367,6 +409,7 @@ namespace SalaryCalc.Controllers
                                     return RedirectToAction("calculatesalary");
                                 }
                             }
+                      
 
                             CalculatedSalaryByUser calculated = new CalculatedSalaryByUser
                             {
@@ -377,17 +420,28 @@ namespace SalaryCalc.Controllers
                             };
 
                             db.CalculatedSalaryByUsers.Add(calculated);
-                            db.SaveChanges();
 
-                        }
+                    LogCalcSalary logCalc = new LogCalcSalary
+                    {
+
+                        OldSalary = (double)e.Evaluate(),
+                        UserId = id,
+                        Log = log,
+                        Date = (DateTime)Date
+                    };
+                    db.LogCalcSalaries.Add(logCalc);
+
+
+                }
                         catch (EvaluationException)
                         {
                             Session["Error"] = "Xəta!";
                             return RedirectToAction("calculatesalary");
                         }
                     }
+            db.SaveChanges();
 
-                    return RedirectToAction("calculatedsalary");
+            return RedirectToAction("calculatedsalary");
         }
         [AllowAnonymous]
         [HttpGet]

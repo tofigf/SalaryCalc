@@ -1,5 +1,5 @@
-﻿@using SalaryCalc.Dtos
-@model List<SalaryReportDetailsDto>
+﻿@using SalaryCalc.Models.VwModel
+@model VwSalaryReports
 @{
     ViewBag.Title = "SalaryReportByWorkers";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -20,7 +20,7 @@
                 <div class="col">
                     <div class="card shadow">
                         <div class="card-header border-0">
-                            <div class="row align-items-center">
+                            <div class="row align-items-center mb-3">
                                 <div class="col-8">
                                     <a href="@Url.Action("exportsalaryreportbyworkers","reports")" class="btn btn-sm btn-success"><i class="ni ni-fat-add"></i>Export Et</a>
                                 </div>
@@ -28,74 +28,99 @@
                                     <a href="@Url.Action("index","reports")" class="btn btn-sm btn-primary toback"><i class="ni ni-bold-left"></i>Geri Qayıt</a>
                                 </div>
                             </div>
+                                    <form action="@Url.Action("salaryreportbyworkers", "reports")">
+
+                                        <div class="form-row">
+                                            <div class="col-2">
+                                                    <input autocomplete="off" type="text"  value="@(Model.SearchDto.Year ?? 0)" class="form-control datepickeryear" @*onchange="this.form.submit();"*@ name="Year" id="DateYear" data-provide="datepicker" placeholder="İlə görə axtarış">
+                                            </div>
+                                            <div class="col-3">
+                                                <input autocomplete="off" name="Key" value="@(Model.SearchDto.Key ?? string.Empty)" type="text" placeholder="Ada Görə" class="form-control">
+                                            </div>
+                                            <div class="col-2">
+                                                <input type="text" autocomplete="off" name="SalaryKey" value="@(Model.SearchDto.SalaryKey ?? string.Empty)" class="form-control" placeholder="Maaşa Görə">
+                                            </div>
+                                            <div class="col-3">
+                                                <input type="text" autocomplete="off" name="FormulaName" value="@(Model.SearchDto.FormulaName ?? string.Empty)" class="form-control" placeholder="Düstura Görə">
+                                            </div>
+                                            <div class="col-2">
+                                                <button type="submit" class="btn btn-default mb-2">
+                                                    Axtar
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                            
+                            </div>
+                         
+                            <div class="table-responsive">
+                                <table class="table align-items-center table-flush">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Işçi Adı</th>
+                                            <th scope="col">Düstur</th>
+                                            <th scope="col">Maaş</th>
+                                            <th scope="col">İl</th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @{int i = 1;}
+
+                                        @foreach (var item in Model.SalaryReportDetailsDtos)
+                                        {
+                                            <tr>
+                                                <th scope="row">@i</th>
+                                                <td>@item.UserName</td>
+                                                <td>@item.FormulaName</td>
+                                                <td>@item.TotalPrice.ToString("0.00")</td>
+                                                <td>@item.Date.Year</td>
+                                                <td>
+                                                    <a href="@Url.Action("salaryrepobyworkerdetails","reports",new { id = item.UserId })" class="btn btn-sm btn-primary">Ətraflı</a>
+                                                </td>
+                                            </tr>
+
+                                            i++;
+                                        }
+
+                                    </tbody>
+                                </table>
+                                <nav aria-label="Page navigation example" class="mt-4">
+                                    <ul class="pagination">
+
+                                        @if (ViewBag.Page - 1 != 0)
+                                        {
+                                            <li class="page-item" data-page="@(ViewBag.Page - 1)">
+                                                <a class="page-link" href="@Url.Action("index","sales",new{  page = ViewBag.Page-1 })">
+                                                    <span aria-hidden="true">&laquo;</span>
+                                                </a>
+                                            </li>
+                                        }
+
+                                        @for (int j = 1; j <= ViewBag.TotalPage; j++)
+                                        {
+
+                                            <li class="page-item @(j==ViewBag.Page?"active":"")" data-page="@j">
+                                                <a class="page-link" href="@Url.Action("index","sales",new { page = j })">@j</a>
+                                            </li>
+
+                                        }
+
+                                        @if (ViewBag.Page + 1 <= ViewBag.TotalPage)
+                                        {
+                                            <li class="page-item" data-page="@(ViewBag.Page+1)">
+                                                <a class="page-link" href="@Url.Action("index","sales",new { page = ViewBag.Page + 1 })">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </nav>
+                            </div>
                         </div>
-                        <div class="table-responsive">
-                            <table class="table align-items-center table-flush">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Işçi Adı</th>
-                                        <th scope="col">Düstur</th>
-                                        <th scope="col">Maaş</th>
-                                        <th scope="col">İl</th>
-                                        <th scope="col"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @{int i = 1;}
-
-                                    @foreach (var item in Model)
-                                    {
-                                    <tr>
-                                        <th scope="row">@i</th>
-                                        <td>@item.UserName</td>
-                                        <td>@item.FormulaName</td>
-                                        <td>@item.TotalPrice.ToString("0.00")</td>
-                                        <td>@item.Date.Year</td>
-                                        <td>
-                                            <a href="@Url.Action("salaryrepobyworkerdetails","reports",new { id = item.UserId })" class="btn btn-sm btn-primary">Ətraflı</a>
-                                        </td>
-                                    </tr>
-
-                                        i++;
-                                    }
-
-                                </tbody>
-                            </table>
-                            <nav aria-label="Page navigation example" class="mt-4">
-                                <ul class="pagination">
-
-                                    @if (ViewBag.Page - 1 != 0)
-                                    {
-                                        <li class="page-item" data-page="@(ViewBag.Page - 1)">
-                                            <a class="page-link" href="@Url.Action("index","sales",new{  page = ViewBag.Page-1 })">
-                                                <span aria-hidden="true">&laquo;</span>
-                                            </a>
-                                        </li>
-                                    }
-
-                                    @for (int j = 1; j <= ViewBag.TotalPage; j++)
-                                    {
-
-                                        <li class="page-item @(j==ViewBag.Page?"active":"")" data-page="@j">
-                                            <a class="page-link" href="@Url.Action("index","sales",new { page = j })">@j</a>
-                                        </li>
-
-                                    }
-
-                                    @if (ViewBag.Page + 1 <= ViewBag.TotalPage)
-                                    {
-                                        <li class="page-item" data-page="@(ViewBag.Page+1)">
-                                            <a class="page-link" href="@Url.Action("index","sales",new { page = ViewBag.Page + 1 })">
-                                                <span aria-hidden="true">&raquo;</span>
-                                            </a>
-                                        </li>
-                                    }
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

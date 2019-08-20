@@ -1,12 +1,11 @@
 ﻿
-@using SalaryCalc.Dtos
+@using DataAccessLayer
 @model List<SalaryReportByDateDto>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var culture = new System.Globalization.CultureInfo("az");
 }
-
 
 <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8 mb-4">
     <div class="container-fluid">
@@ -29,7 +28,7 @@
                             <form action="@Url.Action("salaryreportbymonth", "reports")">
                                     <div class="form-group">
                                         <label for="DateYear">İlə görə axtarış</label>
-                              <input type="text" class="form-control datepickeryear"  onchange="this.form.submit();" name="Year" id="DateYear" data-provide="datepicker" placeholder="Tarix">
+                              <input autocomplete="off" type="text" class="form-control datepickeryear"  onchange="this.form.submit();" name="Year" id="DateYear" data-provide="datepicker" placeholder="Tarix">
                                     </div>
                             </form>
                         </div>
@@ -51,7 +50,6 @@
                                             <td>@item.Total.Value.ToString("0.00")</td>
                                         </tr>
                                     }
-
 
                                 </tbody>
                             </table>

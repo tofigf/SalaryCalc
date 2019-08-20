@@ -1,4 +1,4 @@
-﻿using SalaryCalc.Dal;
+﻿using DataAccessLayer;
 using SalaryCalc.Models;
 using System;
 using System.Collections.Generic;

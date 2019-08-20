@@ -1,7 +1,6 @@
 ﻿using ClosedXML.Excel;
+using DataAccessLayer;
 using SalaryCalc.Auth;
-using SalaryCalc.Dal;
-using SalaryCalc.Dtos;
 using SalaryCalc.Filters;
 using SalaryCalc.Models;
 using System;
@@ -56,9 +55,10 @@ namespace SalaryCalc.Controllers
 
                 CurrentUserId = userLoginned.Id,
                 ActionedUserId = sale.UserId,
+                UsedDate = sale.Date,
                 CreatedAt = DateTime.Now,
-                Method = "Yaratmaq",
-                Sale =sale
+                Action = "Create",
+                Controller = "Sales"
             };
             db.Logs.Add(log);
             db.SaveChanges();
@@ -102,12 +102,12 @@ namespace SalaryCalc.Controllers
                 {
                     CurrentUserId = userLoginned.Id,
                     ActionedUserId = sale.UserId,
+                    UsedDate =  sale.Date,
                     CreatedAt = DateTime.Now,
-                    Method = "Dəyişmək",
-                    SaleId = findedSale.Id
+                    Action = "Edit",
+                    Controller = "Sales"
                 };
                 db.Logs.Add(log);
-
                 LogSale logSale = new  LogSale{
                     OldPrice = findedSale.Price,
                     OldName= findedSale.Name,
@@ -115,7 +115,8 @@ namespace SalaryCalc.Controllers
                     OLdDisCount =findedSale.DisCount,
                     OLdVip = findedSale.Vip,
                     OldIsComfirmed =findedSale.IsComfirmed,
-                    OldIsImported =findedSale.IsImported
+                    OldIsImported =findedSale.IsImported,
+                    Log = log
                 };
             db.LogSales.Add(logSale);
 
@@ -145,21 +146,19 @@ namespace SalaryCalc.Controllers
 
             }
             Sale sale = db.Sales.Find(id);
-            List<Log> logs = db.Logs.Where(w => w.SaleId == sale.Id).ToList();
-            foreach (var item in logs)
+         
+
+            Log log = new Log
             {
-               LogSale logSale = db.LogSales.FirstOrDefault(w => w.LogId == item.Id);
-                if(logSale != null)
-                {
-                    db.LogSales.Remove(logSale);
-                }
-            }
-            if(logs != null)
-            {
-                db.Logs.RemoveRange(logs);
-            }
-          
-            if(sale != null)
+                CurrentUserId = userLoginned.Id,
+                ActionedUserId = sale.UserId,
+                UsedDate = sale.Date,
+                CreatedAt = DateTime.Now,
+                Action = "Delete",
+                Controller = "Sales"
+            };
+            db.Logs.Add(log);
+            if (sale != null)
             {
                 db.Sales.Remove(sale);
             }

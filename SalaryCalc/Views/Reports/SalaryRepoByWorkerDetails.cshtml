@@ -1,5 +1,5 @@
 ﻿
-@using SalaryCalc.Dtos
+@using DataAccessLayer
 @model List<SalaryReportDetailsDto>
 @{
     ViewBag.Title = "Index";
@@ -20,13 +20,21 @@
                                     <a href="@Url.Action("exportsalaryrepobyworkerdetails","reports")" class="btn btn-sm btn-success"><i class="ni ni-fat-add"></i>Export Et</a>
                                 </div>
                                 <div class="col-8">
-                                    <h3 class="mb-0">@Model.FirstOrDefault().UserName - Aylıq Maaşları</h3>
+                                    <h3 class="mb-0">@(Model.FirstOrDefault() != null ? Model.FirstOrDefault().UserName: "") - Aylıq Maaşları</h3>
                                 </div>
 
                                 <div class="col-2 text-right">
                                     <a href="@Url.Action("salaryreportbyworkers","reports")" class="btn btn-sm btn-primary toback"><i class="ni ni-bold-left"></i>Geri Qayıt</a>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-md-4">
+                            <form action="@Url.Action("salaryrepobyworkerdetails", "reports")">
+                                <div class="form-group">
+                                    <label for="DateYear">İlə görə axtarış</label>
+                                    <input autocomplete="off" type="text" class="form-control datepickeryear" onchange="this.form.submit();" name="Year" id="DateYear" data-provide="datepicker" placeholder="Tarix">
+                                </div>
+                            </form>
                         </div>
                         <div class="table-responsive">
                             <table class="table align-items-center table-flush">

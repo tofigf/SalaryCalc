@@ -1,8 +1,9 @@
 ﻿using ClosedXML.Excel;
+using DataAccessLayer;
 using SalaryCalc.Auth;
-using SalaryCalc.Dtos;
 using SalaryCalc.Filters;
 using SalaryCalc.Models;
+using SalaryCalc.Models.VwModel;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.SqlServer;
@@ -122,19 +123,27 @@ namespace SalaryCalc.Controllers
             return View(monthDtos);
         }
         [HttpGet]
-        public ActionResult SalaryReportByWorkers(int? year, int page = 1)
+        public ActionResult SalaryReportByWorkers(SearchDto search, int page = 1)
         {
-            if (year == null)
+            if (search.Year == null)
             {
-                year = DateTime.Now.Year;
+                search.Year = DateTime.Now.Year;
             }
-            TempData["SelectedYear"] = year;
+            Session["SelectedYear"] = search.Year;
             int skip = ((int)page - 1) * 10;
 
             ViewBag.TotalPage = Math.Ceiling(db.SaleImports.Count() / 10.0);
             ViewBag.Page = page;
-            List<SalaryReportDetailsDto> salaryReportDetails = new List<SalaryReportDetailsDto>();
-            var salaryByUsers = db.CalculatedSalaryByUsers.Where(w => w.Date.Year == year)
+            VwSalaryReports model = new VwSalaryReports();
+            model.SalaryReportDetailsDtos = new List<SalaryReportDetailsDto>();
+          var salaryByUsers = db.CalculatedSalaryByUsers
+                .Where(w =>
+                w.Date.Year == search.Year
+                && search.Key == null ? true : w.User.UserName.Contains(search.Key)
+                && search.SalaryKey == null ? true : w.Salary.ToString().Contains(search.SalaryKey)
+                && search.FormulaName == null ? true : w.User.CalcForum.Name.ToLower().Contains(search.FormulaName)
+                  )
+           
                  .GroupBy(g => g.UserId)
                  .Select(s => new {
                      userId = s.Key,
@@ -145,7 +154,7 @@ namespace SalaryCalc.Controllers
                  })
                    .OrderBy(d => d.userId)
                  .Skip(skip).Take(10).ToList();
-
+            model.SearchDto = search;
             if (salaryByUsers != null)
             {
                 foreach (var item in salaryByUsers)
@@ -159,11 +168,12 @@ namespace SalaryCalc.Controllers
                         TotalPrice = item.totalPrice,
                         Date = item.date
                     };
-                    salaryReportDetails.Add(salaryReport);
+                     model.SalaryReportDetailsDtos.Add(salaryReport);
                 }
-                return View(salaryReportDetails);
+                return View(model);
+              
             }
-          
+         
 
             return RedirectToAction("index");
         }
@@ -731,7 +741,9 @@ namespace SalaryCalc.Controllers
             List<SalaryReportByDateDto> monthDtos = new List<SalaryReportByDateDto>();
             var sqlMinDate = (DateTime)SqlDateTime.MinValue;
 
-            var SalaryByMonyh = db.CalculatedSalaryByUsers.Where(w =>w.UserId == userLoginned.Id && w.Date.Year == year).OrderBy(o => o.Date.Month)
+            var SalaryByMonyh = db.CalculatedSalaryByUsers
+                .Where(w =>w.UserId == userLoginned.Id && w.Date.Year == year)
+                .OrderBy(o => o.Date.Month)
                 .GroupBy(o => SqlFunctions.DateAdd("month", SqlFunctions.DateDiff("month", sqlMinDate, o.Date), sqlMinDate))
                 .Select(s => new {
 

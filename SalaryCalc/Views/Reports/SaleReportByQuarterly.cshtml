@@ -1,5 +1,5 @@
 ﻿
-@using SalaryCalc.Dtos
+@using DataAccessLayer
 @model List<SalesReportByDateDto>
 @{
     ViewBag.Title = "Index";
@@ -25,6 +25,14 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <form action="@Url.Action("SaleReportByQuarterly", "reports")">
+                                <div class="form-group">
+                                    <label for="DateYear">İlə görə axtarış</label>
+                                    <input autocomplete="off" type="text" class="form-control datepickeryear" onchange="this.form.submit();" name="Year" id="DateYear" data-provide="datepicker" placeholder="Tarix">
+                                </div>
+                            </form>
+                        </div>
                         <div class="table-responsive">
                             <table class="table align-items-center table-flush">
                                 <thead class="thead-light">
@@ -43,15 +51,15 @@
 
                                     @foreach (var item in Model)
                                     {
-                                    <tr>
-                                        <td>@item.quarterly</td>
-                                        <td>@item.TotalCount</td>
-                                        <td>@item.TotalDisCount</td>
-                                        <td>@item.TotalIsComfirmed</td>
-                                        <td>@item.totalNotConfirmed</td>
-                                        <td>@item.TotalVip</td>
-                                        <td>@item.TotalImported</td>
-                                    </tr>
+                                        <tr>
+                                            <td>@item.quarterly</td>
+                                            <td>@item.TotalCount</td>
+                                            <td>@item.TotalDisCount</td>
+                                            <td>@item.TotalIsComfirmed</td>
+                                            <td>@item.totalNotConfirmed</td>
+                                            <td>@item.TotalVip</td>
+                                            <td>@item.TotalImported</td>
+                                        </tr>
                                     }
 
                                 </tbody>

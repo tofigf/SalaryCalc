@@ -1,5 +1,5 @@
 ﻿
-@using SalaryCalc.Dtos
+@using DataAccessLayer
 @model List<SaleReportDetailsDto>
 @{
     ViewBag.Title = "SaleReportByWorkers";
@@ -31,6 +31,14 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <form action="@Url.Action("salereportbyworkers", "reports")">
+                                <div class="form-group">
+                                    <label for="DateYear">İlə görə axtarış</label>
+                                    <input autocomplete="off" type="text" class="form-control datepickeryear" onchange="this.form.submit();" name="Year" id="DateYear" data-provide="datepicker" placeholder="Tarix">
+                                </div>
+                            </form>
+                        </div>
                         <div class="table-responsive">
                             <table class="table align-items-center table-flush">
                                 <thead class="thead-light">
@@ -51,18 +59,18 @@
 
                                     @foreach (var item in Model)
                                     {
-                                    <tr>
-                                        <th scope="row">@i</th>
-                                        <td>@item.UserName</td>
-                                        <td>@item.TotalCount</td>
-                                        <td>@item.TotalDisCount</td>
-                                        <td>@item.TotalVip</td>
-                                        <td>@item.TotalIsComfirmed</td>
-                                        <td>@item.totalNotConfirmed</td>
-                                        <td>
-                                            <a href="@Url.Action("salerepobyworkerdetails","reports",new { id = item.UserId })" class="btn btn-sm btn-primary">Ətraflı</a>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <th scope="row">@i</th>
+                                            <td>@item.UserName</td>
+                                            <td>@item.TotalCount</td>
+                                            <td>@item.TotalDisCount</td>
+                                            <td>@item.TotalVip</td>
+                                            <td>@item.TotalIsComfirmed</td>
+                                            <td>@item.totalNotConfirmed</td>
+                                            <td>
+                                                <a href="@Url.Action("salerepobyworkerdetails","reports",new { id = item.UserId })" class="btn btn-sm btn-primary">Ətraflı</a>
+                                            </td>
+                                        </tr>
 
                                         i++;
                                     }

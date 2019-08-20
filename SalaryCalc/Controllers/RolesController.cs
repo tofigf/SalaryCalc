@@ -1,9 +1,6 @@
-﻿using SalaryCalc.Auth;
-using SalaryCalc.Dal;
-using SalaryCalc.Dtos;
+﻿using DataAccessLayer;
+using SalaryCalc.Auth;
 using SalaryCalc.Filters;
-using SalaryCalc.Models;
-using SalaryCalc.Models.VwModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +16,7 @@ namespace SalaryCalc.Controllers
         // GET: Roles
         public ActionResult Index()
         {
-            VwRoles vw = new VwRoles
+            Models.VwModel.VwRoles vw = new Models.VwModel.VwRoles
             {
                 Roles = db.Roles.ToList(),
                 UserRoles = db.UserRoles.ToList(),

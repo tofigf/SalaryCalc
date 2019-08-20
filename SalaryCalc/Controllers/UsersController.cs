@@ -1,5 +1,5 @@
-﻿using SalaryCalc.Auth;
-using SalaryCalc.Dal;
+﻿using DataAccessLayer;
+using SalaryCalc.Auth;
 using SalaryCalc.Filters;
 using SalaryCalc.Models;
 using System;
@@ -60,7 +60,8 @@ namespace SalaryCalc.Controllers
                 CurrentUserId = userLoginned.Id,
                 ActionedUser = user,
                 CreatedAt  =DateTime.Now,
-                Method = "Yaratmaq"
+                Action = "Create",
+                Controller = "Users"
             };
             db.Logs.Add(log);
             db.SaveChanges();
@@ -104,7 +105,8 @@ namespace SalaryCalc.Controllers
                 CurrentUserId = userLoginned.Id,
                 ActionedUserId = us.Id,
                 CreatedAt = DateTime.Now,
-                Method = "Dəyişmək"
+                Action = "Edit",
+                Controller = "Users"
             };
             db.Logs.Add(log);
             LogUser logUser = new LogUser
@@ -113,7 +115,8 @@ namespace SalaryCalc.Controllers
                 OldFullName = us.FullName,
                 OldEmail = us.Email,
                 OldPhone = us.Phone,
-                OldPinCod = us.PinCod
+                OldPinCod = us.PinCod,
+                Log = log
             };
             db.LogUsers.Add(logUser);
 

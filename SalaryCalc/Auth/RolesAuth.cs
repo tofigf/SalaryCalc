@@ -1,4 +1,4 @@
-﻿using SalaryCalc.Dal;
+﻿using DataAccessLayer;
 using SalaryCalc.Models;
 using System;
 using System.Collections.Generic;
@@ -32,9 +32,6 @@ namespace SalaryCalc.Auth
                     Action = s.Role.Action,
                     Controller = s.Role.Controller
                 }).ToList();
-
-           
-
           
             string controller = filterContext.RouteData.Values["controller"].ToString();
                 string action = filterContext.RouteData.Values["action"].ToString();

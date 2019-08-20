@@ -1,5 +1,5 @@
-﻿using SalaryCalc.Auth;
-using SalaryCalc.Dal;
+﻿using DataAccessLayer;
+using SalaryCalc.Auth;
 using SalaryCalc.Filters;
 using SalaryCalc.Models;
 using System;

@@ -161,149 +161,15 @@
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\SalesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="Dal\DataContext.cs" />
-    <Compile Include="Dtos\SalaryReportByDateDto.cs" />
-    <Compile Include="Dtos\SalaryReportDetailsDto.cs" />
-    <Compile Include="Dtos\SaleReportDetailsDto.cs" />
-    <Compile Include="Dtos\SalesReportByDateDto.cs" />
     <Compile Include="Extensions\StringExtentions.cs" />
     <Compile Include="Filters\FilterContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\RoleEnum.cs" />
-    <Compile Include="Migrations\201908051303471_InitialCreate.cs" />
-    <Compile Include="Migrations\201908051303471_InitialCreate.Designer.cs">
-      <DependentUpon>201908051303471_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908060611172_RemoveProperty.cs" />
-    <Compile Include="Migrations\201908060611172_RemoveProperty.Designer.cs">
-      <DependentUpon>201908060611172_RemoveProperty.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908070715103_CalcForm.cs" />
-    <Compile Include="Migrations\201908070715103_CalcForm.Designer.cs">
-      <DependentUpon>201908070715103_CalcForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908070717307_CalcForms.cs" />
-    <Compile Include="Migrations\201908070717307_CalcForms.Designer.cs">
-      <DependentUpon>201908070717307_CalcForms.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908070758187_Calcforum_Name.cs" />
-    <Compile Include="Migrations\201908070758187_Calcforum_Name.Designer.cs">
-      <DependentUpon>201908070758187_Calcforum_Name.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908070823543_User_IsAdmin.cs" />
-    <Compile Include="Migrations\201908070823543_User_IsAdmin.Designer.cs">
-      <DependentUpon>201908070823543_User_IsAdmin.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908071412574_ButtonsStatic.cs" />
-    <Compile Include="Migrations\201908071412574_ButtonsStatic.Designer.cs">
-      <DependentUpon>201908071412574_ButtonsStatic.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908071429077_UserFormId.cs" />
-    <Compile Include="Migrations\201908071429077_UserFormId.Designer.cs">
-      <DependentUpon>201908071429077_UserFormId.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908071901214_User_positionId.cs" />
-    <Compile Include="Migrations\201908071901214_User_positionId.Designer.cs">
-      <DependentUpon>201908071901214_User_positionId.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908071904542_Sale_Date_Column.cs" />
-    <Compile Include="Migrations\201908071904542_Sale_Date_Column.Designer.cs">
-      <DependentUpon>201908071904542_Sale_Date_Column.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908072102398_CalculatedSalaryByUser.cs" />
-    <Compile Include="Migrations\201908072102398_CalculatedSalaryByUser.Designer.cs">
-      <DependentUpon>201908072102398_CalculatedSalaryByUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908080544499_CalculatedSalaryByUser1.cs" />
-    <Compile Include="Migrations\201908080544499_CalculatedSalaryByUser1.Designer.cs">
-      <DependentUpon>201908080544499_CalculatedSalaryByUser1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908081047236_UserCalcForum.cs" />
-    <Compile Include="Migrations\201908081047236_UserCalcForum.Designer.cs">
-      <DependentUpon>201908081047236_UserCalcForum.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908111813102_User_Phone.cs" />
-    <Compile Include="Migrations\201908111813102_User_Phone.Designer.cs">
-      <DependentUpon>201908111813102_User_Phone.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908112058388_Sale_FileUrl.cs" />
-    <Compile Include="Migrations\201908112058388_Sale_FileUrl.Designer.cs">
-      <DependentUpon>201908112058388_Sale_FileUrl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908121311549_SaleCount.cs" />
-    <Compile Include="Migrations\201908121311549_SaleCount.Designer.cs">
-      <DependentUpon>201908121311549_SaleCount.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908130852525_SaleImport.cs" />
-    <Compile Include="Migrations\201908130852525_SaleImport.Designer.cs">
-      <DependentUpon>201908130852525_SaleImport.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908130854411_SaleImportId_Nullable.cs" />
-    <Compile Include="Migrations\201908130854411_SaleImportId_Nullable.Designer.cs">
-      <DependentUpon>201908130854411_SaleImportId_Nullable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908140758402_UserPinCod.cs" />
-    <Compile Include="Migrations\201908140758402_UserPinCod.Designer.cs">
-      <DependentUpon>201908140758402_UserPinCod.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908140803504_UserPinCodInt.cs" />
-    <Compile Include="Migrations\201908140803504_UserPinCodInt.Designer.cs">
-      <DependentUpon>201908140803504_UserPinCodInt.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908140838474_UserPinCodString.cs" />
-    <Compile Include="Migrations\201908140838474_UserPinCodString.Designer.cs">
-      <DependentUpon>201908140838474_UserPinCodString.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908141008056_UserPinCodStringlength.cs" />
-    <Compile Include="Migrations\201908141008056_UserPinCodStringlength.Designer.cs">
-      <DependentUpon>201908141008056_UserPinCodStringlength.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908182002550_PositionIsAdmin.cs" />
-    <Compile Include="Migrations\201908182002550_PositionIsAdmin.Designer.cs">
-      <DependentUpon>201908182002550_PositionIsAdmin.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908182027227_RemoveUserAdminColumn.cs" />
-    <Compile Include="Migrations\201908182027227_RemoveUserAdminColumn.Designer.cs">
-      <DependentUpon>201908182027227_RemoveUserAdminColumn.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908190609290_RoleArea.cs" />
-    <Compile Include="Migrations\201908190609290_RoleArea.Designer.cs">
-      <DependentUpon>201908190609290_RoleArea.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908190821511_Log_LogUser.cs" />
-    <Compile Include="Migrations\201908190821511_Log_LogUser.Designer.cs">
-      <DependentUpon>201908190821511_Log_LogUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908191004171_LogSale.cs" />
-    <Compile Include="Migrations\201908191004171_LogSale.Designer.cs">
-      <DependentUpon>201908191004171_LogSale.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908191006552_LogSales.cs" />
-    <Compile Include="Migrations\201908191006552_LogSales.Designer.cs">
-      <DependentUpon>201908191006552_LogSales.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201908191238164_UserPassword.cs" />
-    <Compile Include="Migrations\201908191238164_UserPassword.Designer.cs">
-      <DependentUpon>201908191238164_UserPassword.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\ButtonsStatic.cs" />
-    <Compile Include="Models\CalcForum.cs" />
-    <Compile Include="Models\CalculatedSalaryByUser.cs" />
-    <Compile Include="Models\Log.cs" />
-    <Compile Include="Models\LogSale.cs" />
-    <Compile Include="Models\LogUser.cs" />
-    <Compile Include="Models\Postion.cs" />
-    <Compile Include="Models\Role.cs" />
-    <Compile Include="Models\Sale.cs" />
-    <Compile Include="Models\SaleImport.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserRole.cs" />
-    <Compile Include="Models\VwModel\VwRoles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Dtos\UserRoleDto.cs" />
+    <Compile Include="VwModel\VwRoles.cs" />
+    <Compile Include="VwModel\VwSalaryReports.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -2312,93 +2178,10 @@
     <Content Include="Views\Reports\SalaryEachUserReportByQuarterly.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201908051303471_InitialCreate.resx">
-      <DependentUpon>201908051303471_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908060611172_RemoveProperty.resx">
-      <DependentUpon>201908060611172_RemoveProperty.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908070715103_CalcForm.resx">
-      <DependentUpon>201908070715103_CalcForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908070717307_CalcForms.resx">
-      <DependentUpon>201908070717307_CalcForms.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908070758187_Calcforum_Name.resx">
-      <DependentUpon>201908070758187_Calcforum_Name.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908070823543_User_IsAdmin.resx">
-      <DependentUpon>201908070823543_User_IsAdmin.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908071412574_ButtonsStatic.resx">
-      <DependentUpon>201908071412574_ButtonsStatic.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908071429077_UserFormId.resx">
-      <DependentUpon>201908071429077_UserFormId.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908071901214_User_positionId.resx">
-      <DependentUpon>201908071901214_User_positionId.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908071904542_Sale_Date_Column.resx">
-      <DependentUpon>201908071904542_Sale_Date_Column.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908072102398_CalculatedSalaryByUser.resx">
-      <DependentUpon>201908072102398_CalculatedSalaryByUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908080544499_CalculatedSalaryByUser1.resx">
-      <DependentUpon>201908080544499_CalculatedSalaryByUser1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908081047236_UserCalcForum.resx">
-      <DependentUpon>201908081047236_UserCalcForum.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908111813102_User_Phone.resx">
-      <DependentUpon>201908111813102_User_Phone.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908112058388_Sale_FileUrl.resx">
-      <DependentUpon>201908112058388_Sale_FileUrl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908121311549_SaleCount.resx">
-      <DependentUpon>201908121311549_SaleCount.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908130852525_SaleImport.resx">
-      <DependentUpon>201908130852525_SaleImport.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908130854411_SaleImportId_Nullable.resx">
-      <DependentUpon>201908130854411_SaleImportId_Nullable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908140758402_UserPinCod.resx">
-      <DependentUpon>201908140758402_UserPinCod.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908140803504_UserPinCodInt.resx">
-      <DependentUpon>201908140803504_UserPinCodInt.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908140838474_UserPinCodString.resx">
-      <DependentUpon>201908140838474_UserPinCodString.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908141008056_UserPinCodStringlength.resx">
-      <DependentUpon>201908141008056_UserPinCodStringlength.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908182002550_PositionIsAdmin.resx">
-      <DependentUpon>201908182002550_PositionIsAdmin.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908182027227_RemoveUserAdminColumn.resx">
-      <DependentUpon>201908182027227_RemoveUserAdminColumn.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908190609290_RoleArea.resx">
-      <DependentUpon>201908190609290_RoleArea.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908190821511_Log_LogUser.resx">
-      <DependentUpon>201908190821511_Log_LogUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908191004171_LogSale.resx">
-      <DependentUpon>201908191004171_LogSale.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908191006552_LogSales.resx">
-      <DependentUpon>201908191006552_LogSales.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201908191238164_UserPassword.resx">
-      <DependentUpon>201908191238164_UserPassword.cs</DependentUpon>
-    </EmbeddedResource>
+    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">
+      <Project>{2b7fd8c9-c887-4d0f-95b0-1b504640ec3d}</Project>
+      <Name>DataAccessLayer</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
