@@ -19,7 +19,7 @@ namespace CalcSalaryApi.Data.Repository
             _context = context;
         }
 
-        public List<SalaryReportByDateDto> SalaryReportByMonth(int? year)
+        public async Task <List<SalaryReportByDateDto>> SalaryReportByMonth(int? year,int?id)
             {
             if (year == null)
             {
@@ -28,14 +28,14 @@ namespace CalcSalaryApi.Data.Repository
             List<SalaryReportByDateDto> monthDtos = new List<SalaryReportByDateDto>();
             var sqlMinDate = (DateTime)SqlDateTime.MinValue;
 
-            var SalaryByMonyh =  _context.CalculatedSalaryByUsers.Where(w => w.Date.Year == year).OrderBy(o => o.Date.Month)
+            var SalaryByMonyh = await  _context.CalculatedSalaryByUsers.Where(w => w.Date.Year == year && w.UserId == id).OrderBy(o => o.Date.Month)
                 .GroupBy(o => SqlFunctions.DateAdd("month", SqlFunctions.DateDiff("month", sqlMinDate, o.Date), sqlMinDate))
                 .Select(s => new
                 {
                     date = s.Key,
                     total = s.Sum(su => su.Salary)
 
-                }).ToList();
+                }).ToListAsync();
 
             foreach (var item in SalaryByMonyh)
             {

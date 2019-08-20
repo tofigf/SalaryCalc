@@ -7,8 +7,9 @@ using System.Web;
 
 namespace CalcSalaryApi.Data.Repository.Interface
 {
-    public interface IReportRepository
+    public interface IAuthRepository
     {
-       Task <List<SalaryReportByDateDto>> SalaryReportByMonth(int? year,int? id);
+        Task<User> Login(string email, string password);
+        Task<bool> UserExists(string email, string password);
     }
 }

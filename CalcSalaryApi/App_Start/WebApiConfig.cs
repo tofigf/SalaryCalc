@@ -1,5 +1,6 @@
 ﻿using CalcSalaryApi.Data.Repository;
 using CalcSalaryApi.Data.Repository.Interface;
+using CalcSalaryApi.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,12 @@ namespace CalcSalaryApi
         {
             var container = new UnityContainer();
             container.RegisterType<IReportRepository, ReportRepository>(new HierarchicalLifetimeManager());
+            container.RegisterType<IAuthRepository, AuthReposiory>(new HierarchicalLifetimeManager());
             config.DependencyResolver = new UnityResolver(container);
 
             // Web API routes
             config.MapHttpAttributeRoutes();
-
+            config.MessageHandlers.Add(new TokenValidationHandler());
 
 
             config.Routes.MapHttpRoute(

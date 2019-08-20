@@ -4,6 +4,7 @@ using SalaryCalc.Auth;
 using SalaryCalc.Filters;
 using SalaryCalc.Models;
 using SalaryCalc.Models.VwModel;
+using SalaryCalc.VwModel;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.SqlServer;
@@ -139,9 +140,9 @@ namespace SalaryCalc.Controllers
           var salaryByUsers = db.CalculatedSalaryByUsers
                 .Where(w =>
                 w.Date.Year == search.Year
-                && search.Key == null ? true : w.User.UserName.Contains(search.Key)
-                && search.SalaryKey == null ? true : w.Salary.ToString().Contains(search.SalaryKey)
-                && search.FormulaName == null ? true : w.User.CalcForum.Name.ToLower().Contains(search.FormulaName)
+                && (string.IsNullOrEmpty(search.Key) ? true : w.User.UserName.Contains(search.Key))
+                &&(string.IsNullOrEmpty(search.SalaryKey) ? true : w.Salary.ToString().Contains(search.SalaryKey))
+                && (string.IsNullOrEmpty(search.FormulaName) ? true : w.User.CalcForum.Name.ToLower().Contains(search.FormulaName))
                   )
            
                  .GroupBy(g => g.UserId)
@@ -173,7 +174,6 @@ namespace SalaryCalc.Controllers
                 return View(model);
               
             }
-         
 
             return RedirectToAction("index");
         }
@@ -483,20 +483,24 @@ namespace SalaryCalc.Controllers
             return View(monthDtos);
         }
         [HttpGet]
-        public ActionResult SaleReportByWorkers(int? year, int page = 1)
+        public ActionResult SaleReportByWorkers(SearchDto search, int page = 1)
         {
-            if (year == null)
+            if (search.Year == null)
             {
-                year = DateTime.Now.Year;
+                search.Year = DateTime.Now.Year;
             }
-            Session["SelectedSaleYear"] = year;
+            Session["SelectedSaleYear"] = search.Year;
 
             int skip = ((int)page - 1) * 10;
             ViewBag.TotalPage = Math.Ceiling(db.SaleImports.Count() / 10.0);
             ViewBag.Page = page;
-
-            List<SaleReportDetailsDto> detailsDtos = new List<SaleReportDetailsDto>();
-            var saleByUsers = db.Sales.Where(w => w.Date.Year == year)
+            VwSaleReport model = new VwSaleReport();
+            model.SaleReportDetailsDtos  = new List<SaleReportDetailsDto>();
+            var saleByUsers = db.Sales.Where(w => w.Date.Year == search.Year
+                   && (string.IsNullOrEmpty(search.Key) ? true : w.User.UserName.Contains(search.Key))
+                   && (string.IsNullOrEmpty(search.SalaryKey) ? true : w.Name.Contains(search.SalaryKey))
+                   && (string.IsNullOrEmpty(search.FormulaName) ? true : w.Count.ToString().Contains(search.FormulaName))
+            )
              .GroupBy(g => g.UserId)
              .Select(s => new {
                  userId = s.Key,
@@ -511,6 +515,7 @@ namespace SalaryCalc.Controllers
              })
                .OrderBy(d => d.userId)
                  .Skip(skip).Take(10).ToList();
+            model.SearchDto = search;
             if (saleByUsers != null)
             {
                 foreach (var item in saleByUsers)
@@ -527,9 +532,9 @@ namespace SalaryCalc.Controllers
                         totalNotConfirmed = item.totalNotConfirmed
 
                     };
-                    detailsDtos.Add(detailsDto);
+                    model.SaleReportDetailsDtos.Add(detailsDto);
                 }
-                return View(detailsDtos);
+                return View(model);
             }
           
             return RedirectToAction("index");

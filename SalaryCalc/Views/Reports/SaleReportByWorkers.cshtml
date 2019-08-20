@@ -1,6 +1,6 @@
 ﻿
-@using DataAccessLayer
-@model List<SaleReportDetailsDto>
+@using SalaryCalc.VwModel
+@model VwSaleReport
 @{
     ViewBag.Title = "SaleReportByWorkers";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -22,7 +22,7 @@
                 <div class="col">
                     <div class="card shadow">
                         <div class="card-header border-0">
-                            <div class="row align-items-center">
+                            <div class="row align-items-center mb-3">
                                 <div class="col-8">
                                     <a href="@Url.Action("ExportSaleReportByWorkers","reports")" class="btn btn-sm btn-success"><i class="ni ni-fat-add"></i>Export Et</a>
                                 </div>
@@ -30,15 +30,31 @@
                                     <a href="@Url.Action("index","reports")" class="btn btn-sm btn-primary toback"><i class="ni ni-bold-left"></i>Geri Qayıt</a>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <form action="@Url.Action("salereportbyworkers", "reports")">
-                                <div class="form-group">
-                                    <label for="DateYear">İlə görə axtarış</label>
-                                    <input autocomplete="off" type="text" class="form-control datepickeryear" onchange="this.form.submit();" name="Year" id="DateYear" data-provide="datepicker" placeholder="Tarix">
+                            <form action="@Url.Action("salereportbyWorkers", "reports")">
+
+                                <div class="form-row">
+                                    <div class="col-2">
+                                        <input autocomplete="off" type="text" value="@(Model.SearchDto.Year ?? 0)" class="form-control datepickeryear" @*onchange="this.form.submit();"*@ name="Year" id="DateYear" data-provide="datepicker" placeholder="İlə görə axtarış">
+                                    </div>
+                                    <div class="col-3">
+                                        <input autocomplete="off" name="Key" value="@(Model.SearchDto.Key ?? string.Empty)" type="text" placeholder="İşçinin Adı Görə" class="form-control">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="text" autocomplete="off" name="SalaryKey" value="@(Model.SearchDto.SalaryKey ?? string.Empty)" class="form-control" placeholder="Satışın Adı">
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" autocomplete="off" name="FormulaName" value="@(Model.SearchDto.FormulaName ?? string.Empty)" class="form-control" placeholder="Sayı">
+                                    </div>
+                                    <div class="col-2">
+                                        <button type="submit" class="btn btn-default mb-2">
+                                            Axtar
+                                        </button>
+                                    </div>
                                 </div>
+
                             </form>
                         </div>
+                        
                         <div class="table-responsive">
                             <table class="table align-items-center table-flush">
                                 <thead class="thead-light">
@@ -57,7 +73,7 @@
 
                                     @{int i = 1;}
 
-                                    @foreach (var item in Model)
+                                    @foreach (var item in Model.SaleReportDetailsDtos)
                                     {
                                         <tr>
                                             <th scope="row">@i</th>
