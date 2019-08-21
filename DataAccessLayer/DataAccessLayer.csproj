@@ -57,6 +57,7 @@
     <Compile Include="Dtos\SaleReportDetailsDto.cs" />
     <Compile Include="Dtos\SalesReportByDateDto.cs" />
     <Compile Include="Dtos\SearchDto.cs" />
+    <Compile Include="Dtos\SearchSaleDto.cs" />
     <Compile Include="Dtos\UserRoleDto.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="LogCalcForum.cs" />

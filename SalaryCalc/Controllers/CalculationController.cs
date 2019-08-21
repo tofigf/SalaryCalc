@@ -223,6 +223,31 @@ namespace SalaryCalc.Controllers
                         //Find Each User Formula
                         string formula = findedUser.CalcForum.Formula.Trim();
 
+                if (StringExtentions.IsDigitsOnly(formula))
+                {
+
+                    CalculatedSalaryByUser calculated = new CalculatedSalaryByUser
+                    {
+
+                        UserId = id,
+                        Salary = Convert.ToDouble (formula),
+                        Date = (DateTime)Date
+                    };
+
+                    db.CalculatedSalaryByUsers.Add(calculated);
+
+                    LogCalcSalary logCalc = new LogCalcSalary
+                    {
+
+                        OldSalary = Convert.ToDouble(formula),
+                        UserId = id,
+                        Log = log,
+                        Date = (DateTime)Date
+                    };
+                    db.LogCalcSalaries.Add(logCalc);
+
+                    return RedirectToAction("calculatedsalary");
+                }
                  if(!formula.Contains(bymonth) && !formula.Contains(byyear)
                     && !formula.Contains("{["+findedUser.PinCod+ "&ayliq]}") 
                     && !formula.Contains("{[" + findedUser.PinCod + "&illik]}"))

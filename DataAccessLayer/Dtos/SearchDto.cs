@@ -11,5 +11,6 @@ namespace DataAccessLayer
         public string Key { get; set; }
         public string SalaryKey { get; set; }
         public string FormulaName { get; set; }
+        public bool? IsConfirmed { get; set; }
     }
 }

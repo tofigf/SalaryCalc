@@ -498,8 +498,6 @@ namespace SalaryCalc.Controllers
             model.SaleReportDetailsDtos  = new List<SaleReportDetailsDto>();
             var saleByUsers = db.Sales.Where(w => w.Date.Year == search.Year
                    && (string.IsNullOrEmpty(search.Key) ? true : w.User.UserName.Contains(search.Key))
-                   && (string.IsNullOrEmpty(search.SalaryKey) ? true : w.Name.Contains(search.SalaryKey))
-                   && (string.IsNullOrEmpty(search.FormulaName) ? true : w.Count.ToString().Contains(search.FormulaName))
             )
              .GroupBy(g => g.UserId)
              .Select(s => new {

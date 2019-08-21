@@ -1,4 +1,5 @@
 ﻿using SalaryCalc.Auth;
+using SalaryCalc.Extensions;
 using SalaryCalc.Filters;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,10 @@ namespace SalaryCalc.Controllers
     {
         public ActionResult Index()
         {
+
             return View();
         }
+
 
   
     }

@@ -1,5 +1,5 @@
-﻿@using DataAccessLayer
-@model List<Sale>
+﻿@using SalaryCalc.VwModel
+@model VwSale
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -44,6 +44,39 @@
                                         <a href="@Url.Action("create","sales")" class="btn btn-sm btn-success"><i class="ni ni-fat-add"></i>Satış Yarat</a>
                                     </div>
                                 </div>
+                                <form action="@Url.Action("index", "sales")">
+
+                                    <div class="form-row">
+                                        <div class="col-2">
+                                            <input autocomplete="off" type="text" value="" class="form-control datepickerday" @*onchange="this.form.submit();"*@ name="Date" id="DateYear" data-provide="datepicker" placeholder="İlə görə axtarış">
+                                        </div>
+                                        <div class="col-2">
+                                            <input autocomplete="off" name="Name" value="@(Model.SearchSaleDto.Name ?? string.Empty)" type="text" placeholder="Ada Görə" class="form-control">
+                                        </div>
+                                        <div class="col-2">
+                                            <input type="text" autocomplete="off" name="SaleName" value="@(Model.SearchSaleDto.SaleName ?? string.Empty)" class="form-control" placeholder="Satış Görə">
+                                        </div>
+                                        <div class="col-2">
+                                            <input type="text" autocomplete="off" name="Price" value="@(Model.SearchSaleDto.Price ?? string.Empty)" class="form-control" placeholder="Qiymətə Görə">
+                                        </div>
+                                        <div class="col-2">
+                                            <select class="form-control"  name="IsComfirmed">
+                                                <option value="">Təsdiq Növü seçin</option>
+
+                                                <option value="true">Təsdiqlənmiş</option>
+                                                <option value="false">Təsdiqlənməmiş</option>
+
+                                            </select>
+                                        </div>
+                                      
+                                        <div class="col-2">
+                                            <button type="submit" class="btn btn-default mb-2">
+                                                Axtar
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </form>
                             </div>
                             <div class="table-responsive">
                                 <table class="table align-items-center table-flush" id="confirmTable">
@@ -66,7 +99,7 @@
                                     <tbody>
 
 
-                                        @foreach (var item in Model)
+                                        @foreach (var item in Model.Sales)
                                         {
                                             <tr>
                                                 <td scope="row">

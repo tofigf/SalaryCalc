@@ -3,6 +3,7 @@ using DataAccessLayer;
 using SalaryCalc.Auth;
 using SalaryCalc.Filters;
 using SalaryCalc.Models;
+using SalaryCalc.VwModel;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -19,16 +20,25 @@ namespace SalaryCalc.Controllers
     public class SalesController : BaseController
     {
         // GET: Sales
-        public ActionResult Index(int page = 1)
+        public ActionResult Index(SearchSaleDto search, int page = 1)
         {
             int skip = ((int)page - 1) * 10;
-
-            List<Sale> model = db.Sales.OrderByDescending(a => a.Id)
+            VwSale model = new VwSale();
+            model.Sales = db.Sales
+                 .Where(w =>
+                
+                 (search.Date.Value == null ? true  : search.Date.Value == w.Date)
+                && (string.IsNullOrEmpty(search.Name) ? true : w.User.UserName.Contains(search.Name))
+                && (string.IsNullOrEmpty(search.SaleName) ? true : w.Name.ToString().Contains(search.SaleName))
+                && (string.IsNullOrEmpty(search.Price.ToString()) ? true : w.Price.ToString().Contains(search.Price))
+                 && (search.IsComfirmed == null ? true : w.IsComfirmed == search.IsComfirmed)
+                  )
+                .OrderByDescending(a => a.Id)
                  .Skip(skip).Take(10).ToList();
-
 
             ViewBag.TotalPage = Math.Ceiling(db.Sales.Count() / 10.0);
             ViewBag.Page = page;
+            model.SearchSaleDto = search;
 
             return View(model);
         }

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using Unity;
 using Unity.Lifetime;
 
@@ -14,6 +15,13 @@ namespace CalcSalaryApi
     {
         public static void Register(HttpConfiguration config)
         {
+            string origin = "https://localhost:44302/api/reports/salaryreportbymonth/";
+
+            EnableCorsAttribute cors = new EnableCorsAttribute(origin, "*", "GET,POST");
+
+            config.EnableCors(cors);
+
+
             var container = new UnityContainer();
             container.RegisterType<IReportRepository, ReportRepository>(new HierarchicalLifetimeManager());
             container.RegisterType<IAuthRepository, AuthReposiory>(new HierarchicalLifetimeManager());
@@ -22,7 +30,7 @@ namespace CalcSalaryApi
             // Web API routes
             config.MapHttpAttributeRoutes();
             config.MessageHandlers.Add(new TokenValidationHandler());
-
+          
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

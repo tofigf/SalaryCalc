@@ -170,6 +170,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VwModel\VwRoles.cs" />
     <Compile Include="VwModel\VwSalaryReports.cs" />
+    <Compile Include="VwModel\VwSale.cs" />
     <Compile Include="VwModel\VwSaleReport.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -2177,6 +2178,9 @@
     <Content Include="Views\Reports\SaleReportByEachUserQuarterly.cshtml" />
     <Content Include="Views\Reports\SaleReportEachUserByYear.cshtml" />
     <Content Include="Views\Reports\SalaryEachUserReportByQuarterly.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">
