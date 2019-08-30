@@ -10,7 +10,7 @@ namespace CalcSalaryApi.Data.Repository.Interface
     public interface IReportRepository
     {
        Task <List<SalaryReportByDateDto>> SalaryReportEachUserByMonth(int? year,int? id);
-        Task<List<SalaryReportByDateDto>> SalaryReportByMonth(int? year);
+        Task<List<SalaryReportByMonthDto>> SalaryReportByMonth(int? year);
         
     }
 }

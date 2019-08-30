@@ -51,13 +51,14 @@ namespace CalcSalaryApi.Data.Repository
 
             return monthDtos;
         }
-        public async Task<List<SalaryReportByDateDto>> SalaryReportByMonth(int? year)
+        public async Task<List<SalaryReportByMonthDto>> SalaryReportByMonth(int? year)
         {
+            var culture = new System.Globalization.CultureInfo("az");
             if (year == null)
             {
                 year = DateTime.Now.Year;
             }
-            List<SalaryReportByDateDto> monthDtos = new List<SalaryReportByDateDto>();
+            List<SalaryReportByMonthDto> monthDtos = new List<SalaryReportByMonthDto>();
             var sqlMinDate = (DateTime)SqlDateTime.MinValue;
 
             var SalaryByMonyh = await _context.CalculatedSalaryByUsers.Where(w => w.Date.Year == year).OrderBy(o => o.Date.Month)
@@ -65,18 +66,15 @@ namespace CalcSalaryApi.Data.Repository
                 .Select(s => new
                 {
                     date = s.Key,
-                    total = s.Sum(su => su.Salary)
-
+                    total = s.Sum(su => su.Salary),
                 }).ToListAsync();
 
             foreach (var item in SalaryByMonyh)
             {
-                SalaryReportByDateDto monthDto = new SalaryReportByDateDto
+                SalaryReportByMonthDto monthDto = new SalaryReportByMonthDto
                 {
-
-                    Date = item.date,
-                    Total = item.total
-
+                    Month = item.date.Value.ToString("MMMM", culture),
+                    Total = item.total,
                 };
                 monthDtos.Add(monthDto);
             }

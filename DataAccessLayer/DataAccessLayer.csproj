@@ -53,6 +53,7 @@
     <Compile Include="CalculatedSalaryByUser.cs" />
     <Compile Include="Dal\DataContext.cs" />
     <Compile Include="Dtos\SalaryReportByDateDto.cs" />
+    <Compile Include="Dtos\SalaryReportByMonthDto.cs" />
     <Compile Include="Dtos\SalaryReportDetailsDto.cs" />
     <Compile Include="Dtos\SaleReportDetailsDto.cs" />
     <Compile Include="Dtos\SalesReportByDateDto.cs" />
